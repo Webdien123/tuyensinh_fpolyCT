@@ -12,5 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    // return view('home');
+    return view('login');
+    // return view('abc');
+
 });
+
+Route::post('/login', 'LoginController@loginProcess');
