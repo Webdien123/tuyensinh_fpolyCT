@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     // return view('home');
-    return view('login');
+    return View::make('login')->with('login_status', null);
     // return view('abc');
 
 });

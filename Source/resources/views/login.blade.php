@@ -10,7 +10,7 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <style type="text/css">
-	  body {
+    body {
     padding-top: 40px;
     padding-bottom: 40px;
     background-color: #BAB7B7;
@@ -26,9 +26,10 @@
     /*background-image: url('http://31.media.tumblr.com/ad65726441493f47e0c8f0473206f4e5/tumblr_mvwl4fCEb21rdpk23o1_1280.jpg');*/
   }
   .form-signin {
-    max-width: 280px;
+    /*max-width: 280px;*/
+    width: 100%;
     padding: 15px;
-    margin: 0 auto;
+    margin: 10% auto;
   }
   .form-signin .form-signin-heading, .form-signin {
     margin-bottom: 10px;
@@ -68,7 +69,11 @@
   .form-signin-heading {
     color: #fff;
     text-align: center;
-    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 2px rgba(0,0,0,0.7);
+  }
+  .login_error {
+    font-weight: bold;
+    color: #FC4C4C;
   }
 </style>
 
@@ -79,8 +84,15 @@
 	<form class="form-signin" action="/login" method="POST">
 		{!! csrf_field() !!}
 		<h1 class="form-signin-heading text-muted">Đăng nhập</h1>
-		<input type="text" class="form-control" placeholder="Tên tài khoản" required="" autofocus="">
-		<input type="password" class="form-control" placeholder="Mật khẩu" required="">
+		<input type="text" name="user" class="form-control" placeholder="Tên tài khoản" required="" autofocus="">
+		<input type="password" name="pass" class="form-control" placeholder="Mật khẩu" required="">
+        @if ($login_status !== null)
+            @if ($login_status == 0)
+                <span class="login_error">Tài khoản không tồn tại.</span>
+            @else
+                <span class="login_error">Tên tài khoản hoặc mật khẩu không đúng.</span>
+            @endif
+        @endif
 		<button class="btn btn-lg btn-primary btn-block" type="submit">
 			Sign In
 		</button>
