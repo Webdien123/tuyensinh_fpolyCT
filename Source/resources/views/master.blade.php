@@ -63,8 +63,7 @@
         </style> -->
     </head>
 
-    <body style="padding-top: 50px; background-color: #D4ECED">
-        
+    <body style="padding-top: 50px; background-color: #D4ECED">        
 
         @yield('content')
 

@@ -1,3 +1,6 @@
+// Khởi tạo bảng đồ sau khi page load xong.
+window.onload = initMap;
+
 // Biến lưu vị trí đang hiển thị trên map.
 var selected_position = null;
 

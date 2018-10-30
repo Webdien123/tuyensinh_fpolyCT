@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    // return view('home');
-    return View::make('login')->with('login_status', null);
+    return view('home');
+    // return View::make('login')->with('login_status', null);
     // return view('abc');
 
 });
