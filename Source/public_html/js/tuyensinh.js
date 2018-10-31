@@ -7,6 +7,19 @@ var selected_position = null;
 // Biến lưu maker hiển thị kết quả tìm kiếm.
 var find_maker = null;
 
+// Mảng lưu tọa độ tất cả các vị trí marker trên map.
+var arr_maker = [];
+
+// Hàm kiểm tra vị trí cần search đã có marker hay chưa.
+function isLocationFree(search) {
+  for (var i = 0, l = arr_maker.length; i < l; i++) {
+    if (arr_maker[i][0] === search[0] && arr_maker[i][1] === search[1]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Hàm tạo button đánh dấu cờ.
 function MakerControl(controlDiv, map) {
 
@@ -31,27 +44,39 @@ function MakerControl(controlDiv, map) {
     controlText.style.paddingLeft = '8px';
     controlText.style.paddingRight = '5px';
     controlText.innerHTML = '<img src="/img/btn_maker.png">';
-
     controlUI.appendChild(controlText);
 
     // Setup the click event listeners: simply set the map to Chicago.
     controlUI.addEventListener('click', function() {
-        // Tùy chỉnh kích thước icon maker.
-        var icon = {
-            url: "img/maker2.png", // url
-            scaledSize: new google.maps.Size(50, 30), // scaled size
-            origin: new google.maps.Point(0,0), // origin
-            anchor: new google.maps.Point(0,0) // anchor
-        };
 
-        // Tạo maker.
-        var marker = new google.maps.Marker({
-            position: selected_position,
-            icon: icon,
-            // icon: "img/maker2.png",
-            map: map,
-            animation: google.maps.Animation.DROP,
-        });
+        search = [selected_position.lat(), selected_position.lng()];
+        is_free = isLocationFree(search);
+        if (is_free) {
+            // Tùy chỉnh kích thước icon maker.
+            var icon = {
+                url: "img/maker2.png", // url
+                scaledSize: new google.maps.Size(50, 30), // scaled size
+                origin: new google.maps.Point(0,0), // origin
+                anchor: new google.maps.Point(0,0) // anchor
+            };
+
+            // Tạo maker.
+            var marker = new google.maps.Marker({
+                position: selected_position,
+                icon: icon,
+                // icon: "img/maker2.png",
+                map: map,
+                animation: google.maps.Animation.DROP,
+            });
+
+            // Thêm tọa độ marker vào mảng.
+            arr_maker.push([selected_position.lat(), selected_position.lng()]);
+            // console.log(selected_position.lat()); 
+        }
+        else {
+            alert("Vị trí đã đánh dấu trước đó");
+        }
+        
     });
 }
 
