@@ -46,7 +46,7 @@ function MakerControl(controlDiv, map) {
     controlText.innerHTML = '<img src="/img/btn_maker.png">';
     controlUI.appendChild(controlText);
 
-    // Setup the click event listeners: simply set the map to Chicago.
+    // Xử lý đánh dáu cờ khi click nút.
     controlUI.addEventListener('click', function() {
 
         search = [selected_position.lat(), selected_position.lng()];
@@ -219,12 +219,19 @@ function initMap() {
         selected_position = place.geometry.location;
 
         // Set lại vị trí của maker hiển thị kết quả.
-        find_maker.setPlace({
-            placeId: place.place_id,
-            location: place.geometry.location,
+        find_maker.setMap(null);
+
+        find_maker = new google.maps.Marker({
+            position: new google.maps.LatLng(selected_position.lat(), selected_position.lng()),
+            map: map
         });
-        find_maker.setVisible(true);
-        find_maker.setAnimation(null);
+        // find_maker.setPlace({
+        //     placeId: place.place_id,
+        //     // location: place.geometry.location,
+        //     location: new google.maps.LatLng(selected_position.lat(), selected_position.lng()),
+        // });
+        // find_maker.setVisible(true);
+        // find_maker.setAnimation(null);
 
         // infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
             // 'Place ID: ' + place.place_id + '<br>' +
