@@ -55,9 +55,9 @@ function MakerControl(controlDiv, map) {
             // Tùy chỉnh kích thước icon maker.
             var icon = {
                 url: "img/maker2.png", // url
-                scaledSize: new google.maps.Size(50, 30), // scaled size
+                scaledSize: new google.maps.Size(60, 40), // scaled size
                 origin: new google.maps.Point(0, 0), // origin
-                anchor: new google.maps.Point(25, 30) // anchor
+                anchor: new google.maps.Point(30, 40) // anchor
             };
 
             // Tạo maker.
@@ -265,12 +265,19 @@ function initMap() {
     });
     selected_position = maker_position;
 
+    // Tùy chỉnh kích thước icon maker.
+    var icon = {
+        url: "img/title_icon.png", // url
+        scaledSize: new google.maps.Size(50, 50), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(25, 30) // anchor
+    };
+
     // Tạo maker.
     var marker = new google.maps.Marker({
         position: maker_position,
-        // icon: "img/maker2.png",
-        map: map,
-        // animation: google.maps.Animation.DROP,
+        icon: icon,
+        map: map
     });
 
 
