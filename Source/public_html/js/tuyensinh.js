@@ -56,8 +56,8 @@ function MakerControl(controlDiv, map) {
             var icon = {
                 url: "img/maker2.png", // url
                 scaledSize: new google.maps.Size(50, 30), // scaled size
-                origin: new google.maps.Point(0,0), // origin
-                anchor: new google.maps.Point(0,0) // anchor
+                origin: new google.maps.Point(0, 0), // origin
+                anchor: new google.maps.Point(25, 30) // anchor
             };
 
             // Tạo maker.
@@ -68,6 +68,9 @@ function MakerControl(controlDiv, map) {
                 map: map,
                 animation: google.maps.Animation.DROP,
             });
+
+            // console.log("vi tri đánh dấu: ");
+            // console.log(marker.getPosition().lat() + " - " + marker.getPosition().lng());
 
             // Thêm tọa độ marker vào mảng.
             arr_maker.push([selected_position.lat(), selected_position.lng()]);
@@ -222,9 +225,12 @@ function initMap() {
         find_maker.setMap(null);
 
         find_maker = new google.maps.Marker({
-            position: new google.maps.LatLng(selected_position.lat(), selected_position.lng()),
+            position: selected_position,
             map: map
         });
+
+        // console.log("vi tri tim kiem: ");
+        // console.log(find_maker.getPosition().lat() + " - " + find_maker.getPosition().lng());
         // find_maker.setPlace({
         //     placeId: place.place_id,
         //     // location: place.geometry.location,
@@ -260,12 +266,12 @@ function initMap() {
     selected_position = maker_position;
 
     // Tạo maker.
-    // var marker = new google.maps.Marker({
-    //     position: maker_position,
-    //     icon: "img/maker2.png",
-    //     map: map,
-    //     animation: google.maps.Animation.DROP,
-    // });
+    var marker = new google.maps.Marker({
+        position: maker_position,
+        // icon: "img/maker2.png",
+        map: map,
+        // animation: google.maps.Animation.DROP,
+    });
 
 
     // Thêm button đánh dấu cờ.
