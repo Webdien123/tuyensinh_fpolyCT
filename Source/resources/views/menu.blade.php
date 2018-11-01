@@ -1,4 +1,5 @@
 <!-- Menu -->
+<div>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #FFFFFF">
         
         <div class="container">
@@ -16,7 +17,8 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Google map</a></li>
+                    <!-- <li class="active"><a href="/">Google map</a></li> -->
+                    <li><a href="/">Google map</a></li>
                     <li><a href="#">Danh sách đánh dấu</a></li>                    
                     <li><a href="#">Quản lý người dùng</a></li>
                     <li class="dropdown">
@@ -31,3 +33,4 @@
             </div><!--/.nav-collapse -->
         </div>
         </nav>
+</div>
