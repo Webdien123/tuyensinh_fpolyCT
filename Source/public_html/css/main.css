@@ -1,19 +1,4 @@
-
-
-
-
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
-
-@font-face {
-  font-family: OpenSans-Regular;
-  src: url('../fonts/OpenSans/OpenSans-Regular.ttf'); 
-}
-
-
-
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
+/*[ RESTYLE TAG ]*/
 
 * {
 	margin: 0px; 
@@ -414,7 +399,4 @@ input.input100 {
     visibility: visible;
     opacity: 1;
   }
-}
-
-
-
+}*/*/*/*/

@@ -38,10 +38,4 @@ class LoginController extends Controller
 
    		}
    	}
-
-   	// Load login view.
-   	public function loginView()
-   	{
-   		return view('login', ['login_status', NULL]);
-   	}
 }

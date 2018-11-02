@@ -18,9 +18,9 @@
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav">
                     <!-- <li class="active"><a href="/">Google map</a></li> -->
-                    <li><a href="/">Google map</a></li>
+                    <li><a href="/map">Google map</a></li>
                     <li><a href="#">Danh sách đánh dấu</a></li>                    
-                    <li><a href="#">Quản lý người dùng</a></li>
+                    <li><a href="/account">Quản lý người dùng</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tài khoản<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">

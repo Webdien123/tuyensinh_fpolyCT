@@ -10,12 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('home');
-    // return View::make('login')->with('login_status', null);
-    // return view('abc');
-
-});
+Route::get('/{page?}', 'ViewController@getView');
 
 Route::post('/login', 'LoginController@loginProcess');
