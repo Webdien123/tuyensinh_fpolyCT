@@ -7,6 +7,10 @@
         <title>@yield('title')</title>
         <link rel="shortcut icon" type="image/x-icon" href="..\img\title_icon.png" />
 
+        <!--===============================================================================================-->  
+        <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
         <!-- Bootstrap CSS -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
@@ -15,12 +19,6 @@
 
         <!-- Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-
-        <!--===============================================================================================-->  
-        <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
-        <link rel="stylesheet" type="text/css" href="css/main.css">
         <!--===============================================================================================-->
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
