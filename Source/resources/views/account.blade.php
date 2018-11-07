@@ -10,6 +10,9 @@
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
         $(".navbar-nav > li").eq(2).addClass("active");
+
+        // Tạo biến lưu session tài khoản đang đăng nhập vào javascript.
+        var session_uname = '{{ \Session::get("uname") }}';
     </script>
 
     <center>
@@ -18,7 +21,7 @@
         <?php
             $count = count($acc_list);
         ?>
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal_account">
+        <button type="button" class="btn btn-success" id="btn_add_account">
             <span class="glyphicon glyphicon-plus"></span>
             Tạo tài khoản
         </button>
@@ -33,23 +36,31 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                    @if ($count == 0)
+                        <tr>
+                            <td colspan="4" style="font-style: inherit; font-weight: bold; text-align: center;">Danh sách rỗng</td>
+                        </tr>
+                    @else                    
                     @for ($i = 0; $i < $count; $i++)
                         <tr>
                             <td>{{ $acc_list[$i]->uname }}</td>
                             <td>{{ $acc_list[$i]->hoten }}</td>
                             <td>{{ $acc_list[$i]->ten_level }}</td>
                             <td>
-                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal_account">
+                                <button type="button" class="btn btn-warning btn_update_account">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     Sửa
                                 </button>
-                                <button type="button" class="btn btn-danger">
+                                <button type="button" class="btn btn-danger btn_delete_account">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Xóa
                             </button>
                             </td>
                         </tr>
-                    @endfor                    
+                    @endfor
+                    @endif
+
                 </tbody>
             </table>
         </div>
@@ -65,30 +76,42 @@
                 <h4 class="modal-title">Thông tin tài khoản</h4>
             </div>
             <div class="modal-body">
-                <form action="/update_account">
+                <form action="" id="f_update_account" method="POST">
+                    {!! csrf_field() !!}
                     <div class="form-group">
                         <label for="uname">Tên tài khoản:</label>
-                        <input type="uname" class="form-control" id="uname">
+                        <input type="text" class="form-control" id="uname" name="uname" autofocus="" required="" 
+                        oninvalid="this.setCustomValidity('Chưa nhập tên tài khoản')"
+                        oninput="setCustomValidity('')">
+                        <input type="hidden" name="_uname" id="_uname" value="">
                     </div>
-                    <div class="form-group">
-                        <label for="pass">Họ tên:</label>
-                        <input type="password" class="form-control" id="pass">
+                    <div class="form-group" >
+                        <label for="hoten">Họ tên:</label>
+                        <input type="text" class="form-control" name="hoten" id="hoten" required="" 
+                        oninvalid="this.setCustomValidity('Chưa nhập họ tên')"
+                        oninput="setCustomValidity('')">
                     </div>
                     <div class="form-group">
                         <label for="level">Mức quyền:</label>
-                        <select class="form-control" id="level">
-                            <option value="1">Quản trị viên</option>
+                        <select class="form-control" id="level" name="level">
+                            <option value="1" selected>Quản trị viên</option>
                             <option value="2">Nhân viên tuyển sinh</option>
                         </select>
                     </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" id="btn_submit"></button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Hủy
+                        </button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-default">Submit</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+            
         </div>
         </div>
         </div>
-
+        
+        <!-- Script xử lý js trên trang account -->
+        <script type="text/javascript" src="./js/account.js"></script>
 @endsection

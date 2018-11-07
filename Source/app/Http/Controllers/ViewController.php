@@ -4,44 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use View;
+use App\NguoiDung;
 
 // Class điều hướng các trang web.
 class ViewController extends Controller
 {
-    // Hàm lấy trang web theo page tương ứng.
+    // Lấy trang web theo page tương ứng.
     public function getView($page = null)
     {
-    	switch ($page) {
-    		case 'map':
-    			return $this->viewMap();
-    			break;
+        if (\Session::has('uname')) {        
+        	switch ($page) {
+        		case 'map':
+        			return $this->viewMap();
+        			break;
 
-    		case 'account':
-    			return $this->viewAccount();
-    			break;
-    		
-    		default:
-    			return $this->viewLogin();
-    			break;
-    	}
+        		case 'account':
+        			return $this->viewAccount();
+        			break;
+
+                case 'logout':
+                    return LoginController::Logout();
+                    break;
+
+                case null:
+                    return $this->viewMap();
+                    break;
+            }
+        }
+        else {
+            return $this->viewLogin();
+        }
     }
 
-    // Hàm lấy trang login.
+    // Lấy trang login.
     public static function viewLogin()
     {
     	return View::make('login')->with('login_status', null);
     }
 
-    // Hàm lấy trang bản đồ gmap.
+    // Lấy trang bản đồ gmap.
     public static function viewMap()
     {
     	return view('home');
     }
 
-    // Hàm lấy trang quản lý account.
+    // Lấy trang quản lý account.
     public static function viewAccount()
     {
-    	$acc_list = \DB::select('SELECT * FROM nguoidung LEFT JOIN level on nguoidung.level = level.level', [1]);
+    	$acc_list = NguoiDung::getAllUser();
     	return View::make('account')->with('acc_list', $acc_list);
     }
 }

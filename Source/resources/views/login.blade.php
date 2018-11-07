@@ -84,8 +84,12 @@
 	<form class="form-signin" action="/login" method="POST">
 		{!! csrf_field() !!}
 		<h1 class="form-signin-heading text-muted">Đăng nhập</h1>
-		<input type="text" name="user" class="form-control" placeholder="Tên tài khoản" required="" autofocus="">
-		<input type="password" name="pass" class="form-control" placeholder="Mật khẩu" required="">
+		<input type="text" name="user" class="form-control" placeholder="Tên tài khoản" autofocus="" required=""
+        oninvalid="this.setCustomValidity('Vui lòng nhập tài khoản')"
+        oninput="setCustomValidity('')">
+		<input type="password" name="pass" class="form-control" placeholder="Mật khẩu" required
+        oninvalid="this.setCustomValidity('Vui lòng nhập password')"
+        oninput="setCustomValidity('')">
         @if ($login_status !== null)
             @if ($login_status == 0)
                 <span class="login_error">Tài khoản không tồn tại.</span>
