@@ -6,6 +6,10 @@
 
     <!-- Chèn menu -->
     @include('menu')
+
+    <style type="text/css">
+        .highlight { background-color: yellow }
+    </style>
 	
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
@@ -14,6 +18,23 @@
         // Tạo biến lưu session tài khoản đang đăng nhập vào javascript.
         var session_uname = '{{ \Session::get("uname") }}';
     </script>
+
+    <!-- Form tìm kiếm tài khoản -->
+    <div class="form-inline pull-right">
+        <div class="input-group">
+            <input type="text" class="form-control" id="search_input" placeholder="Tìm tài khoản">
+            <span class="input-group-btn">
+            <button class="btn btn-default" type="button" id="btn_cancer_search">
+                X
+            </button>
+            <button class="btn btn-primary" type="button" id="btn_search">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>
+        </div>
+        
+    </div>     
+
 
     <center>
         <h3 style="padding-top: 2%">Danh sách người dùng</h3>
@@ -25,6 +46,7 @@
             <span class="glyphicon glyphicon-plus"></span>
             Tạo tài khoản
         </button>
+
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-condensed" style="background-color: #FFFFFF">
                 <thead>
@@ -43,19 +65,19 @@
                         </tr>
                     @else                    
                     @for ($i = 0; $i < $count; $i++)
-                        <tr>
-                            <td>{{ $acc_list[$i]->uname }}</td>
-                            <td>{{ $acc_list[$i]->hoten }}</td>
-                            <td>{{ $acc_list[$i]->ten_level }}</td>
+                        <tr class="data_row">
+                            <td class="data_account">{{ $acc_list[$i]->uname }}</td>
+                            <td class="data_account">{{ $acc_list[$i]->hoten }}</td>
+                            <td class="data_account">{{ $acc_list[$i]->ten_level }}</td>
                             <td>
                                 <button type="button" class="btn btn-warning btn_update_account">
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                    Sửa
+                                    <!-- Sửa -->
                                 </button>
                                 <button type="button" class="btn btn-danger btn_delete_account">
                                     <span class="glyphicon glyphicon-trash"></span>
-                                    Xóa
-                            </button>
+                                    <!-- Xóa -->
+                                </button>
                             </td>
                         </tr>
                     @endfor
@@ -101,6 +123,10 @@
 
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success" id="btn_submit"></button>
+                        <button type="button" class="btn btn-danger" id="btn_del_acc_model">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Xóa
+                        </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             Hủy
                         </button>
@@ -113,5 +139,6 @@
         </div>
         
         <!-- Script xử lý js trên trang account -->
+        <script type="text/javascript" src="./js/highlight.js"></script>
         <script type="text/javascript" src="./js/account.js"></script>
 @endsection

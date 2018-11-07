@@ -2,7 +2,10 @@
 // 0-các giá trị đã nhập đúng, 1-Có giá trị nhập không hợp lệ
 var form_status = 0;
 
-// Xử lý sự kiện bấm nút tạo tài khoản.
+// Thời gian giữ chuột.
+var timeoutId = 0;
+
+// Bấm nút tạo tài khoản.
 $("#btn_add_account").click(function(event) {
 	$('#f_update_account').attr('action', '/add_account');
 	$(".modal-title").text('Tạo tài khoản mới');
@@ -29,16 +32,15 @@ function getLevelValue(level_text) {
 	}
 }
 
-// Xử lý sự kiện bấm nút sửa.
-$(".btn_update_account").click(function(event) {
+function clickNutSua(element) {
 	$('#f_update_account').attr('action', '/update_account');
 	$(".modal-title").text('Cập nhật tài khoản');
 	$("#btn_submit").removeClass('btn-success').addClass('btn-primary');
 
 	// lấy các thông tin tài khoản.
-	uname = $(this).closest('tr').children('td').eq(0).html();
-	hoten = $(this).closest('tr').children('td').eq(1).html();
-	level = $(this).closest('tr').children('td').eq(2).text();
+	uname = element.closest('tr').children('td').eq(0).text();
+	hoten = element.closest('tr').children('td').eq(1).text();
+	level = element.closest('tr').children('td').eq(2).text();
 	level = getLevelValue(level);
 
 	// Hiển thị thông tin tài khoản lên form, khóa trường tên tài khoản.
@@ -50,6 +52,11 @@ $(".btn_update_account").click(function(event) {
 
 	$("#btn_submit").html("<span class='glyphicon glyphicon-save'></span>Lưu");
 	$('#modal_account').modal('show');
+}
+
+// Bấm nút sửa.
+$(".btn_update_account").click(function(event) {
+	clickNutSua($(this));
 });
 
 // Gửi yêu cầu xóa tài khoản.
@@ -82,7 +89,7 @@ function deleteAccount(uname, element) {
 	});
 }
 
-// Xử lý sự kiện bấm nút xóa.
+// Bấm nút xóa.
 $(".btn_delete_account").click(function(event) {
 	// lấy các thông tin tài khoản cần xóa.
 	uname = $(this).closest('tr').children('td').eq(0).text();
@@ -97,6 +104,84 @@ $(".btn_delete_account").click(function(event) {
 			deleteAccount(uname, $(this));	
 		}	
 	}	
+});
+
+// Tìm và hightlight từ khóa tìm kiếm.
+function timKiem() {
+
+	// Lấy giá trị cần tìm
+    var key = $("#search_input").val();
+    
+    // Xóa phần hightlight trước đó dưới các lớp data_account
+    $('.data_account').removeHighlight();
+    
+    if ( key ) {
+
+        // Highlight từ khóa.
+        $('.data_account').removeHighlight().highlight(key);
+
+        // Ẩn tất cả dòng dữ liệu.
+        $("tr.data_row").hide();
+
+        // Hiển thị lại các dòng dữ liệu chưa key cần tìm.
+        $(".highlight").closest('tr').show();
+    }
+}
+
+// Hủy tìm kiếm kết quả theo key đã nhập.
+function huyTimKiem() {
+	//Xóa màu hightlight.
+    $('.data_account').removeHighlight();
+
+	// Hiển thị lại tất cả dòng dữ liệu.
+    $("tr.data_row").show();
+
+    // Xóa giá trị key cần tìm.
+    $('#search_input').val("");
+}
+
+// Giữ chuột lên dòng dữ liệu.
+function holdMouseData(element) {
+	element = element.closest('.data_row');
+	element = element.children('td');
+	count = element.length;
+	element = element.eq(count - 1);
+	element = element.children('.btn_update_account');
+	clickNutSua(element);
+}
+
+// Xử lý các sự kiện sau khi load xong page.
+$(document).ready(function(){
+
+	// Bấm nút tìm kiếm.
+	$("#btn_search").click(function(event) {
+		timKiem();	    
+	});
+
+	// Hủy tìm kiếm.
+	$('#search_input').keyup(function(e){
+		if(e.keyCode == 13)
+		{
+			timKiem();
+		}
+		if($(this).val() == "")
+		{
+			huyTimKiem();
+		}
+	});
+
+	// Thay đổi từ khóa tìm kiếm.
+	$("#btn_cancer_search").click(function(event) {
+		huyTimKiem();
+	});
+
+	// Giữ chuột lên dòng dữ liệu.
+	$('.data_account').on('mousedown', function() {
+	    timeoutId = setTimeout(holdMouseData, 500, $(this));
+	}).on('mouseup mouseleave', function() {
+	    clearTimeout(timeoutId);
+	});
+
 });
 
 // ==================================================================================================================
