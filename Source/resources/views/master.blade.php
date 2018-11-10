@@ -7,10 +7,6 @@
         <title>@yield('title')</title>
         <link rel="shortcut icon" type="image/x-icon" href="..\img\title_icon.png" />
 
-        <!--===============================================================================================-->  
-        <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-
         <!-- Bootstrap CSS -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 

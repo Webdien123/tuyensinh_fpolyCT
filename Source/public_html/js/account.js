@@ -5,6 +5,9 @@ var form_status = 0;
 // Thời gian giữ chuột.
 var timeoutId = 0;
 
+// Dòng dữ liệu đang được giữ đúp chuột để edit.
+var tr_dbclick = null;
+
 // Bấm nút tạo tài khoản.
 $("#btn_add_account").click(function(event) {
 	$('#f_update_account').attr('action', '/add_account');
@@ -16,6 +19,9 @@ $("#btn_add_account").click(function(event) {
 	$("#hoten").val("");
 	$("#level").val("1");
 	$("input").removeAttr('disabled');
+
+	// Ẩn button xóa tài khoản.
+	$("#btn_del_acc_model").hide();
 
 	$("#btn_submit").html("<span class='glyphicon glyphicon-plus'></span>Thêm");
 	$('#modal_account').modal('show');
@@ -32,6 +38,7 @@ function getLevelValue(level_text) {
 	}
 }
 
+// Chuẩn bị model click nút sửa.
 function clickNutSua(element) {
 	$('#f_update_account').attr('action', '/update_account');
 	$(".modal-title").text('Cập nhật tài khoản');
@@ -50,6 +57,9 @@ function clickNutSua(element) {
 	$("#level").val(level);
 	$("#uname").prop("disabled", "disabled");
 
+	// Hiện button xóa tài khoản.
+	$("#btn_del_acc_model").show();
+
 	$("#btn_submit").html("<span class='glyphicon glyphicon-save'></span>Lưu");
 	$('#modal_account').modal('show');
 }
@@ -59,8 +69,8 @@ $(".btn_update_account").click(function(event) {
 	clickNutSua($(this));
 });
 
-// Gửi yêu cầu xóa tài khoản.
-function deleteAccount(uname, element) {
+// Gửi yêu cầu xóa tài khoản theo uname.
+function deleteAccount(uname) {
 	$.ajax({
 		url: '/delete_account',
 		type: 'POST',
@@ -70,7 +80,12 @@ function deleteAccount(uname, element) {
 		},
         success: function( result ) {
         	if (result == "ok") {
-        		element.closest('tr').remove();
+
+        		// Xóa dòng dữ liệu vừa chứa data cần xóa trên màn hình.
+        		tr_dbclick.remove();
+
+        		// Ẩn form account. (Dùng khi xóa từ modal)
+        		$('#modal_account').modal('toggle');
 
         		if ( $("tr").length == 0) {
         			$("tbody").append('<tr> \
@@ -91,6 +106,7 @@ function deleteAccount(uname, element) {
 
 // Bấm nút xóa.
 $(".btn_delete_account").click(function(event) {
+	
 	// lấy các thông tin tài khoản cần xóa.
 	uname = $(this).closest('tr').children('td').eq(0).text();
 	hoten = $(this).closest('tr').children('td').eq(1).text();
@@ -101,7 +117,8 @@ $(".btn_delete_account").click(function(event) {
 	else{
 		result = confirm("Xóa tài khoản " + hoten);
 		if (result) {
-			deleteAccount(uname, $(this));	
+			tr_dbclick = $(this).closest('tr');
+			deleteAccount(uname);
 		}	
 	}	
 });
@@ -121,15 +138,26 @@ function timKiem() {
         $('.data_account').removeHighlight().highlight(key);
 
         // Ẩn tất cả dòng dữ liệu.
-        $("tr.data_row").hide();
+        $(".data_row").hide();
 
         // Hiển thị lại các dòng dữ liệu chưa key cần tìm.
         $(".highlight").closest('tr').show();
+
+        // console.log();
+        if ($(".data_row:visible").length == 0) {
+        	$("tbody").append('<tr class="data_empty"> \
+                <td colspan="4" style="font-style: inherit; font-weight: bold; text-align: center;">Không tìm thấy account</td>\
+                </tr>'
+            );
+        }
     }
 }
 
 // Hủy tìm kiếm kết quả theo key đã nhập.
 function huyTimKiem() {
+	// Xóa dòng báo tìm kiếm rống.
+	$(".data_empty").remove();
+
 	//Xóa màu hightlight.
     $('.data_account').removeHighlight();
 
@@ -142,11 +170,15 @@ function huyTimKiem() {
 
 // Giữ chuột lên dòng dữ liệu.
 function holdMouseData(element) {
+
+	// Lấy button sửa tại dòng vừa giữ chuột.
 	element = element.closest('.data_row');
 	element = element.children('td');
 	count = element.length;
 	element = element.eq(count - 1);
 	element = element.children('.btn_update_account');
+
+	tr_dbclick = element.closest('tr');
 	clickNutSua(element);
 }
 
@@ -175,11 +207,26 @@ $(document).ready(function(){
 		huyTimKiem();
 	});
 
-	// Giữ chuột lên dòng dữ liệu.
-	$('.data_account').on('mousedown', function() {
-	    timeoutId = setTimeout(holdMouseData, 500, $(this));
-	}).on('mouseup mouseleave', function() {
-	    clearTimeout(timeoutId);
+	// Đúp chuột lên dòng dữ liệu.
+	$('.data_account').dblclick(function() {
+		holdMouseData($(this));
+	});
+
+	// Xóa tài khoản từ model update.
+	$("#btn_del_acc_model").click(function(event) {
+		// lấy các thông tin tài khoản cần xóa.
+		uname = $("#uname").val();
+		hoten = $("#hoten").val();
+
+		if (session_uname == uname) {
+			alert("Không thể xóa tài khoản của chính mính.");
+		}
+		else{
+			result = confirm("Xóa tài khoản " + hoten);
+			if (result) {
+				deleteAccount(uname);	
+			}	
+		}	
 	});
 
 });

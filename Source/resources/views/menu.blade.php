@@ -1,6 +1,6 @@
 <!-- Menu -->
 <div>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #FFFFFF">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #FFFFFF; margin-left: 8%">
         
         <div class="container">
             <div class="navbar-header">

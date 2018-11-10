@@ -5,7 +5,7 @@
 @section('content')
 
     <!-- Chèn menu -->
-    @include('menu')
+    @include('abc')
 	
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
@@ -17,8 +17,6 @@
 	<div id="map" style="width:100%; height:90%; margin-top: 5px"></div>
 
 	<script type="text/javascript" src="../js/tuyensinh.js"></script>
-
-	<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR7YAAG83jkhURYhrUkKbOfGDqA2BTqw&callback=myMap"></script> -->
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR7YAAG83jkhURYhrUkKbOfGDqA2BTqw&libraries=places"></script>
 

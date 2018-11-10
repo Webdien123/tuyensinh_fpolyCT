@@ -190,7 +190,7 @@ function initMap() {
         scaleControl: true,
         streetViewControl: false,
         overviewMapControl: true,
-        rotateControl: true      
+        rotateControl: true
     };
     var map = new google.maps.Map(mapCanvas, mapOptions);
 
