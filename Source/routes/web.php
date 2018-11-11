@@ -25,5 +25,3 @@ Route::post('/add_account', 'AccountController@AddAcount');
 Route::post('/update_account', 'AccountController@UpdateAccount');
 
 Route::post('/delete_account', 'AccountController@DeleteAccount');
-
-// Route::get('/logout', 'LoginController@Logout');
