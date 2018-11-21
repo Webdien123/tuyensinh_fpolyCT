@@ -12,7 +12,6 @@ var tr_dbclick = null;
 $("#btn_add_account").click(function(event) {
 	$('#f_update_account').attr('action', '/add_account');
 	$(".modal-title").text('Tạo tài khoản mới');
-	$("#btn_submit").removeClass('btn-primary').addClass('btn-success');
 
 	// Đặt lại giá trị form, mở khóa trường tên tài khoản.
 	$("#uname").val("");
@@ -20,10 +19,11 @@ $("#btn_add_account").click(function(event) {
 	$("#level").val("1");
 	$("input").removeAttr('disabled');
 
-	// Ẩn button xóa tài khoản.
+	// Ẩn button xóa tài khoản, hiện phần nhập mật khẩu.
 	$("#btn_del_acc_model").hide();
+	$("#pass_default").show();
 
-	$("#btn_submit").html("<span class='glyphicon glyphicon-plus'></span>Thêm");
+	$("#btn_submit").html("<span class='glyphicon glyphicon-plus'></span>Tạo");
 	$('#modal_account').modal('show');
 });
 
@@ -42,7 +42,6 @@ function getLevelValue(level_text) {
 function clickNutSua(element) {
 	$('#f_update_account').attr('action', '/update_account');
 	$(".modal-title").text('Cập nhật tài khoản');
-	$("#btn_submit").removeClass('btn-success').addClass('btn-primary');
 
 	// lấy các thông tin tài khoản.
 	uname = element.closest('tr').children('td').eq(0).text();
@@ -57,8 +56,9 @@ function clickNutSua(element) {
 	$("#level").val(level);
 	$("#uname").prop("disabled", "disabled");
 
-	// Hiện button xóa tài khoản.
+	// Hiện button xóa tài khoản, ẩn phần nhập mật khẩu.
 	$("#btn_del_acc_model").show();
+	$("#pass_default").hide();
 
 	$("#btn_submit").html("<span class='glyphicon glyphicon-save'></span>Lưu");
 	$('#modal_account').modal('show');
@@ -67,6 +67,15 @@ function clickNutSua(element) {
 // Bấm nút sửa.
 $(".btn_update_account").click(function(event) {
 	clickNutSua($(this));
+});
+
+// Bấm nút reset mật khẩu.
+$(".btn_reset_pass").click(function(event) {
+	// lấy các thông tin tài khoản.
+	uname = $(this).closest('tr').children('td').eq(0).text();
+	$("#_uname_reset").val(uname);
+
+	$('#modal_reset_pass').modal('show');
 });
 
 // Gửi yêu cầu xóa tài khoản theo uname.
@@ -214,6 +223,7 @@ $(document).ready(function(){
 
 	// Xóa tài khoản từ model update.
 	$("#btn_del_acc_model").click(function(event) {
+
 		// lấy các thông tin tài khoản cần xóa.
 		uname = $("#uname").val();
 		hoten = $("#hoten").val();
@@ -229,6 +239,7 @@ $(document).ready(function(){
 		}	
 	});
 
+	
 });
 
 // ==================================================================================================================

@@ -7,17 +7,71 @@ var selected_position = null;
 // Biến lưu maker hiển thị kết quả tìm kiếm.
 var find_maker = null;
 
-// Mảng lưu tọa độ tất cả các vị trí marker trên map.
-var arr_maker = [];
-
 // Hàm kiểm tra vị trí cần search đã có marker hay chưa.
 function isLocationFree(search) {
-  for (var i = 0, l = arr_maker.length; i < l; i++) {
-    if (arr_maker[i][0] === search[0] && arr_maker[i][1] === search[1]) {
-      return false;
+    for (var i = 0, l = ddiem_list.length; i < l; i++) {
+        if (ddiem_list[i]['lat'] === search[0] && ddiem_list[i]['lng'] === search[1]) {
+            return false;
+        }
     }
-  }
-  return true;
+    return true;
+}
+
+// Tạo marker theo tọa độ.
+function createFlagMarker(map, flag_position, index_maker = null) {
+    // Tùy chỉnh kích thước icon maker.
+    var icon = {
+        url: "img/maker2.png", // url
+        scaledSize: new google.maps.Size(35, 25), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(18, 28) // anchor
+    };
+
+    // Tạo maker.
+    var marker = new google.maps.Marker({
+        position: flag_position,
+        icon: icon,
+        map: map,
+        animation: google.maps.Animation.DROP,
+    });
+
+    marker.addListener('click', function() {
+
+        if (index_maker == null) {
+            $('#modal_place_info').modal('show');
+        } else {
+            $('#modal_place_info').modal('show');
+            alert("Địa điểm đã lưu");
+        }
+        
+    });
+    
+}
+
+// Đánh dấu cờ mới theo tọa độ.
+function setFlagByPosition(map, index_maker = null, flag_position = selected_position) {
+    search = [flag_position.lat(), flag_position.lng()];
+    is_free = isLocationFree(search);
+    if (is_free) {
+        createFlagMarker(map, flag_position, index_maker);
+
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Thêm tọa độ marker vào mảng.
+        var element = {
+            chiso1: 'chiso1',
+            chiso2: 'chiso2',
+            diachi: "diachi",
+            id: "id",
+            lat: flag_position.lat(),
+            lng: flag_position.lng(),
+            ten_diadiem: "ten_diadiem" 
+        };
+        ddiem_list.push(element);
+        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    }
+    else {
+        alert("Vị trí đã đánh dấu trước đó");
+    }
 }
 
 // Hàm tạo button đánh dấu cờ.
@@ -48,38 +102,7 @@ function MakerControl(controlDiv, map) {
 
     // Xử lý đánh dáu cờ khi click nút.
     controlUI.addEventListener('click', function() {
-
-        search = [selected_position.lat(), selected_position.lng()];
-        is_free = isLocationFree(search);
-        if (is_free) {
-            // Tùy chỉnh kích thước icon maker.
-            var icon = {
-                url: "img/maker2.png", // url
-                scaledSize: new google.maps.Size(60, 40), // scaled size
-                origin: new google.maps.Point(0, 0), // origin
-                anchor: new google.maps.Point(30, 40) // anchor
-            };
-
-            // Tạo maker.
-            var marker = new google.maps.Marker({
-                position: selected_position,
-                icon: icon,
-                // icon: "img/maker2.png",
-                map: map,
-                animation: google.maps.Animation.DROP,
-            });
-
-            // console.log("vi tri đánh dấu: ");
-            // console.log(marker.getPosition().lat() + " - " + marker.getPosition().lng());
-
-            // Thêm tọa độ marker vào mảng.
-            arr_maker.push([selected_position.lat(), selected_position.lng()]);
-            // console.log(selected_position.lat()); 
-        }
-        else {
-            alert("Vị trí đã đánh dấu trước đó");
-        }
-        
+        setFlagByPosition(map);
     });
 }
 
@@ -179,14 +202,14 @@ function initMap() {
 
     var mapOptions = {
         center: maker_position,
-        zoom: 20,
+        zoom: 13,
         panControl: true,
         zoomControl: true,
         mapTypeControl: true,
         mapTypeControlOptions: {
-              style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-              position: google.maps.ControlPosition.LEFT_BOTTOM
-          },
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+            position: google.maps.ControlPosition.LEFT_BOTTOM
+        },
         scaleControl: true,
         streetViewControl: false,
         overviewMapControl: true,
@@ -263,22 +286,29 @@ function initMap() {
         // });
 
     });
+
     selected_position = maker_position;
 
-    // Tùy chỉnh kích thước icon maker.
-    var icon = {
-        url: "img/title_icon.png", // url
-        scaledSize: new google.maps.Size(50, 50), // scaled size
-        origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(25, 30) // anchor
-    };
+    for (var i = 0; i < ddiem_list.length; i++) {
+        var flag_position = new google.maps.LatLng(ddiem_list[i]['lat'], ddiem_list[i]['lng']);
+        
+        createFlagMarker(map, flag_position);
+    }
 
-    // Tạo maker.
-    var marker = new google.maps.Marker({
-        position: maker_position,
-        icon: icon,
-        map: map
-    });
+    // // Tùy chỉnh kích thước icon maker.
+    // var icon = {
+    //     url: "img/title_icon.png", // url
+    //     scaledSize: new google.maps.Size(50, 50), // scaled size
+    //     origin: new google.maps.Point(0, 0), // origin
+    //     anchor: new google.maps.Point(25, 30) // anchor
+    // };
+
+    // // Tạo maker.
+    // var marker = new google.maps.Marker({
+    //     position: maker_position,
+    //     icon: icon,
+    //     map: map
+    // });
 
 
     // Thêm button đánh dấu cờ.

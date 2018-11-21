@@ -14,7 +14,7 @@
 //     return view('abc');
 // });
 
-Route::get('/{page?}', 'ViewController@getView');
+Route::get('/{page?}/{username?}', 'ViewController@getView');
 
 Route::post('/login', 'LoginController@loginProcess');
 
@@ -22,6 +22,14 @@ Route::post('/checkaccount', 'AccountController@checkNewAccount');
 
 Route::post('/add_account', 'AccountController@AddAcount');
 
-Route::post('/update_account', 'AccountController@UpdateAccount');
+Route::post('/update_account/{page?}/{user?}', 'AccountController@UpdateAccount');
+
+Route::post('/detail_account', 'AccountController@GetProfile');
 
 Route::post('/delete_account', 'AccountController@DeleteAccount');
+
+Route::post('/upload_avt', 'AccountController@Upload_Avt');
+
+Route::post('/change_pass', 'AccountController@ChangePass');
+
+Route::post('/reset_pass', 'AccountController@ResetPass');

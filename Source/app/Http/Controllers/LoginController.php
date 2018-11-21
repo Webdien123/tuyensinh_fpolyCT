@@ -31,9 +31,9 @@ class LoginController extends Controller
 
                \Session::put('uname', $user_info[0]->uname);
                \Session::put('uhoten', $user_info[0]->hoten);
-               \Session::put('ulevel', $user_info[0]->uname);
+               \Session::put('ulevel', $user_info[0]->level);
 
-   				return view('home');
+   				return ViewController::viewMap();
    			} else {
    				return View::make('login')->with('login_status', 1); // Lỗi đăng nhập
    			}

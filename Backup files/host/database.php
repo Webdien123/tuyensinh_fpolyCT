@@ -45,14 +45,14 @@ return [
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'id2624760_ts_fpoly_ct'),
             'username' => env('DB_USERNAME', 'id2624760_admin'),
-            'password' => env('DB_PASSWORD', 'passdb@123'),
+            'password' => env('DB_PASSWORD', 'admin'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-			'options'   => [PDO::ATTR_EMULATE_PREPARES => true]
+            'options' => [PDO::ATTR_EMULATE_PREPARES => true,],
         ],
 
         'pgsql' => [

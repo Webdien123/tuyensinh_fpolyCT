@@ -79,7 +79,7 @@
 
 <div id="fullscreen_bg" class="fullscreen_bg"/>
 
-<div class="container">
+<div class="container  col-xs-12 col-sm-4 col-sm-offset-4">
 
 	<form class="form-signin" action="/login" method="POST">
 		{!! csrf_field() !!}
