@@ -109,18 +109,22 @@ function CircleControl(controlDiv, map) {
 
     col1.addEventListener('click', function() {
         circle_type = '1';
+        loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
         var size = arr_circle.length;
         for (var i = 0; i < size; i++) {
             updateCircle(arr_circle[i], ddiem_list[i]['chiso1']);
         }
+        $("#circle_info").text(loai);
     });
 
     col2.addEventListener('click', function() {
         circle_type = '2';
+        loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
         var size = arr_circle.length;
         for (var i = 0; i < size; i++) {
             updateCircle(arr_circle[i], ddiem_list[i]['chiso2']);
         }
+        $("#circle_info").text(loai);
     });
 }
 
@@ -159,7 +163,7 @@ function CurrentInfoControl(controlDiv, map) {
                     placeId: results[0].place_id
                 }, function(place, status) {
                     controlText.innerHTML = "<b>Vị trí hiện tại: </b><span id='name_info'>" + place.name + "</span><br>\
-                    <b>Loại biẻu đồ tròn: </b><span id='circle_info'>" + loai + "</span>";
+                    <b>Vòng tròn thể hiện cho: </b><span id='circle_info'>" + loai + "</span>";
                 });
             } else {
                 window.alert('No results found');
