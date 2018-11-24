@@ -79,15 +79,15 @@ jQuery(document).ready(function($) {
         },
 
         errorPlacement: function (error, element) {
-            error.css('color', '#FC6E6E');
+            error.css('color', '#FC4848');
             error.addClass('help-block');
-            element.css('border', '2px solid #FC6E6E');
+            element.css('border', '2px solid #FC4848');
             var father_element = element.closest('.input-group');
             error.insertAfter(father_element);
         },
 
         highlight: function(element,errorClass,validClass){
-            $(element).css('border', '2px solid #FC6E6E');
+            $(element).css('border', '2px solid #FC4848');
         },
                     
         unhighlight: function(element, errorClass, validClass) {

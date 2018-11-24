@@ -1,3 +1,4 @@
+
 @extends('master')
 
 @section('title', 'hỗ trợ tuyển sinh')
@@ -129,26 +130,26 @@
                 <form action="" id="f_update_account" method="POST">
                     {!! csrf_field() !!}
                     <div class="form-group">
-                        <label for="uname">Tên tài khoản:</label>
+                        <label for="uname">Tên tài khoản</label>
                         <input type="text" class="form-control" id="uname" name="uname" autofocus="" required="" 
                         oninvalid="this.setCustomValidity('Chưa nhập tên tài khoản')"
                         oninput="setCustomValidity('')">
                         <input type="hidden" name="_uname" id="_uname" value="">
                     </div>
                     <div class="form-group" >
-                        <label for="hoten">Họ tên:</label>
+                        <label for="hoten">Họ tên</label>
                         <input type="text" class="form-control" name="hoten" id="hoten" required="" 
                         oninvalid="this.setCustomValidity('Chưa nhập họ tên')"
                         oninput="setCustomValidity('')">
                     </div>
                     <div class="form-group" id="pass_default">
-                        <label for="pass">Mật khẩu:</label>
+                        <label for="pass">Mật khẩu</label>
                         <input type="text" class="form-control" name="pass" id="pass" value="123" required="" 
                         oninvalid="this.setCustomValidity('Chưa nhập mật khẩu')"
                         oninput="setCustomValidity('')">
                     </div>
                     <div class="form-group">
-                        <label for="level">Mức quyền:</label>
+                        <label for="level">Mức quyền</label>
                         <select class="form-control" id="level" name="level">
                             <option value="1" selected>Quản trị viên</option>
                             <option value="2">Nhân viên tuyển sinh</option>

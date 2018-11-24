@@ -11,7 +11,7 @@ var tr_dbclick = null;
 // Bấm nút tạo tài khoản.
 $("#btn_add_account").click(function(event) {
 	$('#f_update_account').attr('action', '/add_account');
-	$(".modal-title").text('Tạo tài khoản mới');
+	$("#modal_account .modal-title").text('Tạo tài khoản mới');
 
 	// Đặt lại giá trị form, mở khóa trường tên tài khoản.
 	$("#uname").val("");
@@ -41,7 +41,7 @@ function getLevelValue(level_text) {
 // Chuẩn bị model click nút sửa.
 function clickNutSua(element) {
 	$('#f_update_account').attr('action', '/update_account');
-	$(".modal-title").text('Cập nhật tài khoản');
+	$("#modal_account .modal-title").text('Cập nhật tài khoản');
 
 	// lấy các thông tin tài khoản.
 	uname = element.closest('tr').children('td').eq(0).text();

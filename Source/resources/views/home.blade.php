@@ -28,7 +28,14 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <br>
                     <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" onclick="alert('Chức năng đang phát triển')" form="f_update_ddiem" class="btn btn-success">
+                            <i class="fa fa-save" aria-hidden="true"></i>
+                            Lưu
+                        </button>
+                        <button type="button" onclick="alert('Chức năng đang phát triển')" form="f_update_ddiem" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Xóa
+                        </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             <i class="fa fa-times" aria-hidden="true"></i>
                             Hủy
@@ -37,7 +44,48 @@
                     
                 </div>
                 <div class="modal-body">
-                    
+                    <form id="f_update_ddiem" class="form-horizontal" role="form">
+
+                        {!! csrf_field() !!}
+                        <input type="hidden" name="" id="id_ddiem" class="form-control" value="">
+                        <input type="hidden" name="" id="lat" class="form-control" value="">
+                        <input type="hidden" name="" id="lng" class="form-control" value="">
+
+                        <label>Tên địa điểm</label>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input type="text" name="ten_diadiem" id="ten_diadiem" class="form-control" placeholder="nhập tên địa điểm">
+                            </div>
+                        </div>
+
+                        <label>Địa chỉ</label>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input type="text" name="diachi" id="diachi" class="form-control" placeholder="nhập địa chỉ">
+                            </div>
+                        </div>
+
+                        <label>Chỉ số 1</label>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input type="number" name="chiso1" id="chiso1" class="form-control">
+                            </div>
+                        </div>
+
+                        <label>Chỉ số 2</label>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input type="number" name="chiso2" id="chiso2" class="form-control">
+                            </div>
+                        </div>
+
+                        <label>Ghi chú</label>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <textarea name="ghichu" id="ghichu" class="form-control" rows="3" placeholder="nhập ghi chú (nếu cần)"></textarea>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     
@@ -46,8 +94,12 @@
         </div>
     </div>
 
+    
+    <!-- Script khởi tạo và hiển thị dữ liệu đã lưu lên map -->
+	<script type="text/javascript" src="../js/khoi_tao_map.js"></script>
 
-	<script type="text/javascript" src="../js/tuyensinh.js"></script>
+    <!-- Script xử lý các xử kiện và chức năng trên map cho trang tuyển sinh -->
+    <script type="text/javascript" src="../js/tuyensinh.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR7YAAG83jkhURYhrUkKbOfGDqA2BTqw&libraries=places"></script>
 

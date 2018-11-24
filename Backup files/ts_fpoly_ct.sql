@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2018 at 03:25 PM
+-- Generation Time: Nov 23, 2018 at 08:25 AM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -35,17 +35,18 @@ CREATE TABLE `diadiem` (
   `lat` double NOT NULL,
   `lng` double NOT NULL,
   `chiso1` int(11) DEFAULT '0',
-  `chiso2` int(11) DEFAULT '0'
+  `chiso2` int(11) DEFAULT '0',
+  `ghichu` varchar(5000) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `diadiem`
 --
 
-INSERT INTO `diadiem` (`id`, `ten_diadiem`, `diachi`, `lat`, `lng`, `chiso1`, `chiso2`) VALUES
-('ChIJ3_-va0eIoDERLTMF62B5pk0', 'Trường Cao Đẳng Thực Hành FPT Polytechnic Cần Thơ', '288 Đường Nguyễn Văn Linh, Hưng Lợi, Ninh Kiều, Cần Thơ, Vietnam', 10.0268264, 105.75735280000004, 10, 10),
-('ChIJjaeJWSOIoDERTXvCzVOjwF4', 'Language Center New Windows', '126A, Ba Tháng Hai, Xuân Khánh, Ninh Kiều, Cần Thơ, Vietnam', 10.0284491, 105.77110540000001, 6, 2),
-('ChIJJXL3RTuIoDERsnnoMCjAYLU', 'Trường Chính Trị TP Cần Thơ', '150 Ba Tháng Hai, Xuân Khánh, Ninh Kiều, Cần Thơ, Vietnam', 10.0269704, 105.76979310000002, 5, 4);
+INSERT INTO `diadiem` (`id`, `ten_diadiem`, `diachi`, `lat`, `lng`, `chiso1`, `chiso2`, `ghichu`) VALUES
+('ChIJ3_-va0eIoDERLTMF62B5pk0', 'Trường Cao Đẳng Thực Hành FPT Polytechnic Cần Thơ', '288 Đường Nguyễn Văn Linh, Hưng Lợi, Ninh Kiều, Cần Thơ, Vietnam', 10.0268264, 105.75735280000004, 180, 170, NULL),
+('ChIJjaeJWSOIoDERTXvCzVOjwF4', 'Language Center New Windows', '126A, Ba Tháng Hai, Xuân Khánh, Ninh Kiều, Cần Thơ, Vietnam', 10.0284491, 105.77110540000001, 150, 100, NULL),
+('ChIJJXL3RTuIoDERsnnoMCjAYLU', 'Trường Chính Trị TP Cần Thơ', '150 Ba Tháng Hai, Xuân Khánh, Ninh Kiều, Cần Thơ, Vietnam', 10.0269704, 105.76979310000002, 120, 80, NULL);
 
 -- --------------------------------------------------------
 

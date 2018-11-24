@@ -115,7 +115,7 @@
                     <form action="/update_account/profile/{{ $user_info[0]->uname }}" method="POST" class="col-xs-12 col-sm-5" id="f_update">
                         {!! csrf_field() !!}
                         <div class="form-group">
-                            <label for="uname">Tên tài khoản:</label>
+                            <label for="uname">Tên tài khoản</label>
                             <input type="text" class="form-control" id="uname" name="uname" autofocus="" 
                             value="{{ $user_info[0]->uname }}" 
                             required="" 
@@ -126,7 +126,7 @@
                             <input type="hidden" name="_uname" id="_uname" value="{{ $user_info[0]->uname }}">
                         </div>
                         <div class="form-group" >
-                            <label for="hoten">Họ tên:</label>
+                            <label for="hoten">Họ tên</label>
                             <input type="text" class="form-control" name="hoten" id="hoten" required="" 
                             value="{{ $user_info[0]->hoten }}" 
                             oninvalid="this.setCustomValidity('Chưa nhập họ tên')"
@@ -134,7 +134,7 @@
                         </div>
                         @if(\Session::get('ulevel') == "1")
                         <div class="form-group">
-                            <label for="level">Mức quyền:</label>
+                            <label for="level">Mức quyền</label>
                             <select class="form-control" id="level" name="level">
                                 <option value="1">Quản trị viên</option>
                                 <option value="2">Nhân viên tuyển sinh</option>
@@ -170,7 +170,7 @@
                     <form class="form-horizontal col-xs-12 col-sm-5" action="/change_pass" method="POST" id="f_change_pass">
                         {!! csrf_field() !!}
                         <input type="hidden" name="_uname_pass" id="_uname_pass" value="{{ $user_info[0]->uname }}">
-                        <label class="control-label" for="old_pass">Mật khẩu cũ:</label>
+                        <label class="control-label" for="old_pass">Mật khẩu cũ</label>
                         <div class="input-group">                            
                             <input id="old_pass" name="old_pass" type="password" placeholder="" class="form-control input-md">
                             <span class="input-group-addon">
@@ -178,7 +178,7 @@
                             </span>
                         </div>
 
-                        <label class="control-label" for="new_pass">Mật khẩu mới:</label>
+                        <label class="control-label" for="new_pass">Mật khẩu mới</label>
                         <div class="input-group">                            
                             <input id="new_pass" name="new_pass" type="password" placeholder="" class="form-control input-md">
                             <span class="input-group-addon">
@@ -186,7 +186,7 @@
                             </span>
                         </div>
 
-                        <label class="control-label" for="re_new_pass">Nhập lại mật khẩu mới:</label>
+                        <label class="control-label" for="re_new_pass">Nhập lại mật khẩu mới</label>
                         <div class="input-group">                            
                             <input id="re_new_pass" name="re_new_pass" type="password" placeholder="" class="form-control input-md">
                             <span class="input-group-addon">
