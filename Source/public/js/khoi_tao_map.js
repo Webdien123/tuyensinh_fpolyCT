@@ -145,10 +145,6 @@ function CurrentInfoControl(controlDiv, map) {
     controlText.style.fontSize = '14px';
     controlText.style.lineHeight = '30px';
     loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
-    controlText.innerHTML = "<b>Vị trí hiện tại: </b><span id='name_info'></span><br>\
-    <b>Loại biẻu đồ tròn: </b><span id='circle_info'></span>";
-    
-    // getPlaceByLatlng(selected_position);
 
     var geocoder = new google.maps.Geocoder;
     var latlng = {
@@ -172,8 +168,7 @@ function CurrentInfoControl(controlDiv, map) {
             window.alert('Geocoder failed due to: ' + status);
         }
     });
-
-    
+      
     controlUI.appendChild(controlText);
 }
 
@@ -286,7 +281,8 @@ function initMap() {
                     service.getDetails({
                         placeId: results[0].place_id
                     }, function(place, status) {
-                        $("#name_info").html(place.name);
+                        $("#name_info").text(place.name);
+                        $("#circle_info").text(circle_type);
                     });
                 } else {
                     window.alert('No results found');

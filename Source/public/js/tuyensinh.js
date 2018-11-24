@@ -58,13 +58,29 @@ jQuery(document).ready(function($) {
 });
 
 // Hiển thị thông tin vị trí hiện tại và loại biểu đồ tròn.
-// function setCurrentInfo(place, name_id, cirle_id) {
-//     if (name_id != null) {
-//         $("#" + name_id).text(place.name);
-//     }
-//     if (cirle_id != null) {
-//         $("#" + cirle_id).text(circle_type);
-//     }
+// function updateCurrentInfo(position) {
+//     var geocoder = new google.maps.Geocoder;
+//     var latlng = {
+//         lat: position.lat(), 
+//         lng: position.lng()
+//     };
+//     geocoder.geocode({'location': latlng}, function(results, status) {
+//         if (status === 'OK') {
+//             if (results[0]) {
+//                 var service = new google.maps.places.PlacesService(map);
+//                 service.getDetails({
+//                     placeId: results[0].place_id
+//                 }, function(place, status) {
+//                     $("#name_info").text(place.name);
+//                     $("#circle_info").text(circle_type);
+//                 });
+//             } else {
+//                 window.alert('No results found');
+//             }
+//         } else {
+//             window.alert('Geocoder failed due to: ' + status);
+//         }
+//     });
 // }
 
 // function getPlaceByLatlng(position) {
@@ -160,9 +176,6 @@ function show_InfoDiaDiem(index_marker) {
                     service.getDetails({
                         placeId: results[0].place_id
                     }, function(place, status) {
-
-                        console.log(place);
-
                         // $("#id_ddiem").val("");
                         // $("#lat").val("");
                         // $("#lng").val("");
@@ -298,9 +311,8 @@ function getLocation(map) {
                     service.getDetails({
                         placeId: results[0].place_id
                     }, function(place, status) {
-                        console.log(place);
-                        $("#vitrihientai_div").html("<b>Vị trí hiện tại:</b> " + place.name + "<br>\
-                        <b>Loại biẻu đồ tròn:</b> " + loai);
+                        $("#name_info").text(place.name);
+                        $("#circle_info").text(circle_type);
                     });
                 } else {
                     window.alert('No results found');
@@ -309,6 +321,7 @@ function getLocation(map) {
                 window.alert('Geocoder failed due to: ' + status);
             }
         });
+
         
       }, function() {
         // handleLocationError(true, infoWindow, map.getCenter());
