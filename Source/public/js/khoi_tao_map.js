@@ -90,6 +90,7 @@ function CircleControl(controlDiv, map) {
     var col1 = document.createElement('button');
     $(col1).css('width', '48%');
     $(col1).css('color', '#FF0000');
+    $(col1).css('border', '3px solid #2CC133');
     $(col1).css('padding-left', '0px');
     $(col1).css('padding-right', '0px');
     $(col1).css('margin-right', '5px');
@@ -97,7 +98,8 @@ function CircleControl(controlDiv, map) {
     $(col1).html('Chỉ số 1<br><i class="fa fa-circle-o fa-2x" aria-hidden="true"></i>');
 
     var col2 = document.createElement('button');
-    $(col2).css('width', '48%');    
+    $(col2).css('width', '48%');
+    $(col2).css('border', '1px solid gray');
     $(col2).css('color', '#EBAC00');
     $(col2).addClass('btn btn-default');
     $(col2).css('padding-left', '0px');
@@ -109,6 +111,8 @@ function CircleControl(controlDiv, map) {
 
     col1.addEventListener('click', function() {
         circle_type = '1';
+        $(this).next("button").css('border', '1px solid gray');
+        $(this).css('border', '3px solid #2CC133');
         loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
         var size = arr_circle.length;
         for (var i = 0; i < size; i++) {
@@ -119,6 +123,8 @@ function CircleControl(controlDiv, map) {
 
     col2.addEventListener('click', function() {
         circle_type = '2';
+        $(this).prev("button").css('border', '1px solid gray');
+        $(this).css('border', '3px solid #2CC133');
         loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
         var size = arr_circle.length;
         for (var i = 0; i < size; i++) {
