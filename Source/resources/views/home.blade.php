@@ -15,6 +15,11 @@
         var ddiem_list = <?php echo json_encode($ddiem_list); ?>;
     </script>
 
+    <div class="alert alert-success" id="success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        <strong id="alert-text">Lưu địa điểm thành công</strong>
+    </div>
+
 	<div id="map" style="width:100%; height:90%;"></div>
 
     <input type="text" id="pac-input" class="form-control" style="width: 80%; margin-left: 10px; margin-top: 10px; border-radius: 2px" placeholder="Nhập địa điểm cần tìm">
@@ -28,11 +33,11 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <br>
                     <div class="btn-group pull-right">
-                        <button type="button" onclick="alert('Chức năng đang phát triển')" form="f_update_ddiem" class="btn btn-success">
+                        <button type="button" id="btn_save_flag" class="btn btn-success">
                             <i class="fa fa-save" aria-hidden="true"></i>
                             Lưu
                         </button>
-                        <button type="button" onclick="alert('Chức năng đang phát triển')" form="f_update_ddiem" class="btn btn-danger">
+                        <button type="button" onclick="alert('Chức năng đang phát triển')" class="btn btn-danger">
                             <span class="glyphicon glyphicon-trash"></span>
                             Xóa
                         </button>
@@ -41,15 +46,14 @@
                             Hủy
                         </button>
                     </div>
-                    
                 </div>
                 <div class="modal-body">
                     <form id="f_update_ddiem" class="form-horizontal" role="form">
 
                         {!! csrf_field() !!}
-                        <input type="hidden" name="" id="id_ddiem" class="form-control" value="">
-                        <input type="hidden" name="" id="lat" class="form-control" value="">
-                        <input type="hidden" name="" id="lng" class="form-control" value="">
+                        <input type="hidden" name="id_ddiem" id="id_ddiem" class="form-control" value="">
+                        <input type="hidden" name="lat" id="lat" class="form-control" value="">
+                        <input type="hidden" name="lng" id="lng" class="form-control" value="">
 
                         <label>Tên địa điểm</label>
                         <div class="form-group">
@@ -68,14 +72,14 @@
                         <label>Chỉ số 1</label>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input type="number" name="chiso1" id="chiso1" class="form-control">
+                                <input type="number" name="chiso1" value="0" id="chiso1" class="form-control">
                             </div>
                         </div>
 
                         <label>Chỉ số 2</label>
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input type="number" name="chiso2" id="chiso2" class="form-control">
+                                <input type="number" name="chiso2" value="0" id="chiso2" class="form-control">
                             </div>
                         </div>
 
@@ -86,9 +90,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    
                 </div>
             </div>
         </div>
@@ -102,5 +103,11 @@
     <script type="text/javascript" src="../js/tuyensinh.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR7YAAG83jkhURYhrUkKbOfGDqA2BTqw&libraries=places"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $("#success-alert").hide(0);
+        });
+    </script>
 
 @endsection

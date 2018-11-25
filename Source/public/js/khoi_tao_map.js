@@ -4,6 +4,9 @@ window.onload = initMap;
 // Biến lưu tọa độ vị trí đang hiển thị trên map.
 var selected_position = null;
 
+// Biến lưu index của địa điểm đang hiển thị trêm modal.
+var index_info_ddiem = null;
+
 // Biến lưu marker hiển thị kết quả tìm kiếm.
 var find_marker = null;
 
@@ -45,7 +48,7 @@ function MarkerControl(controlDiv, map) {
 
     // Xử lý đánh dáu cờ khi click nút.
     controlUI.addEventListener('click', function() {
-        setFlagByPosition(map);
+        setFlagByPosition(map);        
     });
 }
 
@@ -292,7 +295,6 @@ function initMap() {
                         placeId: results[0].place_id
                     }, function(place, status) {
                         $("#name_info").text(place.name);
-                        $("#circle_info").text(circle_type);
                     });
                 } else {
                     window.alert('No results found');
@@ -309,9 +311,8 @@ function initMap() {
         var flag_position = new google.maps.LatLng(ddiem_list[i]['lat'], ddiem_list[i]['lng']);        
         createFlagMarker(map, flag_position, i);
         var radius = (circle_type == '2') ? ddiem_list[i]['chiso2'] : ddiem_list[i]['chiso1'];
-        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], radius);
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], radius, i);
     }
-    
 
     // Thêm button đánh dấu cờ.
     var MarkerControlDiv = document.createElement('div');

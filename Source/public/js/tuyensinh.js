@@ -1,5 +1,6 @@
 // Validate dữ liệu form nhập thông tin địa chỉ.
 jQuery(document).ready(function($) {
+    // Validate form địa điểm.
     $( "#f_update_ddiem" ).validate({
         rules: {
             ten_diadiem: {
@@ -17,7 +18,7 @@ jQuery(document).ready(function($) {
                 min: 0
             },
             ghichu: {
-                maxlength: 5
+                maxlength: 5000
             }
         },
 
@@ -31,10 +32,10 @@ jQuery(document).ready(function($) {
                 maxlength: "Địa chỉ tối đa 500 kí tự"
             },
             chiso1: {
-                required: "Chưa nhập địa chỉ"
+                min: "Giá trị phải lớn hơn hoặc bằng 0"
             },
             chiso2: {
-                required: "Chưa nhập địa chỉ"
+                min: "Giá trị phải lớn hơn hoặc bằng 0"
             },
             ghichu: {
                 maxlength: "Ghi chú tối đa 5000 kí tự"                
@@ -55,62 +56,59 @@ jQuery(document).ready(function($) {
             $(element).css('border', '2px solid #41BE47');
         }
     });
+
+
+    $("#btn_save_flag").click(function(event) {
+        saveFlag();
+    });
 });
 
-// Hiển thị thông tin vị trí hiện tại và loại biểu đồ tròn.
-// function updateCurrentInfo(position) {
-//     var geocoder = new google.maps.Geocoder;
-//     var latlng = {
-//         lat: position.lat(), 
-//         lng: position.lng()
-//     };
-//     geocoder.geocode({'location': latlng}, function(results, status) {
-//         if (status === 'OK') {
-//             if (results[0]) {
-//                 var service = new google.maps.places.PlacesService(map);
-//                 service.getDetails({
-//                     placeId: results[0].place_id
-//                 }, function(place, status) {
-//                     $("#name_info").text(place.name);
-//                     $("#circle_info").text(circle_type);
-//                 });
-//             } else {
-//                 window.alert('No results found');
-//             }
-//         } else {
-//             window.alert('Geocoder failed due to: ' + status);
-//         }
-//     });
-// }
+// Cập nhật thông tin địa điểm đang hiển thị trên modal.
+function saveFlag() {
+    if ($("#f_update_ddiem").valid()) {
+        $.ajax({
+            url: '/save_flag',
+            type: 'POST',
+            data: $("#f_update_ddiem").serialize(),
+            success: function( result ) {
+                $('#modal_place_info').modal('toggle');
+                if (result == "ok") {
+                    $("#success-alert").removeClass('alert-danger').addClass('alert-success');
+                    $("#alert-text").text('Lưu địa điểm thành công.');
+                    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                        $("#success-alert").slideUp(500);
+                    });
 
-// function getPlaceByLatlng(position) {
-//     var geocoder = new google.maps.Geocoder;
-//     var latlng = {
-//         lat: position.lat(), 
-//         lng: position.lng()
-//     };
-//     geocoder.geocode({'location': latlng}, function(results, status) {
-//         if (status === 'OK') {
-//             if (results[0]) {
-//                 var service = new google.maps.places.PlacesService(map);
-//                 service.getDetails({
-//                     placeId: results[0].place_id
-//                 }, function(place, status) {
-//                     ABC(place);
-//                 });
-//             } else {
-//                 window.alert('No results found');
-//             }
-//         } else {
-//             window.alert('Geocoder failed due to: ' + status);
-//         }
-//     });
-// }
+                    // Ngược giá trị đã lưu vào mảng địa điểm.
+                    ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
+                    ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
+                    ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
+                    ddiem_list[index_info_ddiem]['chiso1'] = $("#chiso1").val();
+                    ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
+
+                    // Cập nhật độ lớn biểu đồ tròn.
+                    radius = (circle_type == '1') ? ddiem_list[index_info_ddiem]['chiso1'] :  ddiem_list[index_info_ddiem]['chiso2'];
+                    updateCircle(arr_circle[index_info_ddiem], radius);
+                }
+                if (result == "fail") {
+                    $("#success-alert").removeClass('alert-success').addClass('alert-danger');
+                    $("#alert-text").text('Có lỗi! vui lòng thử lại sau.');
+                    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                        $("#success-alert").slideUp(500);
+                    });
+                }
+            },
+            error: function( xhr, err ) {
+                alert('Error');
+            }
+        });       
+    }
+}
 
 // Hàm kiểm tra vị trí cần search đã có marker hay chưa.
 function isLocationFree(search) {
     for (var i = 0, l = ddiem_list.length; i < l; i++) {
-        if (ddiem_list[i]['lat'] === search[0] && ddiem_list[i]['lng'] === search[1]) {
+        if (ddiem_list[i]['lat'] == search[0] && ddiem_list[i]['lng'] == search[1]) {
             return false;
         }
     }
@@ -132,7 +130,7 @@ function updateCircle(circle, radius) {
 }
 
 // Vẽ circle theo tâm và bán kính.
-function createCircle(map, lat, lng, radius) {
+function createCircle(map, lat, lng, radius, index_marker = null) {
 
     var color = '#FF0000';
     if (circle_type == '2') {
@@ -150,70 +148,42 @@ function createCircle(map, lat, lng, radius) {
             lat: parseFloat(lat), 
             lng: parseFloat(lng)
         },
-        radius: parseInt(radius)
+        radius: parseInt(radius),
+        zIndex: 100
     });
     arr_circle.push(circle);
 
-    index_marker = arr_circle.length - 1;
-    circle.addListener('click', function() {
-        show_InfoDiaDiem(index_marker);
-    });
+    if (index_marker == null) {
+        circle.addListener('click', function() {
+            show_InfoDiaDiem(arr_circle.length - 1);
+        });
+    }
+    else{
+        circle.addListener('click', function() {
+            show_InfoDiaDiem(index_marker);
+        });
+    }
 }
 
 // Hiển thị modal thông tin địa điểm.
 function show_InfoDiaDiem(index_marker) {
-    if (index_marker == null) {
+    $("#id_ddiem").val(ddiem_list[index_marker]['id']);
+    $("#lat").val(ddiem_list[index_marker]['lat']);
+    $("#lng").val(ddiem_list[index_marker]['lng']);
+    $("#ten_diadiem").val(ddiem_list[index_marker]['ten_diadiem']);
+    $("#diachi").val(ddiem_list[index_marker]['diachi']);
+    $("#ghichu").val(ddiem_list[index_marker]['ghichu']);
 
-        var geocoder = new google.maps.Geocoder;
-        var latlng = {
-            lat: selected_position.lat(), 
-            lng: selected_position.lng()
-        };
-        geocoder.geocode({'location': latlng}, function(results, status) {
-            if (status === 'OK') {
-                if (results[0]) {
-                    var service = new google.maps.places.PlacesService(map);
-                    service.getDetails({
-                        placeId: results[0].place_id
-                    }, function(place, status) {
-                        // $("#id_ddiem").val("");
-                        // $("#lat").val("");
-                        // $("#lng").val("");
-                        // $("#ten_diadiem").val("");
-                        // $("#diachi").val("");
-                    });
-                } else {
-                    window.alert('No results found');
-                }
-            } else {
-                window.alert('Geocoder failed due to: ' + status);
-            }
-        });
-
-
-        $("#id_ddiem").val("");
-        $("#lat").val("");
-        $("#lng").val("");
-        $("#ten_diadiem").val("");
-        $("#diachi").val("");
-        $("#chiso1").val("");
-        $("#chiso2").val("");
-        $("#ghichu").val("");
-
-        $('#modal_place_info').modal('show');
-    } else {
-
-        $("#id_ddiem").val(ddiem_list[index_marker]['id']);
-        $("#lat").val(ddiem_list[index_marker]['lat']);
-        $("#lng").val(ddiem_list[index_marker]['lng']);
-        $("#ten_diadiem").val(ddiem_list[index_marker]['ten_diadiem']);
-        $("#diachi").val(ddiem_list[index_marker]['diachi']);
+    if (ddiem_list[index_marker]['chiso1'] == "-1") {        
+        $("#chiso1").val(0);
+        $("#chiso2").val(0);
+    } else {        
         $("#chiso1").val(ddiem_list[index_marker]['chiso1']);
         $("#chiso2").val(ddiem_list[index_marker]['chiso2']);
-        $("#ghichu").val(ddiem_list[index_marker]['ghichu']);
-
-        $('#modal_place_info').modal('show');
     }
+
+    index_info_ddiem = index_marker;
+    $('#modal_place_info').modal('show');
 }
 
 // Tạo marker theo tọa độ.
@@ -224,7 +194,7 @@ function createFlagMarker(map, flag_position, index_marker = null) {
         scaledSize: new google.maps.Size(35, 25), // scaled size
         origin: new google.maps.Point(0, 0), // origin
         anchor: new google.maps.Point(18, 28) // anchor
-    };
+    };    
 
     // Tạo marker.
     var marker = new google.maps.Marker({
@@ -232,24 +202,65 @@ function createFlagMarker(map, flag_position, index_marker = null) {
         icon: icon,
         map: map,
         animation: google.maps.Animation.DROP,
+        zIndex: 200 
     });
 
     if (index_marker == null) {
-        $("#id_ddiem").val("");
-        $("#lat").val("");
-        $("#lng").val("");
-        $("#ten_diadiem").val("");
-        $("#diachi").val("");
-        $("#chiso1").val("");
-        $("#chiso2").val("");
-        $("#ghichu").val("");
-        
-        arr_flag.push(marker);
-    }
 
-    marker.addListener('click', function() {
-        show_InfoDiaDiem(index_marker);
-    });
+        var geocoder = new google.maps.Geocoder;
+        var latlng = {
+            lat: selected_position.lat(), 
+            lng: selected_position.lng()
+        };
+        
+        geocoder.geocode({'location': latlng}, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    var service = new google.maps.places.PlacesService(map);
+                    service.getDetails({
+                        placeId: results[0].place_id
+                    }, function(place, status) {
+
+                        $("#id_ddiem").val(place.place_id);
+                        $("#lat").val(place.geometry.location.lat());
+                        $("#lng").val(place.geometry.location.lng());
+                        $("#ten_diadiem").val(place.name);
+                        $("#diachi").val(place.formatted_address);
+                        $("#chiso1").val("0");
+                        $("#chiso2").val("0");
+                        $("#ghichu").val("");
+
+                        var ddiem = {
+                            id: place.place_id,
+                            lat: place.geometry.location.lat(),
+                            lng: place.geometry.location.lng(),
+                            ten_diadiem: place.name,
+                            diachi: place.formatted_address,
+                            chiso1: "-1",
+                            chiso2: "-1",
+                            ghichu: "",
+                        };
+
+                        ddiem_list.push(ddiem);
+                    });
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+        arr_flag.push(marker);
+        marker.addListener('click', function() {
+            show_InfoDiaDiem(ddiem_list.length - 1);
+        });
+    }
+    else{
+        marker.addListener('click', function() {
+            show_InfoDiaDiem(index_marker);
+        });
+    }
+    
 }
 
 // Đánh dấu cờ mới theo tọa độ.
@@ -258,20 +269,6 @@ function setFlagByPosition(map, index_marker = null, flag_position = selected_po
     is_free = isLocationFree(search);
     if (is_free) {
         createFlagMarker(map, flag_position, index_marker);
-        $('#modal_place_info').modal('show');
-        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Thêm tọa độ marker vào mảng.
-        var element = {
-            chiso1: 'chiso1',
-            chiso2: 'chiso2',
-            diachi: "diachi",
-            id: "id",
-            lat: flag_position.lat(),
-            lng: flag_position.lng(),
-            ten_diadiem: "ten_diadiem" 
-        };
-        ddiem_list.push(element);
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     }
     else {
         alert("Vị trí đã đánh dấu trước đó");
@@ -312,7 +309,6 @@ function getLocation(map) {
                         placeId: results[0].place_id
                     }, function(place, status) {
                         $("#name_info").text(place.name);
-                        $("#circle_info").text(circle_type);
                     });
                 } else {
                     window.alert('No results found');

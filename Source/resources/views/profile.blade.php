@@ -78,6 +78,7 @@
                     </button>
                 </form>
                 @endif
+                <hr class="col-xs-12">
                 <div>
                     @if($user_info[0]->level == '1')
                         <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
@@ -85,9 +86,11 @@
                         <i class="fa fa-user-o fa-2x" aria-hidden="true"></i>
                     @endif
                     <h3 style="display: inline">{{ $user_info[0]->ten_level }}</h3>
+                </div>                
+                <div class="col-xs-12">
+                    {{ $user_info[0]->ghichu }}
                 </div>
-
-
+                <hr class="col-xs-12">
             </div>                
 
             @if( ( $user_info[0]->uname == \Session::get('uname') ) || (\Session::get('ulevel') == "1") )
@@ -162,6 +165,7 @@
                             </button>
                             @endif
                         </div>
+                        
                     </form>
                     </div>
 
