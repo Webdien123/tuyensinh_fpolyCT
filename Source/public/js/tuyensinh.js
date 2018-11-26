@@ -57,11 +57,30 @@ jQuery(document).ready(function($) {
         }
     });
 
-
     $("#btn_save_flag").click(function(event) {
         saveFlag();
     });
 });
+
+function addFlag() {
+    $.ajax({
+        url: '/add_flag',
+        type: 'POST',
+        data: $("#f_update_ddiem").serialize(),
+        success: function( result ) {
+            $('#modal_place_info').modal('toggle');
+            if (result == "ok") {
+                alert("Đã thêm cờ");
+            }
+            if (result == "fail") {
+                alert("Lỗi thêm cờ");
+            }
+        },
+        error: function( xhr, err ) {
+            alert('Error');
+        }
+    }); 
+}
 
 // Cập nhật thông tin địa điểm đang hiển thị trên modal.
 function saveFlag() {
@@ -242,6 +261,8 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         };
 
                         ddiem_list.push(ddiem);
+
+                        addFlag();
                     });
                 } else {
                     window.alert('No results found');

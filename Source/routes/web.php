@@ -13,6 +13,8 @@
 
 Route::get('/{page?}/{username?}', 'ViewController@getView');
 
+Route::post('/add_flag', 'DiaDiemController@AddFlag');
+
 Route::post('/save_flag', 'DiaDiemController@SaveFlag');
 
 Route::post('/login', 'LoginController@loginProcess');

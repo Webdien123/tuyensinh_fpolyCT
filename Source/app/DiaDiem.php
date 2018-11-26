@@ -17,6 +17,25 @@ class DiaDiem extends Model
     	return $ddiem_list;
     }
 
+    // Thêm địa điểm mới.
+    public static function AddDiaDiem(Request $R)
+    {
+        $result = \DB::statement(
+        'INSERT INTO `diadiem`(`id`, `ten_diadiem`, `diachi`, `lat`, `lng`, `chiso1`, `chiso2`, `ghichu`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [
+            $R->id_ddiem,
+            $R->ten_diadiem,
+            $R->diachi,
+            $R->lat,
+            $R->lng,
+            $R->chiso1,
+            $R->chiso2,
+            $R->ghichu            
+        ]);
+
+        return $result;
+    }
+
     // Update thông tin địa điểm.
     public static function UpdateDiaDiem(Request $R)
     {
