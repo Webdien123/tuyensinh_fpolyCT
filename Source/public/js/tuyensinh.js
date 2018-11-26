@@ -62,19 +62,30 @@ jQuery(document).ready(function($) {
     });
 });
 
+// Thông báo kết quả xử lý cho người dùng.
+function thongBaoKetQua(result, text_content) {
+    if (result == "ok") {
+        $('#success-alert').modal('toggle');
+        $("#alert-text").removeClass('text-danger').addClass('text-success');
+        $("#alert-text").html('<i class="fa fa-check-circle-o fa-4x" aria-hidden="true"></i><br>' + text_content);
+        setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
+    }
+    if (result == "fail") {
+        $('#success-alert').modal('toggle');
+        $("#alert-text").removeClass('text-success').addClass('text-danger');
+        $("#alert-text").html('<i class="fa fa-frown-o fa-4x" aria-hidden="true"></i><br>Có lỗi! vui lòng thử lại sau.');
+        setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
+    }
+}
+
+// Lưu cờ mới.
 function addFlag() {
     $.ajax({
         url: '/add_flag',
         type: 'POST',
         data: $("#f_update_ddiem").serialize(),
         success: function( result ) {
-            $('#modal_place_info').modal('toggle');
-            if (result == "ok") {
-                alert("Đã thêm cờ");
-            }
-            if (result == "fail") {
-                alert("Lỗi thêm cờ");
-            }
+            thongBaoKetQua(result, "Đã thêm cờ");
         },
         error: function( xhr, err ) {
             alert('Error');
@@ -90,32 +101,21 @@ function saveFlag() {
             type: 'POST',
             data: $("#f_update_ddiem").serialize(),
             success: function( result ) {
-                $('#modal_place_info').modal('toggle');
-                if (result == "ok") {
-                    $("#success-alert").removeClass('alert-danger').addClass('alert-success');
-                    $("#alert-text").text('Lưu địa điểm thành công.');
-                    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-                        $("#success-alert").slideUp(500);
-                    });
+                thongBaoKetQua(result, "Cập nhật thông tin thành công");
+                radius = (circle_type == '1') ? $("#chiso1").val() : $("#chiso2").val();
 
-                    // Ngược giá trị đã lưu vào mảng địa điểm.
-                    ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
-                    ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
-                    ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
-                    ddiem_list[index_info_ddiem]['chiso1'] = $("#chiso1").val();
-                    ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
+                // Cập nhật thông tin địa điểm vào mảng lưu trữ.
+                ddiem_list[index_info_ddiem]['id'] = $("#id_ddiem").val();
+                ddiem_list[index_info_ddiem]['lat'] = $("#lat").val();
+                ddiem_list[index_info_ddiem]['lng'] = $("#lng").val();
+                ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
+                ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
+                ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
+                ddiem_list[index_info_ddiem]['chiso1'] = $("#chiso1").val();
+                ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
 
-                    // Cập nhật độ lớn biểu đồ tròn.
-                    radius = (circle_type == '1') ? ddiem_list[index_info_ddiem]['chiso1'] :  ddiem_list[index_info_ddiem]['chiso2'];
-                    updateCircle(arr_circle[index_info_ddiem], radius);
-                }
-                if (result == "fail") {
-                    $("#success-alert").removeClass('alert-success').addClass('alert-danger');
-                    $("#alert-text").text('Có lỗi! vui lòng thử lại sau.');
-                    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-                        $("#success-alert").slideUp(500);
-                    });
-                }
+                // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
+                updateCircle(arr_circle[index_info_ddiem], radius);
             },
             error: function( xhr, err ) {
                 alert('Error');
@@ -263,6 +263,14 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         ddiem_list.push(ddiem);
 
                         addFlag();
+
+                        createCircle(
+                            map, 
+                            place.geometry.location.lat(), 
+                            place.geometry.location.lng(), 
+                            0, 
+                            null
+                        );
                     });
                 } else {
                     window.alert('No results found');

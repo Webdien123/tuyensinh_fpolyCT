@@ -15,16 +15,22 @@
         var ddiem_list = <?php echo json_encode($ddiem_list); ?>;
     </script>
 
-    <div class="alert alert-success" id="success-alert">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        <strong id="alert-text">Lưu địa điểm thành công</strong>
+    <div class="modal fade" id="success-alert"  style="margin-top: 20%; text-align: center; z-index: 9999">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="modal-body">
+                    <strong id="alert-text"></strong>
+                </div>
+            </div>
+        </div>
     </div>
 
 	<div id="map" style="width:100%; height:90%;"></div>
 
     <input type="text" id="pac-input" class="form-control" style="width: 80%; margin-left: 10px; margin-top: 10px; border-radius: 2px" placeholder="Nhập địa điểm cần tìm">
 
-    <div class="modal fade" id="modal_place_info">
+    <div class="modal fade" id="modal_place_info" style="z-index: 8000">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
