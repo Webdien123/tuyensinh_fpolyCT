@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\NguoiDung;
 use Hash;
 use View;
+use File;
 
 class AccountController extends Controller
 {
@@ -91,6 +92,10 @@ class AccountController extends Controller
 
         if ($R->hasFile('img_avt')) {
             try {
+                File::delete(public_path('avt/'.$R->_uname_avt.'.png'));
+                File::delete(public_path('avt/'.$R->_uname_avt.'.jpg'));
+                File::delete(public_path('avt/'.$R->_uname_avt.'.gif'));
+
                 $image = $R->file('img_avt');
                 $name = $R->_uname_avt.'.'.$image->getClientOriginalExtension();
                 $destinationPath = public_path('/avt');
