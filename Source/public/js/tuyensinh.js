@@ -60,6 +60,13 @@ jQuery(document).ready(function($) {
     $("#btn_save_flag").click(function(event) {
         saveFlag();
     });
+
+    $("#f_update_ddiem").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            saveFlag()
+        }
+    });
 });
 
 // Thông báo kết quả xử lý cho người dùng.
