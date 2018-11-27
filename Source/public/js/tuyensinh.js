@@ -122,7 +122,7 @@ function saveFlag() {
                 ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
 
                 // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
-                updateCircle(arr_circle[index_info_ddiem], radius);
+                updateCircle(arr_circle_1[index_info_ddiem], radius);
             },
             error: function( xhr, err ) {
                 alert('Error');
@@ -181,7 +181,7 @@ function createCircle(map, lat, lng, radius, index_marker = null) {
 
     if (index_marker == null) {
         circle.addListener('click', function() {
-            show_InfoDiaDiem(arr_circle.length - 1);
+            show_InfoDiaDiem(arr_circle_1.length - 1);
         });
     }
     else{
