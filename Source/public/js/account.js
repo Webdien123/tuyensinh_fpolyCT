@@ -93,8 +93,8 @@ function deleteAccount(uname) {
         		// Xóa dòng dữ liệu vừa chứa data cần xóa trên màn hình.
         		tr_dbclick.remove();
 
-        		// Ẩn form account. (Dùng khi xóa từ modal)
-        		$('#modal_account').modal('toggle');
+        		// Ẩn form account.
+        		$('#modal_account').modal('hide');
 
         		if ( $("tr").length == 0) {
         			$("tbody").append('<tr> \
@@ -239,7 +239,14 @@ $(document).ready(function(){
 		}	
 	});
 
-	
+	$("#f_update_account").keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+        	if ($("#f_update_ddiem").valid()) {
+            	$("#f_update_account").submit();
+        	}
+        }
+    });
 });
 
 // ==================================================================================================================
