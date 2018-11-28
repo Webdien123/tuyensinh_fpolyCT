@@ -27,4 +27,15 @@ class DiaDiemController extends Controller
     		return "fail";
     	}
     }
+
+    // Xóa cờ.
+    public function RemoveFlag(Request $R)
+    {
+        $result = DiaDiem::RemoveDiaDiem($R);
+        if ($result) {
+            return "ok";
+        } else {
+            return "fail";
+        }
+    }
 }

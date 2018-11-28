@@ -53,4 +53,16 @@ class DiaDiem extends Model
 
         return $result;
     }
+
+    // Xóa thông tin địa điểm.
+    public static function RemoveDiaDiem(Request $R)
+    {
+        $result = \DB::statement(
+        'DELETE FROM `diadiem` WHERE diadiem.id = ?',
+        [
+            $R->id_ddiem
+        ]);
+
+        return $result;
+    }
 }

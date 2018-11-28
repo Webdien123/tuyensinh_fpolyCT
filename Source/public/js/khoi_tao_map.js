@@ -51,9 +51,7 @@ function MarkerControl(controlDiv, map) {
 
     // Xử lý đánh dáu cờ khi click nút.
     controlUI.addEventListener('click', function() {
-        setFlagByPosition(map);
-
-        
+        setFlagByPosition(map);        
     });
 }
 

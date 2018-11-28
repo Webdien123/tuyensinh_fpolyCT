@@ -43,7 +43,7 @@
                             <i class="fa fa-save" aria-hidden="true"></i>
                             Lưu
                         </button>
-                        <button type="button" onclick="alert('Chức năng đang phát triển')" class="btn btn-danger">
+                        <button type="button" id="btn_remove_flag" class="btn btn-danger">
                             <span class="glyphicon glyphicon-trash"></span>
                             Xóa
                         </button>

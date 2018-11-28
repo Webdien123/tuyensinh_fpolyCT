@@ -61,6 +61,10 @@ jQuery(document).ready(function($) {
         saveFlag();
     });
 
+    $("#btn_remove_flag").click(function(event) {
+        removeFlag();
+    });
+
     $("#f_update_ddiem").keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13'){
@@ -109,26 +113,54 @@ function saveFlag() {
             data: $("#f_update_ddiem").serialize(),
             success: function( result ) {
                 thongBaoKetQua(result, "Cập nhật thông tin thành công");
-                radius = (circle_type == '1') ? $("#chiso1").val() : $("#chiso2").val();
 
-                // Cập nhật thông tin địa điểm vào mảng lưu trữ.
-                ddiem_list[index_info_ddiem]['id'] = $("#id_ddiem").val();
-                ddiem_list[index_info_ddiem]['lat'] = $("#lat").val();
-                ddiem_list[index_info_ddiem]['lng'] = $("#lng").val();
-                ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
-                ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
-                ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
-                ddiem_list[index_info_ddiem]['chiso1'] = $("#chiso1").val();
-                ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
+                if (result == "ok") {
+                    radius = (circle_type == '1') ? $("#chiso1").val() : $("#chiso2").val();
 
-                // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
-                updateCircle([index_info_ddiem], $("#chiso1").val(), $("#chiso2").val());
+                    // Cập nhật thông tin địa điểm vào mảng lưu trữ.
+                    ddiem_list[index_info_ddiem]['id'] = $("#id_ddiem").val();
+                    ddiem_list[index_info_ddiem]['lat'] = $("#lat").val();
+                    ddiem_list[index_info_ddiem]['lng'] = $("#lng").val();
+                    ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
+                    ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
+                    ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
+                    ddiem_list[index_info_ddiem]['chiso1'] = $("#chiso1").val();
+                    ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
+
+                    // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
+                    updateCircle([index_info_ddiem], $("#chiso1").val(), $("#chiso2").val());
+                }
             },
             error: function( xhr, err ) {
-                alert('Error');
+                alert('Có lỗi trong quá trình xử lý, vui lòng thử lại');
             }
         });       
     }
+}
+
+function removeFlag() {
+    $.ajax({
+        url: '/remove_flag',
+        type: 'POST',
+        data: $("#f_update_ddiem").serialize(),
+        success: function( result ) {
+            thongBaoKetQua(result, "Đã xóa cờ");
+
+            if (result == "ok") {
+                arr_flag[index_info_ddiem].setOptions({map: null});
+                arr_circle_1[index_info_ddiem].setOptions({map: null});
+                arr_circle_2[index_info_ddiem].setOptions({map: null});
+
+                ddiem_list.splice(index_info_ddiem, 1);
+                arr_flag.splice(index_info_ddiem, 1);
+                arr_circle_1.splice(index_info_ddiem, 1);
+                arr_circle_2.splice(index_info_ddiem, 1);
+            }
+        },
+        error: function( xhr, err ) {
+            alert('Error');
+        }
+    });
 }
 
 // Hàm kiểm tra vị trí cần search đã có marker hay chưa.
@@ -160,14 +192,14 @@ function showCircle(type) {
     if (type == '1') {
         size = arr_circle_1.length;
         for (var i = 0; i < size; i++) {
-            arr_circle_1[i].setOptions({fillOpacity: 0.15, strokeOpacity:0.8});
+            arr_circle_1[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
         }
     }
 
     if (type == '2') {
         size = arr_circle_2.length;
         for (var i = 0; i < size; i++) {
-            arr_circle_2[i].setOptions({fillOpacity: 0.15, strokeOpacity:0.8});
+            arr_circle_2[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
         }
     }
 }
@@ -193,11 +225,11 @@ function hideCircle(type) {
 function updateCircle(index, radius1, radius2) {
 
     arr_circle_1[index].setOptions({
-        radius: parseInt(radius1) * 50
+        radius: parseInt(radius1) * 40
     });
 
     arr_circle_2[index].setOptions({
-        radius: parseInt(radius2) * 50
+        radius: parseInt(radius2) * 40
     });
 }
 
@@ -211,16 +243,16 @@ function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
 
     var circle = new google.maps.Circle({
         strokeColor: color,
-        strokeOpacity: 0.8,
+        strokeOpacity: 1,
         strokeWeight: 2,
         fillColor: color,
-        fillOpacity: 0.15,
+        fillOpacity: 0.02,
         map: map,
         center: {
             lat: parseFloat(lat), 
             lng: parseFloat(lng)
         },
-        radius: parseInt(radius) * 50,
+        radius: parseInt(radius) * 40,
         zIndex: 100
     });
     if (type == '1') {
@@ -323,13 +355,9 @@ function createFlagMarker(map, flag_position, index_marker = null) {
 
                         addFlag();
 
-                        createCircle(
-                            map, 
-                            place.geometry.location.lat(), 
-                            place.geometry.location.lng(), 
-                            0, 
-                            null
-                        );
+                        createCircle(map, place.geometry.location.lat(), place.geometry.location.lng(), 0, null, '1');
+                        createCircle(map, place.geometry.location.lat(), place.geometry.location.lng(), 0, null, '2');
+
                     });
                 } else {
                     window.alert('No results found');
@@ -338,7 +366,7 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                 window.alert('Geocoder failed due to: ' + status);
             }
         });
-        arr_flag.push(marker);
+           
         marker.addListener('click', function() {
             show_InfoDiaDiem(ddiem_list.length - 1);
         });
@@ -348,7 +376,7 @@ function createFlagMarker(map, flag_position, index_marker = null) {
             show_InfoDiaDiem(index_marker);
         });
     }
-    
+    arr_flag.push(marker);
 }
 
 // Đánh dấu cờ mới theo tọa độ.

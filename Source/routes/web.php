@@ -17,6 +17,8 @@ Route::post('/add_flag', 'DiaDiemController@AddFlag');
 
 Route::post('/save_flag', 'DiaDiemController@SaveFlag');
 
+Route::post('/remove_flag', 'DiaDiemController@RemoveFlag');
+
 Route::post('/login', 'LoginController@loginProcess');
 
 Route::post('/checkaccount', 'AccountController@checkNewAccount');
