@@ -186,6 +186,10 @@ function updateCircleTypeInfo() {
         loai = "Chỉ số 1 và chỉ số 2";
     }
     $("#circle_info").text(loai);
+    if( $("#btn_hdshw_circle").hasClass('fa-toggle-off') ){
+        $("#btn_hdshw_circle").removeClass('fa-toggle-off').addClass('fa-toggle-on');
+        $("#div_hdshw_circle").css('color', '#69CE3C');
+    }
 }
 
 function showCircle(type) {

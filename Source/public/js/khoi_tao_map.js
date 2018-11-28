@@ -166,6 +166,7 @@ function HideShowCircleControl(controlDiv, map) {
     // Set CSS for the control border.
     var controlUI = document.createElement('div');
     controlUI.style.backgroundColor = '#fff';
+    controlUI.id = "div_hdshw_circle";
     controlUI.style.color = '#69CE3C';
     controlUI.style.border = '2px solid #fff';
     controlUI.style.borderRadius = '3px';
@@ -294,7 +295,7 @@ function initMap() {
 
     var mapOptions = {
         center: marker_position,
-        zoom: 15,
+        zoom: 13,
         panControl: false,
         fullscreenControl: false,
         zoomControl: true,
@@ -335,7 +336,7 @@ function initMap() {
             map.fitBounds(place.geometry.viewport);
         } else {
             map.setCenter(place.geometry.location);
-            map.setZoom(15);
+            map.setZoom(13);
         }
 
         selected_position = place.geometry.location;
@@ -390,16 +391,16 @@ function initMap() {
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(MarkerControlDiv);
 
     // Thêm button chọn loại biểu đồ tròn.
-    var CircleControlDiv = document.createElement('div');
-    var circlecontrol = new CircleControl(CircleControlDiv, map);
-    CircleControlDiv.index = 1;
-    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(CircleControlDiv);
-
-    // Thêm button chọn loại biểu đồ tròn.
     var HideShowCircleControlDIV = document.createElement('div');
     var hideshowcirclecontrol = new HideShowCircleControl(HideShowCircleControlDIV, map);
     HideShowCircleControlDIV.index = 1;
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(HideShowCircleControlDIV);
+
+    // Thêm button chọn loại biểu đồ tròn.
+    var CircleControlDiv = document.createElement('div');
+    var circlecontrol = new CircleControl(CircleControlDiv, map);
+    CircleControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(CircleControlDiv);
 
     // Thêm button về vị trí hiện tại.
     var GpsControlDiv = document.createElement('div');
@@ -412,7 +413,5 @@ function initMap() {
     CurrentInfoControlDiv.style.width = '80%';
     var currentInfoControl = new CurrentInfoControl(CurrentInfoControlDiv, map);
     CurrentInfoControlDiv.index = 1;
-    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(CurrentInfoControlDiv);
-
-    
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(CurrentInfoControlDiv);   
 }
