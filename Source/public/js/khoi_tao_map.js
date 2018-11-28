@@ -134,7 +134,7 @@ function CircleControl(controlDiv, map) {
         $(this).css('border', '3px solid #2CC133');
         hideCircle('2');
         showCircle('1');
-        $("#circle_info").text('Chỉ số 1');
+        updateCircleTypeInfo();
     });
 
     col2.addEventListener('click', function() {
@@ -144,7 +144,7 @@ function CircleControl(controlDiv, map) {
         $(this).css('border', '3px solid #2CC133');
         hideCircle('1');
         showCircle('2');
-        $("#circle_info").text('Chỉ số 2');
+        updateCircleTypeInfo();
     });
 
     col3.addEventListener('click', function() {
@@ -158,7 +158,7 @@ function CircleControl(controlDiv, map) {
         $(this).prev("button").css('border', '1px solid gray');
         $(this).prev("button").prev("button").css('border', '1px solid gray');
         $(this).css('border', '3px solid #2CC133');
-        $("#circle_info").text('Chỉ số 1 và chỉ số 2');
+        updateCircleTypeInfo();
     });
 }
 

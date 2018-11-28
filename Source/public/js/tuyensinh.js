@@ -141,7 +141,8 @@ function isLocationFree(search) {
     return true;
 }
 
-function getCircleTypeInfo() {
+// Hiển thị loại chỉ số của biểu đồ tròn.
+function updateCircleTypeInfo() {
     loai = "";
     if (circle_type == '1') {
         loai = "Chỉ số 1";
@@ -152,6 +153,7 @@ function getCircleTypeInfo() {
     if (circle_type == '3') {
         loai = "Chỉ số 1 và chỉ số 2";
     }
+    $("#circle_info").text(loai);
 }
 
 function showCircle(type) {
@@ -191,11 +193,11 @@ function hideCircle(type) {
 function updateCircle(index, radius1, radius2) {
 
     arr_circle_1[index].setOptions({
-        radius: parseInt(radius1) * 10
+        radius: parseInt(radius1) * 50
     });
 
     arr_circle_2[index].setOptions({
-        radius: parseInt(radius2) * 10
+        radius: parseInt(radius2) * 50
     });
 }
 
@@ -218,7 +220,7 @@ function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
             lat: parseFloat(lat), 
             lng: parseFloat(lng)
         },
-        radius: parseInt(radius) * 10,
+        radius: parseInt(radius) * 50,
         zIndex: 100
     });
     if (type == '1') {
