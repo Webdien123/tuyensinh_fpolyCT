@@ -160,6 +160,50 @@ function CircleControl(controlDiv, map) {
     });
 }
 
+// Hàm tạo button ẩn hiện biểu đò tròn.
+function HideShowCircleControl(controlDiv, map) {
+
+    // Set CSS for the control border.
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = '#fff';
+    controlUI.style.color = '#69CE3C';
+    controlUI.style.border = '2px solid #fff';
+    controlUI.style.borderRadius = '3px';
+    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.marginRight = '10px';
+    controlUI.style.marginTop = '10px';
+    controlUI.style.textAlign = 'center';
+    controlUI.title = 'Ẩn/hiện vòng tròn';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior.
+    var controlText = document.createElement('div');
+    
+    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    controlText.style.fontSize = '16px';
+    controlText.style.lineHeight = '30px';
+    controlText.style.paddingLeft = '8px';
+    controlText.style.paddingRight = '5px';
+    controlText.innerHTML = '<i class="fa fa-toggle-on fa-lg" id="btn_hdshw_circle" aria-hidden="true"></i>';
+    controlUI.appendChild(controlText);
+
+    // Xử lý đánh dáu cờ khi click nút.
+    controlUI.addEventListener('click', function() {
+        if( $("#btn_hdshw_circle").hasClass('fa-toggle-on') ){
+            $("#btn_hdshw_circle").removeClass('fa-toggle-on').addClass('fa-toggle-off');
+            $(this).css('color', 'black');
+            hideCircle('1');
+            hideCircle('2');
+        }else{
+            $("#btn_hdshw_circle").removeClass('fa-toggle-off').addClass('fa-toggle-on');
+            $(this).css('color', '#69CE3C');
+            showCircle('1');
+            showCircle('2');
+        }
+    });
+}
+
 // Tạo control hiển thị vị trí hiện tại và loại chỉ số hiển thị.
 function CurrentInfoControl(controlDiv, map) {
 
@@ -351,6 +395,12 @@ function initMap() {
     CircleControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(CircleControlDiv);
 
+    // Thêm button chọn loại biểu đồ tròn.
+    var HideShowCircleControlDIV = document.createElement('div');
+    var hideshowcirclecontrol = new HideShowCircleControl(HideShowCircleControlDIV, map);
+    HideShowCircleControlDIV.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(HideShowCircleControlDIV);
+
     // Thêm button về vị trí hiện tại.
     var GpsControlDiv = document.createElement('div');
     var gpscontrol = new GpsControl(GpsControlDiv, map);
@@ -363,4 +413,6 @@ function initMap() {
     var currentInfoControl = new CurrentInfoControl(CurrentInfoControlDiv, map);
     CurrentInfoControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(CurrentInfoControlDiv);
+
+    
 }
