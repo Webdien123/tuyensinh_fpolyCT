@@ -10,8 +10,11 @@ var index_info_ddiem = null;
 // Biến lưu marker hiển thị kết quả tìm kiếm.
 var find_marker = null;
 
-// Danh sách vòng tròn hiển thị chỉ số.
-var arr_circle = [];
+// Danh sách vòng tròn hiển thị chỉ số 1.
+var arr_circle_1 = [];
+
+// Danh sách vòng tròn hiển thị chỉ số 1.
+var arr_circle_2 = [];
 
 // Danh sách marker đánh dấu địa điểm.
 var arr_flag = [];
@@ -111,31 +114,51 @@ function CircleControl(controlDiv, map) {
     $(col2).css('padding-right', '0px');
     $(col2).html('Chỉ số 2<br><i class="fa fa-circle-o fa-2x" aria-hidden="true"></i>');
 
+    var col3 = document.createElement('button');
+    $(col3).css('width', '100%');
+    $(col3).css('border', '1px solid gray');
+    $(col3).addClass('btn btn-default');
+    $(col3).css('margin-top', '5px');
+    $(col3).css('padding-left', '0px');
+    $(col3).css('padding-right', '0px');
+    $(col3).html('Chỉ số 1 và chỉ số 2<br><img src="../img/multi_circle.jpg" style="width: 24px">');
+
     controlMenu.appendChild(col1);
     controlMenu.appendChild(col2);
+    controlMenu.appendChild(col3);
 
     col1.addEventListener('click', function() {
         circle_type = '1';
         $(this).next("button").css('border', '1px solid gray');
+        $(this).next("button").next("button").css('border', '1px solid gray');
         $(this).css('border', '3px solid #2CC133');
-        loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
-        var size = arr_circle.length;
-        for (var i = 0; i < size; i++) {
-            updateCircle(arr_circle[i], ddiem_list[i]['chiso1']);
-        }
-        $("#circle_info").text(loai);
+        hideCircle('2');
+        showCircle('1');
+        $("#circle_info").text('Chỉ số 1');
     });
 
     col2.addEventListener('click', function() {
         circle_type = '2';
         $(this).prev("button").css('border', '1px solid gray');
+        $(this).next("button").css('border', '1px solid gray');
         $(this).css('border', '3px solid #2CC133');
-        loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
-        var size = arr_circle.length;
-        for (var i = 0; i < size; i++) {
-            updateCircle(arr_circle[i], ddiem_list[i]['chiso2']);
+        hideCircle('1');
+        showCircle('2');
+        $("#circle_info").text('Chỉ số 2');
+    });
+
+    col3.addEventListener('click', function() {
+        if (circle_type == '1') {
+            showCircle('2');
         }
-        $("#circle_info").text(loai);
+        if (circle_type == '2') {
+            showCircle('1');
+        }
+        circle_type = '3';
+        $(this).prev("button").css('border', '1px solid gray');
+        $(this).prev("button").prev("button").css('border', '1px solid gray');
+        $(this).css('border', '3px solid #2CC133');
+        $("#circle_info").text('Chỉ số 1 và chỉ số 2');
     });
 }
 
@@ -312,9 +335,11 @@ function initMap() {
     for (var i = 0; i < ddiem_list.length; i++) {
         var flag_position = new google.maps.LatLng(ddiem_list[i]['lat'], ddiem_list[i]['lng']);        
         createFlagMarker(map, flag_position, i);
-        var radius = (circle_type == '2') ? ddiem_list[i]['chiso2'] : ddiem_list[i]['chiso1'];
-        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], radius, i);
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso1'], i);
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2'], i, '2');
     }
+
+    hideCircle('2');
 
     // Thêm button đánh dấu cờ.
     var MarkerControlDiv = document.createElement('div');

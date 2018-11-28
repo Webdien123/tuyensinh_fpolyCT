@@ -122,7 +122,7 @@ function saveFlag() {
                 ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
 
                 // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
-                updateCircle(arr_circle_1[index_info_ddiem], radius);
+                updateCircle([index_info_ddiem], $("#chiso1").val(), $("#chiso2").val());
             },
             error: function( xhr, err ) {
                 alert('Error');
@@ -141,25 +141,69 @@ function isLocationFree(search) {
     return true;
 }
 
-// Cập nhật màu và bán kính hình tròn.
-function updateCircle(circle, radius) {
-    var color = '#FF0000';
+function getCircleTypeInfo() {
+    loai = "";
+    if (circle_type == '1') {
+        loai = "Chỉ số 1";
+    }
     if (circle_type == '2') {
-        color = '#EBAC00';
+        loai = "Chỉ số 2";
+    }
+    if (circle_type == '3') {
+        loai = "Chỉ số 1 và chỉ số 2";
+    }
+}
+
+function showCircle(type) {
+    if (type == '1') {
+        size = arr_circle_1.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_1[i].setOptions({fillOpacity: 0.15, strokeOpacity:0.8});
+        }
     }
 
-    circle.setOptions({
-        fillColor: color,
-        strokeColor: color,
-        radius: parseInt(radius)
+    if (type == '2') {
+        size = arr_circle_2.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_2[i].setOptions({fillOpacity: 0.15, strokeOpacity:0.8});
+        }
+    }
+}
+
+// Ẩn hoặc hiện biểu đồ tròn theo loại chỉ số.
+function hideCircle(type) {
+    if (type == '1') {
+        size = arr_circle_1.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_1[i].setOptions({fillOpacity:0, strokeOpacity:0});
+        }
+    }
+
+    if (type == '2') {
+        size = arr_circle_2.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_2[i].setOptions({fillOpacity:0, strokeOpacity:0});
+        }
+    }
+}
+
+// Cập nhật màu và bán kính hình tròn.
+function updateCircle(index, radius1, radius2) {
+
+    arr_circle_1[index].setOptions({
+        radius: parseInt(radius1) * 10
+    });
+
+    arr_circle_2[index].setOptions({
+        radius: parseInt(radius2) * 10
     });
 }
 
 // Vẽ circle theo tâm và bán kính.
-function createCircle(map, lat, lng, radius, index_marker = null) {
+function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
 
     var color = '#FF0000';
-    if (circle_type == '2') {
+    if (type == '2') {
         color = '#EBAC00';
     }
 
@@ -168,20 +212,26 @@ function createCircle(map, lat, lng, radius, index_marker = null) {
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: color,
-        fillOpacity: 0.35,
+        fillOpacity: 0.15,
         map: map,
         center: {
             lat: parseFloat(lat), 
             lng: parseFloat(lng)
         },
-        radius: parseInt(radius),
+        radius: parseInt(radius) * 10,
         zIndex: 100
     });
-    arr_circle.push(circle);
+    if (type == '1') {
+        arr_circle_1.push(circle);
+    }
+    if (type == '2') {
+        arr_circle_2.push(circle);
+    }
+    
 
     if (index_marker == null) {
         circle.addListener('click', function() {
-            show_InfoDiaDiem(arr_circle_1.length - 1);
+            show_InfoDiaDiem(arr_circle_1_1.length - 1);
         });
     }
     else{
