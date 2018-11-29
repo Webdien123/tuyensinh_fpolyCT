@@ -17,7 +17,7 @@ class DiaDiemController extends Controller
     	}
 	}
 
-	// Update thông tin cờ.
+	// Lưu thông tin cờ từ trang gmap.
     public function SaveFlag(Request $R)
     {
     	$result = DiaDiem::UpdateDiaDiem($R);

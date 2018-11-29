@@ -13,7 +13,7 @@ class DiaDiem extends Model
     // Lấy tất cả địa điểm trong hệ thống.
     public static function getAllDiaDiem()
     {
-    	$ddiem_list = \DB::select('SELECT * FROM diadiem');
+    	$ddiem_list = \DB::select('SELECT * FROM diadiem ORDER BY chiso1 DESC, chiso2 DESC');
     	return $ddiem_list;
     }
 

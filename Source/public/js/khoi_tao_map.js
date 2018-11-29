@@ -193,14 +193,22 @@ function HideShowCircleControl(controlDiv, map) {
     controlUI.addEventListener('click', function() {
         if( $("#btn_hdshw_circle").hasClass('fa-toggle-on') ){
             $("#btn_hdshw_circle").removeClass('fa-toggle-on').addClass('fa-toggle-off');
-            $(this).css('color', 'black');
+            $(this).css('color', 'gray');
             hideCircle('1');
             hideCircle('2');
         }else{
             $("#btn_hdshw_circle").removeClass('fa-toggle-off').addClass('fa-toggle-on');
             $(this).css('color', '#69CE3C');
-            showCircle('1');
-            showCircle('2');
+            if (circle_type == '1') {
+                showCircle('1');
+            }
+            if (circle_type == '2') {
+                showCircle('2');
+            }
+            if (circle_type == '3') {
+                showCircle('1');
+                showCircle('2');
+            }            
         }
     });
 }

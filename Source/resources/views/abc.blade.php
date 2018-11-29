@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'hỗ trợ tuyển sinh')
+@section('title', 'Danh sách trường')
 
 @section('content')
 

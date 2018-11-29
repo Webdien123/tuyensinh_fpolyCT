@@ -138,6 +138,7 @@ function saveFlag() {
     }
 }
 
+// Xóa cờ.
 function removeFlag() {
     $.ajax({
         url: '/remove_flag',

@@ -17,6 +17,8 @@ class ViewController extends Controller
         	switch ($page) {
         		case 'map':
         			return $this->viewMap();
+                case 'dstruong':
+                    return $this->viewDsTruong();
         		case 'account':
                     if (\Session::get('ulevel') == "1") {
                         return $this->viewAccount();
@@ -48,9 +50,17 @@ class ViewController extends Controller
     // Lấy trang bản đồ gmap.
     public static function viewMap()
     {
-    	// return view('home');
         $ddiem_list = DiaDiem::getAllDiaDiem();
         return View::make('home')->with([
+            'ddiem_list' => $ddiem_list
+        ]);
+    }
+
+    // Lấy trang danh sách trường.
+    public static function viewDsTruong()
+    {
+        $ddiem_list = DiaDiem::getAllDiaDiem();
+        return View::make('dstruong')->with([
             'ddiem_list' => $ddiem_list
         ]);
     }

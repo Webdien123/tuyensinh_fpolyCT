@@ -43,10 +43,12 @@
                             <i class="fa fa-save" aria-hidden="true"></i>
                             Lưu
                         </button>
+                        @if(\Session::get("ulevel") == "1")
                         <button type="button" id="btn_remove_flag" class="btn btn-danger">
                             <span class="glyphicon glyphicon-trash"></span>
                             Xóa
                         </button>
+                        @endif
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             <i class="fa fa-times" aria-hidden="true"></i>
                             Hủy

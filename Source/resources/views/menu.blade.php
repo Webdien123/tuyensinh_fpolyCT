@@ -16,7 +16,7 @@
                 <i class="fa fa-globe" aria-hidden="true"></i>
                 Google Map
             </a></li>
-            <li><a href="#" onclick="alert('Chức năng đang phát triển')">
+            <li><a href="/dstruong">
                 <i class="fa fa-list-ul" aria-hidden="true"></i>
                 Danh sách trường
             </a></li>
