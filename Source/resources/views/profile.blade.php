@@ -10,7 +10,7 @@
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
         @if(\Session::get("ulevel") == "1")
-            $(".navbar-nav > li").eq(3).addClass("active");
+            $(".navbar-nav > li").eq(4).addClass("active");
         @endif
 
         @if(\Session::get("ulevel") == "2")

@@ -130,8 +130,6 @@ function CircleControl(controlDiv, map) {
         $(this).next("button").css('border', '1px solid gray');
         $(this).next("button").next("button").css('border', '1px solid gray');
         $(this).css('border', '3px solid #2CC133');
-        hideCircle('2');
-        showCircle('1');
         updateCircleTypeInfo();
     });
 
@@ -140,18 +138,10 @@ function CircleControl(controlDiv, map) {
         $(this).prev("button").css('border', '1px solid gray');
         $(this).next("button").css('border', '1px solid gray');
         $(this).css('border', '3px solid #2CC133');
-        hideCircle('1');
-        showCircle('2');
         updateCircleTypeInfo();
     });
 
     col3.addEventListener('click', function() {
-        if (circle_type == '1') {
-            showCircle('2');
-        }
-        if (circle_type == '2') {
-            showCircle('1');
-        }
         circle_type = '3';
         $(this).prev("button").css('border', '1px solid gray');
         $(this).prev("button").prev("button").css('border', '1px solid gray');
@@ -248,7 +238,8 @@ function CurrentInfoControl(controlDiv, map) {
                     placeId: results[0].place_id
                 }, function(place, status) {
                     controlText.innerHTML = "<b>Vị trí hiện tại: </b><span id='name_info'>" + place.name + "</span><br>\
-                    <b>Vòng tròn thể hiện cho: </b><span id='circle_info'>" + loai + "</span>";
+                    <b>Vòng tròn thể hiện cho: </b><span id='circle_info'>" + loai + "</span><br>\
+                    <b>Năm tuyển sinh: </b><span>" + selected_namhoc + "</span>";
                 });
             } else {
                 window.alert('No results found');
@@ -295,6 +286,7 @@ function GpsControl(controlDiv, map) {
     });
 }
 
+
 // Hàm khởi tạo map cho toàn bộ trang bản đồ tuyển sinh.
 function initMap() {
     var mapCanvas = document.getElementById("map");
@@ -315,7 +307,8 @@ function initMap() {
         scaleControl: false,
         streetViewControl: false,
         overviewMapControl: false,
-        rotateControl: false
+        rotateControl: false,
+        zIndex: 0
     };
     var map = new google.maps.Map(mapCanvas, mapOptions);
 
@@ -334,7 +327,9 @@ function initMap() {
     circle_type = '1';
 
     autocomplete.addListener('place_changed', function() {
-        // infowindow.close();
+        
+        $(".pac-container, .pac-item").css('z-index', '2147483647 !important');
+
         var place = autocomplete.getPlace();
         if (!place.geometry) {
             return;
@@ -419,6 +414,7 @@ function initMap() {
     // Thêm ông tin về vị trí hiện tại.
     var CurrentInfoControlDiv = document.createElement('div');
     CurrentInfoControlDiv.style.width = '80%';
+    $(CurrentInfoControlDiv).css('z-index', '0');
     var currentInfoControl = new CurrentInfoControl(CurrentInfoControlDiv, map);
     CurrentInfoControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(CurrentInfoControlDiv);   

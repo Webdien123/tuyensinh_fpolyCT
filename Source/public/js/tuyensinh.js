@@ -1,3 +1,4 @@
+
 // Validate dữ liệu form nhập thông tin địa chỉ.
 jQuery(document).ready(function($) {
     // Validate form địa điểm.
@@ -91,6 +92,7 @@ function thongBaoKetQua(result, text_content) {
 
 // Lưu cờ mới.
 function addFlag() {
+    console.log($("#f_update_ddiem").serialize());
     $.ajax({
         url: '/add_flag',
         type: 'POST',
@@ -99,7 +101,9 @@ function addFlag() {
             thongBaoKetQua(result, "Đã thêm cờ");
         },
         error: function( xhr, err ) {
-            alert('Error');
+            console.log(xhr);
+            console.log(err);
+            thongBaoKetQua("fail");
         }
     }); 
 }
@@ -132,7 +136,7 @@ function saveFlag() {
                 }
             },
             error: function( xhr, err ) {
-                alert('Có lỗi trong quá trình xử lý, vui lòng thử lại');
+                thongBaoKetQua("fail");
             }
         });       
     }
@@ -145,6 +149,8 @@ function removeFlag() {
         type: 'POST',
         data: $("#f_update_ddiem").serialize(),
         success: function( result ) {
+            $('#modal_place_info').modal('hide');
+
             thongBaoKetQua(result, "Đã xóa cờ");
 
             if (result == "ok") {
@@ -174,17 +180,41 @@ function isLocationFree(search) {
     return true;
 }
 
+// Ẩn/Hiện hình tròn gợp màu khi các vòng tròn có cùng bán kính.
+function circleOverlay(hide = true) {
+    size = ddiem_list.length;
+    for (var i = 0; i < size; i++) {
+        if(ddiem_list[i]['chiso1'] == ddiem_list[i]['chiso2']){
+            radius = ddiem_list[i]['chiso1'];
+            if (hide) {
+                updateCircle(i, radius, radius);
+            }
+            else{
+                updateCircle(i, radius, radius, "#DB6F2D");
+            }
+        }
+    }
+}
+
 // Hiển thị loại chỉ số của biểu đồ tròn.
 function updateCircleTypeInfo() {
     loai = "";
     if (circle_type == '1') {
+        hideCircle('2');
+        showCircle('1');
         loai = "Chỉ số 1";
     }
     if (circle_type == '2') {
+        hideCircle('1');
+        showCircle('2');
         loai = "Chỉ số 2";
+        circleOverlay(true);
     }
     if (circle_type == '3') {
+        showCircle('1');
+        showCircle('2');
         loai = "Chỉ số 1 và chỉ số 2";
+        circleOverlay(false);
     }
     $("#circle_info").text(loai);
     if( $("#btn_hdshw_circle").hasClass('fa-toggle-off') ){
@@ -227,7 +257,7 @@ function hideCircle(type) {
 }
 
 // Cập nhật màu và bán kính hình tròn.
-function updateCircle(index, radius1, radius2) {
+function updateCircle(index, radius1, radius2, overlay_color = null) {
 
     arr_circle_1[index].setOptions({
         radius: parseInt(radius1) * 40
@@ -236,6 +266,21 @@ function updateCircle(index, radius1, radius2) {
     arr_circle_2[index].setOptions({
         radius: parseInt(radius2) * 40
     });
+
+    if (overlay_color != null) {
+        arr_circle_2[index].setOptions({
+            strokeWeight: 4,
+            strokeColor: overlay_color,
+            fillColor: overlay_color
+        });
+    }
+    else{
+        arr_circle_2[index].setOptions({
+            strokeWeight: 2,
+            strokeColor: "#EBCD00",
+            fillColor: "#EBCD00"
+        });
+    }
 }
 
 // Vẽ circle theo tâm và bán kính.
@@ -243,7 +288,7 @@ function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
 
     var color = '#FF0000';
     if (type == '2') {
-        color = '#EBAC00';
+        color = '#EBCD00';
     }
 
     var circle = new google.maps.Circle({
@@ -257,8 +302,8 @@ function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
             lat: parseFloat(lat), 
             lng: parseFloat(lng)
         },
-        radius: parseInt(radius) * 40,
-        zIndex: 100
+        radius: parseInt(radius) * 50,
+        zIndex: 1
     });
     if (type == '1') {
         arr_circle_1.push(circle);
@@ -287,6 +332,8 @@ function show_InfoDiaDiem(index_marker) {
     $("#lng").val(ddiem_list[index_marker]['lng']);
     $("#ten_diadiem").val(ddiem_list[index_marker]['ten_diadiem']);
     $("#diachi").val(ddiem_list[index_marker]['diachi']);
+    $("#namhoc").val(ddiem_list[index_marker]['namhoc']);
+    $("#_namhoc").val(ddiem_list[index_marker]['namhoc']);
     $("#ghichu").val(ddiem_list[index_marker]['ghichu']);
 
     if (ddiem_list[index_marker]['chiso1'] == "-1") {        
@@ -317,7 +364,7 @@ function createFlagMarker(map, flag_position, index_marker = null) {
         icon: icon,
         map: map,
         animation: google.maps.Animation.DROP,
-        zIndex: 200 
+        zIndex: 2
     });
 
     if (index_marker == null) {
@@ -336,33 +383,43 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         placeId: results[0].place_id
                     }, function(place, status) {
 
+                        // Cập nhật thông tin lên form để submit cắm cờ.
                         $("#id_ddiem").val(place.place_id);
                         $("#lat").val(place.geometry.location.lat());
                         $("#lng").val(place.geometry.location.lng());
                         $("#ten_diadiem").val(place.name);
                         $("#diachi").val(place.formatted_address);
+                        $("#namhoc").val(selected_namhoc);
+                        $("#_namhoc").val(selected_namhoc);
                         $("#chiso1").val("0");
                         $("#chiso2").val("0");
                         $("#ghichu").val("");
 
+                        // Tạo đối tượng lưu địa điểm mới.
                         var ddiem = {
                             id: place.place_id,
                             lat: place.geometry.location.lat(),
                             lng: place.geometry.location.lng(),
                             ten_diadiem: place.name,
                             diachi: place.formatted_address,
+                            namhoc: selected_namhoc,
                             chiso1: "-1",
                             chiso2: "-1",
                             ghichu: "",
                         };
 
+                        // Add địa điểm vào mảng dữ liệu.
                         ddiem_list.push(ddiem);
 
+                        // Đánh dấu cờ cho địa điểm mới.
                         addFlag();
 
+                        // Vẽ các biểu đồ tròn.
                         createCircle(map, place.geometry.location.lat(), place.geometry.location.lng(), 0, null, '1');
                         createCircle(map, place.geometry.location.lat(), place.geometry.location.lng(), 0, null, '2');
 
+                        // Ẩn hiện biểu đồ theo loại biểu đồ đang chọn.
+                        updateCircleTypeInfo()
                     });
                 } else {
                     window.alert('No results found');

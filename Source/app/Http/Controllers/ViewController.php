@@ -11,12 +11,12 @@ use App\DiaDiem;
 class ViewController extends Controller
 {
     // Lấy trang web theo page tương ứng.
-    public function getView($page = null, $username = null)
+    public function getView($page = null, $param = null)
     {
         if (\Session::has('uname')) {        
         	switch ($page) {
         		case 'map':
-        			return $this->viewMap();
+        			return $this->viewMap($param);
                 case 'dstruong':
                     return $this->viewDsTruong();
         		case 'account':
@@ -28,7 +28,7 @@ class ViewController extends Controller
                     }
                     break;
                 case 'profile':
-                    return $this->viewProFile($username);
+                    return $this->viewProFile($param);
                     
                 case 'logout':
                     return LoginController::Logout();
@@ -48,11 +48,23 @@ class ViewController extends Controller
     }
 
     // Lấy trang bản đồ gmap.
-    public static function viewMap()
+    public static function viewMap($namhoc = null)
     {
-        $ddiem_list = DiaDiem::getAllDiaDiem();
+        // date_default_timezone_set("Asia/Ho_Chi_Minh");
+        // $d1 = mktime(0, 0, 0, 1, 8, date("Y"));
+        // $d2 = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
+        // var_dump($d1);
+        // var_dump($d2);
+        // echo $d2 - $d1;
+        $ddiem_list = DiaDiem::getAllDiaDiem($namhoc);
+
+        if ($namhoc == null) {
+            date_default_timezone_set("Asia/Ho_Chi_Minh");
+            $namhoc = date("Y");
+        }
         return View::make('home')->with([
-            'ddiem_list' => $ddiem_list
+            'ddiem_list' => $ddiem_list,
+            'year' => $namhoc
         ]);
     }
 

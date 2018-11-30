@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/{page?}/{username?}', 'ViewController@getView');
+Route::get('/{page?}/{param?}', 'ViewController@getView');
 
 Route::post('/add_flag', 'DiaDiemController@AddFlag');
 

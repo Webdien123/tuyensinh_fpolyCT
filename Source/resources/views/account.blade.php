@@ -184,7 +184,7 @@
                         <input type="hidden" name="_uname_reset" id="_uname_reset" value="">
                         <div class="form-group">
                             <label for="">Mật khẩu mặc định</label>
-                            <input type="text" value="???" class="form-control" id="pass_reset" name="pass_reset" placeholder="Mật khẩu reset">
+                            <input type="text" value="123" class="form-control" id="pass_reset" name="pass_reset" placeholder="Mật khẩu reset">
                         </div>
                     </form>
                 </div>

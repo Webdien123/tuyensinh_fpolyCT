@@ -26,10 +26,10 @@
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                     Quản lý tài khoản
                 </a></li>
-                <!-- <li><a href="#" onclick="alert('Chức năng đang phát triển')">
+                <li><a href="#" onclick="alert('Chức năng đang phát triển')">
                     <i class="fa fa-history" aria-hidden="true"></i>
                     Lịch sử hệ thống
-                </a></li> -->
+                </a></li>
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">

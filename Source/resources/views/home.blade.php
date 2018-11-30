@@ -13,9 +13,12 @@
 
         // Mảng lưu tọa độ tất cả các vị trí marker trên map.
         var ddiem_list = <?php echo json_encode($ddiem_list); ?>;
+
+        // Năm học đang hiển thị.
+        var selected_namhoc = <?php echo json_encode($year); ?>;
     </script>
 
-    <div class="modal fade" id="success-alert"  style="margin-top: 20%; text-align: center; z-index: 9999">
+    <div class="modal fade" id="success-alert" style="margin-top: 20%; text-align: center; z-index: 9999">
         <div class="modal-dialog">
             <div class="modal-content">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -30,7 +33,7 @@
 
     <input type="text" id="pac-input" class="form-control" style="width: 80%; margin-left: 10px; margin-top: 10px; border-radius: 2px" placeholder="Nhập địa điểm cần tìm">
 
-    <div class="modal fade" id="modal_place_info" style="z-index: 8000">
+    <div class="modal fade" id="modal_place_info">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -76,6 +79,14 @@
                                 <input type="text" name="diachi" id="diachi" class="form-control" placeholder="nhập địa chỉ">
                             </div>
                         </div>
+
+                        <label>Năm tuyển sinh</label>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <input type="text" name="namhoc" id="namhoc" class="form-control" disabled="">
+                            </div>
+                        </div>
+                        <input type="hidden" name="_namhoc" id="_namhoc" class="form-control" value="">
 
                         <label>Chỉ số 1</label>
                         <div class="form-group">

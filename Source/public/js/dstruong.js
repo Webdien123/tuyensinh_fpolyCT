@@ -84,8 +84,98 @@ function removeDiaDiem(id, ten_diadiem, btn_remove) {
     }  
 }
 
+// Hiển thị modal thông tin địa điểm.
+function show_InfoDiaDiem(btn_edit) {
+    $("#id_ddiem").val($(btn_edit).closest('tr').children('input').eq(0).val());
+    $("#lat").val($(btn_edit).closest('tr').children('input').eq(1).val());
+    $("#lng").val($(btn_edit).closest('tr').children('input').eq(2).val());
+    $("#ten_diadiem").val($(btn_edit).closest('tr').children('td').eq(0).text());
+    $("#diachi").val($(btn_edit).closest('tr').children('td').eq(1).text());
+    $("#namhoc").val($(btn_edit).closest('tr').children('td').eq(2).text());
+    $("#_namhoc").val($(btn_edit).closest('tr').children('td').eq(2).text());    
+    $("#chiso1").val($(btn_edit).closest('tr').children('td').eq(3).text());
+    $("#chiso2").val($(btn_edit).closest('tr').children('td').eq(4).text());
+    $("#ghichu").val($(btn_edit).closest('tr').children('td').eq(5).text());
+    $('#modal_truong').modal('show');
+}
+
+// Cập nhật thông tin địa điểm đang hiển thị trên modal.
+function saveFlag() {
+    if ($("#f_update_ddiem").valid()) {
+        $.ajax({
+            url: '/save_flag',
+            type: 'POST',
+            data: $("#f_update_ddiem").serialize(),
+            success: function( result ) {
+                thongBaoKetQua(result, "Cập nhật thông tin thành công");
+            },
+            error: function( xhr, err ) {
+                thongBaoKetQua("fail");
+            }
+        });       
+    }
+}
+
 // Xử lý các sự kiện sau khi load xong page.
 $(document).ready(function(){
+
+    // Validate form địa điểm.
+    $( "#f_update_ddiem" ).validate({
+        rules: {
+            ten_diadiem: {
+                required: true,
+                maxlength: 500
+            },
+            diachi: {
+                required: true,
+                maxlength: 500
+            },
+            chiso1: {
+                min: 0
+            },
+            chiso2: {
+                min: 0
+            },
+            ghichu: {
+                maxlength: 5000
+            }
+        },
+
+        messages: {
+            ten_diadiem: {
+                required: "Chưa nhập tên địa điểm",
+                maxlength: "Tên địa điểm tối đa 500 kí tự"
+            },
+            diachi: {
+                required: "Chưa nhập địa chỉ",
+                maxlength: "Địa chỉ tối đa 500 kí tự"
+            },
+            chiso1: {
+                min: "Giá trị phải lớn hơn hoặc bằng 0"
+            },
+            chiso2: {
+                min: "Giá trị phải lớn hơn hoặc bằng 0"
+            },
+            ghichu: {
+                maxlength: "Ghi chú tối đa 5000 kí tự"                
+            }
+        },
+
+        errorPlacement: function (error, element) {
+            error.css("color", "#FC4848");
+            error.addClass('help-block');
+            error.insertAfter(element);
+        },
+
+        highlight: function(element,errorClass,validClass){
+            $(element).css('border', '2px solid #FC4848');
+        },
+                    
+        unhighlight: function(element, errorClass, validClass) {
+            $(element).css('border', '2px solid #41BE47');
+        }
+    });
+
     // Bấm nút tìm kiếm.
     $("#btn_search").click(function(event) {
         timKiem();      
@@ -112,5 +202,13 @@ $(document).ready(function(){
         id = $(this).closest('tr').children('input').eq(0).val();
         ten_diadiem = $(this).closest('tr').children('td').eq(1).text();
         removeDiaDiem(id, ten_diadiem, $(this));
+    });
+
+    $(".btn_edit_truong").click(function(event) {
+        show_InfoDiaDiem($(this));
+    });
+
+    $("#btn_save_flag").click(function(event) {
+        saveFlag();
     });
 });
