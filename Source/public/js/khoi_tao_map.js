@@ -222,7 +222,7 @@ function CurrentInfoControl(controlDiv, map) {
     controlText.style.color = 'rgb(25,25,25)';
     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
     controlText.style.fontSize = '14px';
-    controlText.style.lineHeight = '30px';
+    controlText.style.lineHeight = '25px';
     loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
 
     var geocoder = new google.maps.Geocoder;

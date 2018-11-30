@@ -1,3 +1,6 @@
+// Dòng dữ liệu đang được giữ đúp chuột để edit.
+var tr_dbclick = null;
+
 // Tìm và hightlight từ khóa tìm kiếm.
 function timKiem() {
 
@@ -60,27 +63,32 @@ function huyTimKiem() {
 }
 
 // Xóa địa điểm.
-function removeDiaDiem(id, ten_diadiem, btn_remove) {
+function removeDiaDiem(id, ten_diadiem, namhoc, btn_remove) {
     result = confirm("Xóa địa điểm " + ten_diadiem);
     if (result) {
-        $.ajax({
+        var xhr = $.ajax({
             url: '/remove_flag',
             type: 'POST',
             data: {
                 _token: $('input[name="_token"]').val(),
-                id_ddiem: id
+                id_ddiem: id,
+                _namhoc: namhoc
             },
             success: function( result ) {
-                // thongBaoKetQua(result, "Đã xóa cờ");
+                thongBaoKetQua(result, "Đã xóa cờ");
 
                 if (result == "ok") {
                     $(btn_remove).closest('tr').remove();
+
+                    // Xóa dòng dữ liệu vừa chứa data cần xóa trên màn hình.
+                    tr_dbclick.remove();
                 }
             },
             error: function( xhr, err ) {
                 alert('Error');
             }
         });
+        console.log(xhr);
     }  
 }
 
@@ -114,6 +122,12 @@ function saveFlag() {
             }
         });       
     }
+}
+
+// Giữ chuột lên dòng dữ liệu.
+function holdMouseData(element) {
+    tr_dbclick = element.closest('tr');
+    show_InfoDiaDiem(element);
 }
 
 // Xử lý các sự kiện sau khi load xong page.
@@ -201,7 +215,15 @@ $(document).ready(function(){
     $(".btn_remove_truong").click(function(event) {
         id = $(this).closest('tr').children('input').eq(0).val();
         ten_diadiem = $(this).closest('tr').children('td').eq(1).text();
-        removeDiaDiem(id, ten_diadiem, $(this));
+        namhoc = $(this).closest('tr').children('td').eq(2).text();
+        removeDiaDiem(id, ten_diadiem, namhoc, $(this));
+    });
+
+    $(".btn_modal_remove_truong").click(function(event) {
+        id = $("#id_ddiem").val();
+        ten_diadiem = $("#ten_diadiem").val();
+        namhoc = $("#namhoc").val();
+        removeDiaDiem(id, ten_diadiem, namhoc, $(this));
     });
 
     $(".btn_edit_truong").click(function(event) {
@@ -210,5 +232,10 @@ $(document).ready(function(){
 
     $("#btn_save_flag").click(function(event) {
         saveFlag();
+    });
+
+    // Đúp chuột lên dòng dữ liệu.
+    $('.data_account').dblclick(function() {
+        holdMouseData($(this));
     });
 });

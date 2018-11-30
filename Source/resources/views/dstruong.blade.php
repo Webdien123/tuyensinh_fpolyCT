@@ -110,6 +110,10 @@
                             <i class="fa fa-save" aria-hidden="true"></i>
                             Lưu
                         </button>
+                        <button type="button" class="btn btn-danger btn_modal_remove_truong" title="Xóa trường">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Xóa
+                        </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">
                             <i class="fa fa-times" aria-hidden="true"></i>
                             Hủy
