@@ -80,12 +80,6 @@
                             </div>
                         </div>
 
-                        <label>Năm tuyển sinh</label>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <input type="text" name="namhoc" id="namhoc" class="form-control" disabled="">
-                            </div>
-                        </div>
                         <input type="hidden" name="_namhoc" id="_namhoc" class="form-control" value="">
 
                         <label>Chỉ số 1</label>

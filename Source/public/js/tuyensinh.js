@@ -1,6 +1,11 @@
 
 // Validate dữ liệu form nhập thông tin địa chỉ.
 jQuery(document).ready(function($) {
+
+    if (ddiem_list.length == 0) {
+        alert("Năm " + selected_namhoc + " chưa có dữ liệu tuyển sinh");
+    }
+
     // Validate form địa điểm.
     $( "#f_update_ddiem" ).validate({
         rules: {
@@ -75,7 +80,7 @@ jQuery(document).ready(function($) {
 });
 
 // Thông báo kết quả xử lý cho người dùng.
-function thongBaoKetQua(result, text_content) {
+function thongBaoKetQua(result, text_content = null) {
     if (result == "ok") {
         $('#success-alert').modal('toggle');
         $("#alert-text").removeClass('text-danger').addClass('text-success');
@@ -85,7 +90,12 @@ function thongBaoKetQua(result, text_content) {
     if (result == "fail") {
         $('#success-alert').modal('toggle');
         $("#alert-text").removeClass('text-success').addClass('text-danger');
-        $("#alert-text").html('<i class="fa fa-frown-o fa-4x" aria-hidden="true"></i><br>Có lỗi! vui lòng thử lại sau.');
+        if (text_content == null) {
+            $("#alert-text").html('<i class="fa fa-frown-o fa-4x" aria-hidden="true"></i><br>Có lỗi! vui lòng thử lại sau.');
+        } else {
+            $("#alert-text").html('<i class="fa fa-frown-o fa-4x" aria-hidden="true"></i><br>' + text_content + '');
+        }
+        
         setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
     }
 }
@@ -332,7 +342,6 @@ function show_InfoDiaDiem(index_marker) {
     $("#lng").val(ddiem_list[index_marker]['lng']);
     $("#ten_diadiem").val(ddiem_list[index_marker]['ten_diadiem']);
     $("#diachi").val(ddiem_list[index_marker]['diachi']);
-    $("#namhoc").val(ddiem_list[index_marker]['namhoc']);
     $("#_namhoc").val(ddiem_list[index_marker]['namhoc']);
     $("#ghichu").val(ddiem_list[index_marker]['ghichu']);
 
@@ -352,7 +361,7 @@ function show_InfoDiaDiem(index_marker) {
 function createFlagMarker(map, flag_position, index_marker = null) {
     // Tùy chỉnh kích thước icon marker.
     var icon = {
-        url: "img/marker2.png", // url
+        url: "../img/marker2.png", // url
         scaledSize: new google.maps.Size(35, 25), // scaled size
         origin: new google.maps.Point(0, 0), // origin
         anchor: new google.maps.Point(18, 28) // anchor
@@ -389,7 +398,6 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         $("#lng").val(place.geometry.location.lng());
                         $("#ten_diadiem").val(place.name);
                         $("#diachi").val(place.formatted_address);
-                        $("#namhoc").val(selected_namhoc);
                         $("#_namhoc").val(selected_namhoc);
                         $("#chiso1").val("0");
                         $("#chiso2").val("0");
@@ -498,19 +506,10 @@ function getLocation(map) {
 
         
       }, function() {
-        // handleLocationError(true, infoWindow, map.getCenter());
+        thongBaoKetQua("fail", "Trình duyệt chưa được cấp quyền truy cập vị trí");
       });
     } else {
       // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
+      thongBaoKetQua("fail", "Dịch vụ vị trí có lỗi");
     }
-}
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    // infoWindow.setPosition(pos);
-    // infoWindow.setContent(browserHasGeolocation ?
-    //                       'Error: The Geolocation service failed.' :
-    //                       'Error: Your browser doesn\'t support geolocation.');
-    // infoWindow.open(map);
-    alert("Loi tim kiem vi tri");
 }

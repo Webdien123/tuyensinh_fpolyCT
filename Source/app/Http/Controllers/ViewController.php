@@ -50,18 +50,16 @@ class ViewController extends Controller
     // Lấy trang bản đồ gmap.
     public static function viewMap($namhoc = null)
     {
-        // date_default_timezone_set("Asia/Ho_Chi_Minh");
-        // $d1 = mktime(0, 0, 0, 1, 8, date("Y"));
-        // $d2 = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
-        // var_dump($d1);
-        // var_dump($d2);
-        // echo $d2 - $d1;
-        $ddiem_list = DiaDiem::getAllDiaDiem($namhoc);
-
         if ($namhoc == null) {
-            date_default_timezone_set("Asia/Ho_Chi_Minh");
-            $namhoc = date("Y");
+            date_default_timezone_set("Asia/Ho_Chi_Minh");            
+            if(mktime(0, 0, 0, 12, 2, date("Y")) > strtotime('now')) {
+                $namhoc = date("Y");
+            }
+            else{
+                $namhoc = date('Y', strtotime('+1 years'));
+            }
         }
+        $ddiem_list = DiaDiem::getAllDiaDiem($namhoc);
         return View::make('home')->with([
             'ddiem_list' => $ddiem_list,
             'year' => $namhoc
