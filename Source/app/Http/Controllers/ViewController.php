@@ -75,6 +75,8 @@ class ViewController extends Controller
         ]);
     }
 
+    
+
     // Lấy trang quản lý account.
     public static function viewAccount()
     {

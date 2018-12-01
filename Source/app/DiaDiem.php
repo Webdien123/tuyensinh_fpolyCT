@@ -13,10 +13,16 @@ class DiaDiem extends Model
     // Lấy tất cả địa điểm trong hệ thống.
     public static function getAllDiaDiem($namhoc)
     {
-    	$ddiem_list = \DB::select('SELECT * FROM `diadiem` LEFT JOIN `tuyensinh` ON `diadiem`.`id` = `tuyensinh`.`id` WHERE `tuyensinh`.`namhoc` = ? ORDER BY tuyensinh.namhoc DESC, tuyensinh.chiso1 DESC, tuyensinh.chiso2 DESC',[
+    	$ddiem_list = \DB::select('SELECT * FROM `diadiem` RIGHT JOIN `tuyensinh` ON `diadiem`.`id` = `tuyensinh`.`id` WHERE `tuyensinh`.`namhoc` = ? ORDER BY tuyensinh.namhoc DESC, tuyensinh.chiso1 DESC, tuyensinh.chiso2 DESC',[
             $namhoc
         ]);
     	return $ddiem_list;
+    }
+
+    // Lấy tất cả dữ liệu của 
+    public function getDDiemByID($id)
+    {
+        # code...
     }
 
     // Thêm địa điểm mới.
