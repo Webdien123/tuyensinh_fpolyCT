@@ -55,10 +55,10 @@
                 <i class="fa fa-globe" aria-hidden="true"></i>
                 Google Map
             </a></li>
-            <li><a href="/dstruong">
+            <!-- <li><a href="/dstruong">
                 <i class="fa fa-list-ul" aria-hidden="true"></i>
                 Danh sách trường
-            </a></li>
+            </a></li> -->
 
             @if(\Session::get("ulevel") == '1')
                 <li><a href="/account">

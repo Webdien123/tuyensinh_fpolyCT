@@ -16,7 +16,7 @@ class ViewController extends Controller
         if (\Session::has('uname')) {        
         	switch ($page) {
         		case 'map':
-        			return $this->viewMap($param);
+        			return $this->viewMap();
                 case 'dstruong':
                     return $this->viewDsTruong();
         		case 'account':
@@ -48,16 +48,14 @@ class ViewController extends Controller
     }
 
     // Lấy trang bản đồ gmap.
-    public static function viewMap($namhoc = null)
+    public static function viewMap()
     {
-        if ($namhoc == null) {
-            date_default_timezone_set("Asia/Ho_Chi_Minh");            
-            if(mktime(0, 0, 0, 12, 2, date("Y")) > strtotime('now')) {
-                $namhoc = date("Y");
-            }
-            else{
-                $namhoc = date('Y', strtotime('+1 years'));
-            }
+        date_default_timezone_set("Asia/Ho_Chi_Minh");            
+        if(mktime(0, 0, 0, 12, 2, date("Y")) > strtotime('now')) {
+            $namhoc = date("Y");
+        }
+        else{
+            $namhoc = date('Y', strtotime('+1 years'));
         }
         $ddiem_list = DiaDiem::getAllDiaDiem($namhoc);
         return View::make('home')->with([

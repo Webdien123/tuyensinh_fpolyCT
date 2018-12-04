@@ -13,6 +13,7 @@
 
         // Mảng lưu tọa độ tất cả các vị trí marker trên map.
         var ddiem_list = <?php echo json_encode($ddiem_list); ?>;
+        console.log(ddiem_list);
 
         // Năm học đang hiển thị.
         var selected_namhoc = <?php echo json_encode($year); ?>;
