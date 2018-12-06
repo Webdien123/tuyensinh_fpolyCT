@@ -257,7 +257,7 @@ function HideShowYearControl(controlDiv, map) {
     $(row1).css('padding-left', '0px');
     $(row1).css('padding-right', '0px');
     $(row1).css('margin-right', '5px');
-    $(row1).html('<label><input type="checkbox" id="chk_1">&nbsp;&nbsp;Năm ' + (selected_namhoc - 2) + '</label>\
+    $(row1).html('<label><input type="checkbox" checked="true" id="chk_1">&nbsp;&nbsp;Năm ' + (selected_namhoc - 2) + '</label>\
         <span class="input-color">\
             <span class="color-box" style="background-color: ' + color_circle_1_1 + ';"></span>\
         </span>\
@@ -271,7 +271,7 @@ function HideShowYearControl(controlDiv, map) {
     $(row2).css('padding-left', '0px');
     $(row2).css('padding-right', '0px');
     $(row2).css('margin-right', '5px');
-    $(row2).html('<label><input type="checkbox" id="chk_2">&nbsp;&nbsp;Năm ' + (selected_namhoc - 1) + '</label>\
+    $(row2).html('<label><input type="checkbox" checked="true" id="chk_2">&nbsp;&nbsp;Năm ' + (selected_namhoc - 1) + '</label>\
         <span class="input-color">\
             <span class="color-box" style="background-color: ' + color_circle_1_2 + ';"></span>\
         </span>\
@@ -340,15 +340,17 @@ function CurrentInfoControl(controlDiv, map) {
     controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
     controlUI.style.marginLeft = '10px';
     controlUI.style.textAlign = 'left';
+    controlUI.style.fontSize = '14px';
     controlUI.title = 'Thông tin vị trí hiện tại';
+    $(controlUI).addClass('row');
     controlDiv.appendChild(controlUI);
 
     // Set CSS for the control interior.
-    var controlText = document.createElement('div');
-    controlText.style.color = 'rgb(25,25,25)';
-    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '14px';
-    controlText.style.lineHeight = '25px';
+    // var controlText = document.createElement('div');
+    // controlText.style.color = 'rgb(25,25,25)';
+    // controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    // controlText.style.fontSize = '14px';
+    // controlText.style.lineHeight = '25px';
     loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
 
     var geocoder = new google.maps.Geocoder;
@@ -363,9 +365,29 @@ function CurrentInfoControl(controlDiv, map) {
                 service.getDetails({
                     placeId: results[0].place_id
                 }, function(place, status) {
-                    controlText.innerHTML = "<b>Vị trí hiện tại: </b><span id='name_info'>" + place.name + "</span><br>\
-                    <b>Vòng tròn thể hiện cho: </b><span id='circle_info'>" + loai + "</span><br>\
-                    <b>Năm tuyển sinh: </b><span>" + selected_namhoc + "</span>";
+                    controlUI.innerHTML = '\
+                        <div class="col-xs-12 col-md-9"><b>Vị trí hiện tại: </b><span id="name_info">' + place.name + '</span><br>\
+                        <b>Vòng tròn thể hiện cho: </b><span id="circle_info">' + loai + '</span><br>\
+                        <b>Năm tuyển sinh: </b><span>' + selected_namhoc + '</span></div>\
+                        <div class="col-xs-12 col-md-3"><b>' + (selected_namhoc - 2) + ':</b>\
+                        <span class="input-color">\
+                            Chỉ số 1 <span class="color-box" style="background-color: ' + color_circle_1_1 + ';"></span>\
+                        </span>\
+                        <span class="input-color">\
+                            Chỉ số 2 <span class="color-box" style="background-color: ' + color_circle_2_1 + ';"></span>\
+                        </span><br><b>' + (selected_namhoc - 1) + ':</b>\
+                        <span class="input-color">\
+                            Chỉ số 1 <span class="color-box" style="background-color: ' + color_circle_1_2 + ';"></span>\
+                        </span>\
+                        <span class="input-color">\
+                            Chỉ số 2 <span class="color-box" style="background-color: ' + color_circle_2_2 + ';"></span>\
+                        </span><br><b>' + selected_namhoc + ':</b>\
+                        <span class="input-color">\
+                            Chỉ số 1 <span class="color-box" style="background-color: ' + color_circle_1_3 + ';"></span>\
+                        </span>\
+                        <span class="input-color">\
+                            Chỉ số 2 <span class="color-box" style="background-color: ' + color_circle_2_3 + ';"></span>\
+                        </span></div>';
                 });
             } else {
                 window.alert('No results found');
@@ -375,7 +397,7 @@ function CurrentInfoControl(controlDiv, map) {
         }
     });
       
-    controlUI.appendChild(controlText);
+    // controlUI.appendChild(controlText);
 }
 
 // Hàm tạo button về vị trí hiện tại.
@@ -518,8 +540,8 @@ function initMap() {
         createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2_2'], i, '2', '2');
     }
 
-    hideCircleByYear('1');
-    hideCircleByYear('2');
+    // hideCircleByYear('1');
+    // hideCircleByYear('2');
     hideCircle('2');
 
     // Thêm button đánh dấu cờ.

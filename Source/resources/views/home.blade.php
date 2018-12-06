@@ -19,7 +19,7 @@
             height: 15px;
             display: inline-block;
             background-color: #ccc;
-            padding-top: 5px;
+            margin-top: 0px;
             margin-left: 5px;
         }
     </style>
