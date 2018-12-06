@@ -13,7 +13,7 @@ class DiaDiem extends Model
     // Lấy tất cả địa điểm trong hệ thống.
     public static function getAllDiaDiem($namhoc)
     {
-    	$ddiem_list = \DB::select('SELECT A.id, ten_diadiem, diachi, lat, lng, chiso1_1, chiso2_2, ghichu_1, chiso1_2, chiso2_2, ghichu_2, chiso1_3, chiso2_3, ghichu_3 FROM (SELECT diadiem.id, ten_diadiem, diachi, lat, lng, chiso1 AS chiso1_1, chiso2 AS chiso2_1, ghichu AS ghichu_1 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) A LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_2, chiso2 AS chiso2_2, ghichu AS ghichu_2 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) B ON A.id = B.id LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_3, chiso2 AS chiso2_3, ghichu AS ghichu_3 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) C ON B.id = C.id',[
+    	$ddiem_list = \DB::select('SELECT A.id, ten_diadiem, diachi, lat, lng, chiso1_1, chiso2_1, ghichu_1, chiso1_2, chiso2_2, ghichu_2, chiso1_3, chiso2_3, ghichu_3 FROM (SELECT diadiem.id, ten_diadiem, diachi, lat, lng, chiso1 AS chiso1_1, chiso2 AS chiso2_1, ghichu AS ghichu_1 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) A LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_2, chiso2 AS chiso2_2, ghichu AS ghichu_2 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) B ON A.id = B.id LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_3, chiso2 AS chiso2_3, ghichu AS ghichu_3 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) C ON B.id = C.id',[
             $namhoc - 2,
             $namhoc - 1,
             $namhoc

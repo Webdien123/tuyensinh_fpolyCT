@@ -40,7 +40,7 @@ jQuery(document).ready(function($) {
             chiso1: {
                 min: "Giá trị phải lớn hơn hoặc bằng 0"
             },
-            chiso2: {
+            chiso2_3: {
                 min: "Giá trị phải lớn hơn hoặc bằng 0"
             },
             ghichu: {
@@ -129,7 +129,7 @@ function saveFlag() {
                 thongBaoKetQua(result, "Cập nhật thông tin thành công");
 
                 if (result == "ok") {
-                    radius = (circle_type == '1') ? $("#chiso1").val() : $("#chiso2").val();
+                    radius = (circle_type == '1') ? $("#chiso1_3").val() : $("#chiso2_3").val();
 
                     // Cập nhật thông tin địa điểm vào mảng lưu trữ.
                     ddiem_list[index_info_ddiem]['id'] = $("#id_ddiem").val();
@@ -138,11 +138,11 @@ function saveFlag() {
                     ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
                     ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
                     ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
-                    ddiem_list[index_info_ddiem]['chiso1'] = $("#chiso1").val();
-                    ddiem_list[index_info_ddiem]['chiso2'] = $("#chiso2").val();
+                    ddiem_list[index_info_ddiem]['chiso1_3'] = $("#chiso1_3").val();
+                    ddiem_list[index_info_ddiem]['chiso2_3'] = $("#chiso2_3").val();
 
                     // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
-                    updateCircle([index_info_ddiem], $("#chiso1").val(), $("#chiso2").val());
+                    updateCircle([index_info_ddiem], $("#chiso1_3").val(), $("#chiso2_3").val());
                 }
             },
             error: function( xhr, err ) {
@@ -165,13 +165,13 @@ function removeFlag() {
 
             if (result == "ok") {
                 arr_flag[index_info_ddiem].setOptions({map: null});
-                arr_circle_1[index_info_ddiem].setOptions({map: null});
-                arr_circle_2[index_info_ddiem].setOptions({map: null});
+                arr_circle_1_3[index_info_ddiem].setOptions({map: null});
+                arr_circle_2_3[index_info_ddiem].setOptions({map: null});
 
                 ddiem_list.splice(index_info_ddiem, 1);
                 arr_flag.splice(index_info_ddiem, 1);
-                arr_circle_1.splice(index_info_ddiem, 1);
-                arr_circle_2.splice(index_info_ddiem, 1);
+                arr_circle_1_3.splice(index_info_ddiem, 1);
+                arr_circle_2_3.splice(index_info_ddiem, 1);
             }
         },
         error: function( xhr, err ) {
@@ -194,8 +194,8 @@ function isLocationFree(search) {
 function circleOverlay(hide = true) {
     size = ddiem_list.length;
     for (var i = 0; i < size; i++) {
-        if(ddiem_list[i]['chiso1'] == ddiem_list[i]['chiso2']){
-            radius = ddiem_list[i]['chiso1'];
+        if(ddiem_list[i]['chiso1_3'] == ddiem_list[i]['chiso2_3']){
+            radius = ddiem_list[i]['chiso1_3'];
             if (hide) {
                 updateCircle(i, radius, radius);
             }
@@ -233,35 +233,135 @@ function updateCircleTypeInfo() {
     }
 }
 
-function showCircle(type) {
-    if (type == '1') {
-        size = arr_circle_1.length;
+// Hiện biểu đồ tròn theo năm.
+function showCircleByYear(year) {
+    if (year == '1') {
+        size = arr_circle_1_1.length;
         for (var i = 0; i < size; i++) {
-            arr_circle_1[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
+            if (circle_type == '1') {
+                arr_circle_1_1[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+            if (circle_type == '2') {
+                arr_circle_2_1[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+            if (circle_type == '3') {
+                arr_circle_1_1[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+                arr_circle_2_1[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
         }
     }
 
-    if (type == '2') {
-        size = arr_circle_2.length;
+    if (year == '2') {
+        size = arr_circle_1_2.length;
         for (var i = 0; i < size; i++) {
-            arr_circle_2[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
+            if (circle_type == '1') {
+                arr_circle_1_2[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+            if (circle_type == '2') {
+                arr_circle_2_2[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+            if (circle_type == '3') {
+                arr_circle_1_2[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+                arr_circle_2_2[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+        }
+    }
+
+    if (year == '3') {
+        size = arr_circle_1_3.length;
+        for (var i = 0; i < size; i++) {
+            if (circle_type == '1') {
+                arr_circle_1_3[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+            if (circle_type == '2') {
+                arr_circle_2_3[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
+            if (circle_type == '3') {
+                arr_circle_1_3[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+                arr_circle_2_3[i].setOptions({fillOpacity: 0.02, strokeOpacity: 1});
+            }
         }
     }
 }
 
-// Ẩn hoặc hiện biểu đồ tròn theo loại chỉ số.
-function hideCircle(type) {
-    if (type == '1') {
-        size = arr_circle_1.length;
+// Ẩn biểu đồ tròn theo năm.
+function hideCircleByYear(year) {
+    if (year == '1') {
+        size = arr_circle_1_1.length;
         for (var i = 0; i < size; i++) {
-            arr_circle_1[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_1_1[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_2_1[i].setOptions({fillOpacity:0, strokeOpacity:0});
+        }
+    }
+
+    if (year == '2') {
+        size = arr_circle_1_2.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_1_2[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_2_2[i].setOptions({fillOpacity:0, strokeOpacity:0});
+        }
+    }
+
+    if (year == '3') {
+        size = arr_circle_1_3.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_1_3[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_2_3[i].setOptions({fillOpacity:0, strokeOpacity:0});
+        }
+    }
+}
+
+// Hiển thị biểu đồ tròn theo loại chỉ số.
+function showCircle(type) {
+    if (type == '1') {
+        size = arr_circle_1_3.length;
+        console.log();
+        for (var i = 0; i < size; i++) {
+            if ($("#chk_1").prop('checked')) {  
+                arr_circle_1_1[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});  
+            }
+            if ($("#chk_2").prop('checked')) {
+                arr_circle_1_2[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
+            }
+            if ($("#chk_3").prop('checked')) {
+                arr_circle_1_3[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
+            }
         }
     }
 
     if (type == '2') {
-        size = arr_circle_2.length;
+        size = arr_circle_2_3.length;
         for (var i = 0; i < size; i++) {
-            arr_circle_2[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            if ($("#chk_1").prop('checked')) {
+                arr_circle_2_1[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});  
+            }
+            if ($("#chk_2").prop('checked')) {
+                arr_circle_2_2[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
+            }
+            if ($("#chk_3").prop('checked')) {
+                arr_circle_2_3[i].setOptions({fillOpacity: 0.02, strokeOpacity:1});
+            }
+        }
+    }
+}
+
+// Ẩn biểu đồ tròn theo loại chỉ số.
+function hideCircle(type) {
+    if (type == '1') {
+        size = arr_circle_1_3.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_1_3[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_1_2[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_1_1[i].setOptions({fillOpacity:0, strokeOpacity:0});
+        }
+    }
+
+    if (type == '2') {
+        size = arr_circle_2_3.length;
+        for (var i = 0; i < size; i++) {
+            arr_circle_2_3[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_2_2[i].setOptions({fillOpacity:0, strokeOpacity:0});
+            arr_circle_2_1[i].setOptions({fillOpacity:0, strokeOpacity:0});
         }
     }
 }
@@ -269,23 +369,23 @@ function hideCircle(type) {
 // Cập nhật màu và bán kính hình tròn.
 function updateCircle(index, radius1, radius2, overlay_color = null) {
 
-    arr_circle_1[index].setOptions({
+    arr_circle_1_3[index].setOptions({
         radius: parseInt(radius1) * 40
     });
 
-    arr_circle_2[index].setOptions({
+    arr_circle_2_3[index].setOptions({
         radius: parseInt(radius2) * 40
     });
 
     if (overlay_color != null) {
-        arr_circle_2[index].setOptions({
+        arr_circle_2_3[index].setOptions({
             strokeWeight: 4,
             strokeColor: overlay_color,
             fillColor: overlay_color
         });
     }
     else{
-        arr_circle_2[index].setOptions({
+        arr_circle_2_3[index].setOptions({
             strokeWeight: 2,
             strokeColor: "#EBCD00",
             fillColor: "#EBCD00"
@@ -294,11 +394,24 @@ function updateCircle(index, radius1, radius2, overlay_color = null) {
 }
 
 // Vẽ circle theo tâm và bán kính.
-function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
-
-    var color = '#FF0000';
-    if (type == '2') {
-        color = '#EBCD00';
+function createCircle(map, lat, lng, radius, index_marker = null, type = '1', year = '3') {
+    
+    if (year == '1') {
+        var color = color_circle_1_1;
+        if (type == '2') {
+            color = color_circle_2_1;
+        }
+    }if (year == '2') {
+        var color = color_circle_1_2;
+        if (type == '2') {
+            var color = color_circle_2_2;
+        }
+    }
+    if (year == '3') {
+        var color = color_circle_1_3;
+        if (type == '2') {
+            var color = color_circle_2_3;
+        }
     }
 
     var circle = new google.maps.Circle({
@@ -315,24 +428,42 @@ function createCircle(map, lat, lng, radius, index_marker = null, type = '1') {
         radius: parseInt(radius) * 50,
         zIndex: 1
     });
-    if (type == '1') {
-        arr_circle_1.push(circle);
-    }
-    if (type == '2') {
-        arr_circle_2.push(circle);
-    }
-    
 
-    if (index_marker == null) {
-        circle.addListener('click', function() {
-            show_InfoDiaDiem(arr_circle_1_1.length - 1);
-        });
+    if (year == '3') {
+        if (type == '1') {
+            arr_circle_1_3.push(circle);
+        }
+        if (type == '2') {
+            arr_circle_2_3.push(circle);
+        }
     }
-    else{
-        circle.addListener('click', function() {
-            show_InfoDiaDiem(index_marker);
-        });
+    if (year == '1') {
+        if (type == '1') {
+            arr_circle_1_1.push(circle);
+        }
+        if (type == '2') {
+            arr_circle_2_1.push(circle);
+        }
     }
+    if (year == '2') {
+        if (type == '1') {
+            arr_circle_1_2.push(circle);
+        }
+        if (type == '2') {
+            arr_circle_2_2.push(circle);
+        }
+    }    
+
+    // if (index_marker == null) {
+    //     circle.addListener('click', function() {
+    //         show_InfoDiaDiem(arr_circle_1_3_1.length - 1);
+    //     });
+    // }
+    // else{
+    //     circle.addListener('click', function() {
+    //         show_InfoDiaDiem(index_marker);
+    //     });
+    // }
 }
 
 // Hiển thị modal thông tin địa điểm.
@@ -344,13 +475,17 @@ function show_InfoDiaDiem(index_marker) {
     $("#diachi").val(ddiem_list[index_marker]['diachi']);
     $("#_namhoc").val(ddiem_list[index_marker]['namhoc']);
     $("#ghichu").val(ddiem_list[index_marker]['ghichu']);
+    $("#chiso1_2").val(ddiem_list[index_marker]['chiso1_2']);
+    $("#chiso2_2").val(ddiem_list[index_marker]['chiso2_2']);
+    $("#chiso1_1").val(ddiem_list[index_marker]['chiso1_1']);
+    $("#chiso2_1").val(ddiem_list[index_marker]['chiso2_1']);
 
-    if (ddiem_list[index_marker]['chiso1'] == "-1") {        
-        $("#chiso1").val(0);
-        $("#chiso2").val(0);
+    if (ddiem_list[index_marker]['chiso1_3'] == "-1") {        
+        $("#chiso1_3").val(0);
+        $("#chiso2_3").val(0);
     } else {        
-        $("#chiso1").val(ddiem_list[index_marker]['chiso1']);
-        $("#chiso2").val(ddiem_list[index_marker]['chiso2']);
+        $("#chiso1_3").val(ddiem_list[index_marker]['chiso1_3']);
+        $("#chiso2_3").val(ddiem_list[index_marker]['chiso2_3']);
     }
 
     index_info_ddiem = index_marker;
@@ -399,8 +534,8 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         $("#ten_diadiem").val(place.name);
                         $("#diachi").val(place.formatted_address);
                         $("#_namhoc").val(selected_namhoc);
-                        $("#chiso1").val("0");
-                        $("#chiso2").val("0");
+                        $("#chiso1_3").val("0");
+                        $("#chiso2_3").val("0");
                         $("#ghichu").val("");
 
                         // Tạo đối tượng lưu địa điểm mới.
@@ -411,8 +546,8 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                             ten_diadiem: place.name,
                             diachi: place.formatted_address,
                             namhoc: selected_namhoc,
-                            chiso1: "-1",
-                            chiso2: "-1",
+                            chiso1_3: "-1",
+                            chiso2_3: "-1",
                             ghichu: "",
                         };
 

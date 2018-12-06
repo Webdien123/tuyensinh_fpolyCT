@@ -10,11 +10,23 @@ var index_info_ddiem = null;
 // Biến lưu marker hiển thị kết quả tìm kiếm.
 var find_marker = null;
 
-// Danh sách vòng tròn hiển thị chỉ số 1.
-var arr_circle_1 = [];
+// Danh sách vòng tròn hiển thị chỉ số 1 năm thứ 3 (mới nhất).
+var arr_circle_1_3 = [];
 
-// Danh sách vòng tròn hiển thị chỉ số 1.
-var arr_circle_2 = [];
+// Danh sách vòng tròn hiển thị chỉ số 2 năm thứ 3 (mới nhất).
+var arr_circle_2_3 = [];
+
+// Danh sách vòng tròn hiển thị chỉ số 1 năm thứ 2.
+var arr_circle_1_2 = [];
+
+// Danh sách vòng tròn hiển thị chỉ số 2 năm thứ 2.
+var arr_circle_2_2 = [];
+
+// Danh sách vòng tròn hiển thị chỉ số 1 năm thứ 1.
+var arr_circle_1_1 = [];
+
+// Danh sách vòng tròn hiển thị chỉ số 2 năm thứ 1.
+var arr_circle_2_1 = [];
 
 // Danh sách marker đánh dấu địa điểm.
 var arr_flag = [];
@@ -174,7 +186,7 @@ function HideShowCircleControl(controlDiv, map) {
     controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
     controlText.style.fontSize = '16px';
     controlText.style.lineHeight = '30px';
-    controlText.style.paddingLeft = '8px';
+    controlText.style.paddingLeft = '7px';
     controlText.style.paddingRight = '5px';
     controlText.innerHTML = '<i class="fa fa-toggle-on fa-lg" id="btn_hdshw_circle" aria-hidden="true"></i>';
     controlUI.appendChild(controlText);
@@ -199,6 +211,120 @@ function HideShowCircleControl(controlDiv, map) {
                 showCircle('1');
                 showCircle('2');
             }            
+        }
+    });
+}
+
+// Hàm tạo button ẩn hiện biểu đò tròn.
+function HideShowYearControl(controlDiv, map) {
+
+    // Tạo DIV cha.
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = '#fff';
+    controlUI.style.border = '2px solid #fff';
+    controlUI.style.borderRadius = '3px';
+    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.marginRight = '10px';
+    controlUI.style.marginBottom = '10px';
+    controlUI.style.textAlign = 'center';
+    controlUI.title = 'Chọn năm hiển thị';    
+    $(controlUI).addClass('dropup');    
+    controlDiv.appendChild(controlUI);
+
+    // Tạo Button.
+    var controlText = document.createElement('span');
+    controlText.style.color = 'rgb(25,25,25)';
+    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+    controlText.style.fontSize = '16px';
+    controlText.style.lineHeight = '30px';
+    controlText.style.paddingLeft = '3px';
+    controlText.style.paddingRight = '3px';
+    controlText.innerHTML = '<img src="../img/calendar.png" style="width: 30px">';
+    $(controlText).addClass('dropdown-toggle');
+    $(controlText).attr("data-toggle", "dropdown");
+    controlUI.appendChild(controlText);
+
+    // Tạo dropdown menu.
+    var controlMenu = document.createElement('div');
+    $(controlMenu).addClass('dropdown-menu dropdown-menu-right');
+    controlMenu.style.paddingLeft = '10px';
+    controlMenu.style.marginRight = '-4px';
+    controlUI.appendChild(controlMenu);
+
+    var row1 = document.createElement('span');
+    $(row1).css('width', '100%');
+    $(row1).css('padding-left', '0px');
+    $(row1).css('padding-right', '0px');
+    $(row1).css('margin-right', '5px');
+    $(row1).html('<label><input type="checkbox" id="chk_1">&nbsp;&nbsp;Năm ' + (selected_namhoc - 2) + '</label>\
+        <span class="input-color">\
+            <span class="color-box" style="background-color: ' + color_circle_1_1 + ';"></span>\
+        </span>\
+        <span class="input-color">\
+            <span class="color-box" style="background-color: ' + color_circle_2_1 + ';"></span>\
+        </span>'
+    );
+
+    var row2 = document.createElement('span');
+    $(row2).css('width', '100%');
+    $(row2).css('padding-left', '0px');
+    $(row2).css('padding-right', '0px');
+    $(row2).css('margin-right', '5px');
+    $(row2).html('<label><input type="checkbox" id="chk_2">&nbsp;&nbsp;Năm ' + (selected_namhoc - 1) + '</label>\
+        <span class="input-color">\
+            <span class="color-box" style="background-color: ' + color_circle_1_2 + ';"></span>\
+        </span>\
+        <span class="input-color">\
+            <span class="color-box" style="background-color: ' + color_circle_2_2 + ';"></span>\
+        </span>'
+    );
+
+    var row3 = document.createElement('span');
+    $(row3).css('width', '100%');
+    $(row3).css('padding-left', '0px');
+    $(row3).css('padding-right', '0px');
+    $(row3).css('margin-right', '5px');
+    $(row3).html('<label><input type="checkbox" checked="true" id="chk_3">&nbsp;&nbsp;Năm ' + selected_namhoc + '</label>\
+        <span class="input-color">\
+            <span class="color-box" style="background-color: ' + color_circle_1_3 + ';"></span>\
+        </span>\
+        <span class="input-color">\
+            <span class="color-box" style="background-color: ' + color_circle_2_3 + ';"></span>\
+        </span>'
+    );
+
+    controlMenu.appendChild(row1);
+    controlMenu.appendChild(row2);
+    controlMenu.appendChild(row3);
+
+    $(row1).children('label').children('input').click(function(event) {
+        // console.log("CHON NAM");
+        // console.log($(this).prop('checked'));
+        if ($(this).prop('checked') == true) {
+            showCircleByYear('1');
+        } else {
+            hideCircleByYear('1');
+        }
+    });
+
+    $(row2).children('label').children('input').click(function(event) {
+        // console.log("CHON NAM");
+        // console.log($(this).prop('checked'));
+        if ($(this).prop('checked') == true) {
+            showCircleByYear('2');
+        } else {
+            hideCircleByYear('2');
+        }
+    });
+
+    $(row3).children('label').children('input').click(function(event) {
+        // console.log("CHON NAM");
+        // console.log($(this).prop('checked'));
+        if ($(this).prop('checked') == true) {
+            showCircleByYear('3');
+        } else {
+            hideCircleByYear('3');
         }
     });
 }
@@ -349,7 +475,8 @@ function initMap() {
 
         find_marker = new google.maps.Marker({
             position: selected_position,
-            map: map
+            map: map,
+            zIndex: 0
         });
 
         // Đựa thông tin vị trí hiện tại lên màn hình.
@@ -381,10 +508,18 @@ function initMap() {
     for (var i = 0; i < ddiem_list.length; i++) {
         var flag_position = new google.maps.LatLng(ddiem_list[i]['lat'], ddiem_list[i]['lng']);        
         createFlagMarker(map, flag_position, i);
-        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso1'], i);
-        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2'], i, '2');
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso1_3'], i);
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2_3'], i, '2');
+
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso1_1'], i, '1', '1');
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2_1'], i, '2', '1');
+
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso1_2'], i, '1', '2');
+        createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2_2'], i, '2', '2');
     }
 
+    hideCircleByYear('1');
+    hideCircleByYear('2');
     hideCircle('2');
 
     // Thêm button đánh dấu cờ.
@@ -410,6 +545,12 @@ function initMap() {
     var gpscontrol = new GpsControl(GpsControlDiv, map);
     GpsControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(GpsControlDiv);
+
+    // Thêm button chọn năm hiển thị.
+    var HideShowYearControlDiv = document.createElement('div');
+    var hideshowyearcontrol = new HideShowYearControl(HideShowYearControlDiv, map);
+    HideShowYearControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(HideShowYearControlDiv);
 
     // Thêm ông tin về vị trí hiện tại.
     var CurrentInfoControlDiv = document.createElement('div');
