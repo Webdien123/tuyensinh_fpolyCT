@@ -11,20 +11,29 @@ class DiaDiem extends Model
     public $timestamps = false;
 
     // Lấy tất cả địa điểm trong hệ thống.
-    public static function getAllDiaDiem($namhoc)
+    public static function getAllDiaDiem($namhoc = null)
     {
-    	$ddiem_list = \DB::select('SELECT A.id, ten_diadiem, diachi, lat, lng, chiso1_1, chiso2_1, ghichu_1, chiso1_2, chiso2_2, ghichu_2, chiso1_3, chiso2_3, ghichu_3 FROM (SELECT diadiem.id, ten_diadiem, diachi, lat, lng, chiso1 AS chiso1_1, chiso2 AS chiso2_1, ghichu AS ghichu_1 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) A LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_2, chiso2 AS chiso2_2, ghichu AS ghichu_2 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) B ON A.id = B.id LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_3, chiso2 AS chiso2_3, ghichu AS ghichu_3 FROM diadiem LEFT JOIN tuyensinh on diadiem.id = tuyensinh.id WHERE namhoc = ?) C ON B.id = C.id',[
-            $namhoc - 2,
-            $namhoc - 1,
-            $namhoc
-        ]);
+        if ($namhoc != null) {
+            $ddiem_list = \DB::select('
+                SELECT T1.id, T1.ten_diadiem, T1.diachi, T1.lat, T1.lng, chiso1_1, chiso2_1, chiso1_2, chiso2_2, chiso1_3, chiso2_3, ghichu_1, ghichu_2, ghichu_3 FROM (SELECT diadiem.id, diadiem.ten_diadiem, diadiem.diachi, diadiem.lat, diadiem.lng, chiso1 AS chiso1_1, chiso2 AS chiso2_1, ghichu AS ghichu_1 FROM diadiem LEFT JOIN ( SELECT * FROM tuyensinh WHERE tuyensinh.namhoc = ?) A on diadiem.id = A.id) T1 LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_2, chiso2 AS chiso2_2, ghichu AS ghichu_2 FROM diadiem LEFT JOIN ( SELECT * FROM tuyensinh WHERE tuyensinh.namhoc = ?) B on diadiem.id = B.id) T2 ON T1.id = T2.id LEFT JOIN (SELECT diadiem.id, chiso1 AS chiso1_3, chiso2 AS chiso2_3, ghichu AS ghichu_3 FROM diadiem LEFT JOIN ( SELECT * FROM tuyensinh WHERE tuyensinh.namhoc = ?) C on diadiem.id = C.id) T3 ON T2.id = T3.id',[
+                $namhoc - 2,
+                $namhoc - 1,
+                $namhoc
+            ]);
+        } else {
+            $ddiem_list = \DB::select('SELECT * FROM `diadiem` LEFT JOIN `tuyensinh` ON diadiem.id = tuyensinh.id ORDER BY diadiem.id, tuyensinh.namhoc DESC');
+        }
+
     	return $ddiem_list;
     }
 
-    // Lấy tất cả dữ liệu của 
-    public function getDDiemByID($id)
+    // Lấy toàn bộ thông tin của một địa điểm.
+    public static function getDDiemByID($id_truong)
     {
-        # code...
+        $ddiem = \DB::select('SELECT diadiem.id, ten_diadiem, diachi, lat, lng, stt, chiso1, chiso2, namhoc, ghichu FROM `diadiem` LEFT JOIN `tuyensinh` ON diadiem.id = tuyensinh.id WHERE diadiem.id = ? ORDER BY namhoc DESC',[
+            $id_truong
+        ]);
+        return $ddiem;
     }
 
     // Thêm địa điểm mới.
@@ -61,6 +70,22 @@ class DiaDiem extends Model
     public static function UpdateDiaDiem(Request $R)
     {
         try {
+            $ddiem = \DB::select('SELECT diadiem.id, ten_diadiem, diachi, lat, lng, stt, chiso1, chiso2, namhoc, ghichu FROM `diadiem` LEFT JOIN `tuyensinh` ON diadiem.id = tuyensinh.id WHERE diadiem.id = ? AND namhoc = ? ORDER BY namhoc DESC',[
+                $R->id_ddiem,
+                $R->_namhoc
+            ]);
+            if ($ddiem == null) {
+                \DB::statement(
+                'INSERT INTO `tuyensinh`(`id`, `chiso1`, `chiso2`, `namhoc`, `ghichu`) VALUES (?, ?, ?, ?, ?)',
+                [
+                    $R->id_ddiem,
+                    $R->chiso1,
+                    $R->chiso2,
+                    $R->_namhoc,
+                    $R->ghichu
+                ]);
+            }
+
             \DB::statement(
             'UPDATE `diadiem` SET `ten_diadiem`= ?, `diachi`= ? WHERE `id` = ?',
             [
@@ -90,11 +115,11 @@ class DiaDiem extends Model
     public static function RemoveDiaDiem(Request $R)
     {
         try {
+
             \DB::statement(
-            'DELETE FROM `tuyensinh` WHERE tuyensinh.id = ? AND tuyensinh.namhoc = ?',
+            'DELETE FROM `tuyensinh` WHERE tuyensinh.id = ?',
             [
-                $R->id_ddiem,
-                $R->_namhoc
+                $R->id_ddiem
             ]);
 
             \DB::statement(

@@ -24,7 +24,7 @@ function timKiem() {
         // console.log();
         if ($(".data_row:visible").length == 0) {
         	$("tbody").append('<tr class="data_empty"> \
-                <td colspan="4" style="font-style: inherit; font-weight: bold; text-align: center;">Không tìm thấy account</td>\
+                <td colspan="6" style="font-style: inherit; font-weight: bold; text-align: center;">Không tìm thấy thông tin trường</td>\
                 </tr>'
             );
         }
@@ -66,7 +66,7 @@ function huyTimKiem() {
 function removeDiaDiem(id, ten_diadiem, namhoc, btn_remove) {
     result = confirm("Xóa địa điểm " + ten_diadiem);
     if (result) {
-        var xhr = $.ajax({
+        $.ajax({
             url: '/remove_flag',
             type: 'POST',
             data: {
@@ -88,7 +88,6 @@ function removeDiaDiem(id, ten_diadiem, namhoc, btn_remove) {
                 alert('Error');
             }
         });
-        console.log(xhr);
     }  
 }
 

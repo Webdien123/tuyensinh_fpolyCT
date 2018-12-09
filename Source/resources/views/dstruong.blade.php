@@ -58,7 +58,6 @@
                     <th>Năm tuyển sinh</th>
                     <th>Chỉ số 1</th>
                     <th>Chỉ số 2</th>
-                    <th>Ghi chú</th>
                     <th></th>
                 </tr>
             </thead>
@@ -66,7 +65,7 @@
 
                 @if ($count == 0)
                     <tr>
-                        <td colspan="4" style="font-style: inherit; font-weight: bold; text-align: center;">Danh sách rỗng</td>
+                        <td colspan="6" style="font-style: inherit; font-weight: bold; text-align: center;">Danh sách rỗng</td>
                     </tr>
                 @else
                 @for ($i = 0; $i < $count; $i++)
@@ -79,11 +78,13 @@
                         <td class="data_account">{{ $ddiem_list[$i]->namhoc }}</td>
                         <td class="data_account">{{ $ddiem_list[$i]->chiso1 }}</td>
                         <td class="data_account">{{ $ddiem_list[$i]->chiso2 }}</td>
-                        <td class="data_account">{{ $ddiem_list[$i]->ghichu }}</td>
                         <td>
                             <button type="button" class="btn btn-warning btn_edit_truong" title="Cập nhật thông tin">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </button>
+                            <a href="/lsutuongtac/{{ $ddiem_list[$i]->id }}" class="btn btn-primary" title="Xem lịch sử tương tác">
+                                <span class="glyphicon glyphicon-list"></span>
+                            </a>
                             @if(\Session::get("ulevel") == "1")
                             <!-- Xóa -->
                             <button type="button" class="btn btn-danger btn_remove_truong" title="Xóa trường">

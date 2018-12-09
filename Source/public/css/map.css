@@ -1,0 +1,27 @@
+.input-color {
+    position: relative;
+}
+.input-color input {
+    padding-left: 20px;
+}
+.input-color .color-box {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    background-color: #ccc;
+    margin-top: 0px;
+    margin-left: 5px;
+}
+
+/*Fixed head and foot modal, scroll body modal*/
+#modal_place_info .modal-dialog {
+    height: 90%;
+}
+#modal_place_info .modal-content {
+    height: 100%;
+}
+#modal_place_info .modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 150px);
+    overflow-y: scroll;
+}

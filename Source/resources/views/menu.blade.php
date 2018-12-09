@@ -55,20 +55,20 @@
                 <i class="fa fa-globe" aria-hidden="true"></i>
                 Google Map
             </a></li>
-            <!-- <li><a href="/dstruong">
+            <li><a href="/dstruong">
                 <i class="fa fa-list-ul" aria-hidden="true"></i>
                 Danh sách trường
-            </a></li> -->
+            </a></li>
 
             @if(\Session::get("ulevel") == '1')
                 <li><a href="/account">
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                     Quản lý tài khoản
                 </a></li>
-                <!-- <li><a href="#" onclick="alert('Chức năng đang phát triển')">
+                <li><a href="#" onclick="alert('Chức năng đang phát triển')">
                     <i class="fa fa-history" aria-hidden="true"></i>
-                    Lịch sử hệ thống
-                </a></li> -->
+                    Nhật ký hệ thống
+                </a></li>
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">

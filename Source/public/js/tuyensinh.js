@@ -121,6 +121,7 @@ function addFlag() {
 // Cập nhật thông tin địa điểm đang hiển thị trên modal.
 function saveFlag() {
     if ($("#f_update_ddiem").valid()) {
+        console.log($("#f_update_ddiem").serialize());
         $.ajax({
             url: '/save_flag',
             type: 'POST',
@@ -129,7 +130,7 @@ function saveFlag() {
                 thongBaoKetQua(result, "Cập nhật thông tin thành công");
 
                 if (result == "ok") {
-                    radius = (circle_type == '1') ? $("#chiso1_3").val() : $("#chiso2_3").val();
+                    radius = (circle_type == '1') ? $("#chiso1").val() : $("#chiso2").val();
 
                     // Cập nhật thông tin địa điểm vào mảng lưu trữ.
                     ddiem_list[index_info_ddiem]['id'] = $("#id_ddiem").val();
@@ -138,11 +139,11 @@ function saveFlag() {
                     ddiem_list[index_info_ddiem]['ten_diadiem'] = $("#ten_diadiem").val();
                     ddiem_list[index_info_ddiem]['diachi'] = $("#diachi").val();
                     ddiem_list[index_info_ddiem]['ghichu'] = $("#ghichu").val();
-                    ddiem_list[index_info_ddiem]['chiso1_3'] = $("#chiso1_3").val();
-                    ddiem_list[index_info_ddiem]['chiso2_3'] = $("#chiso2_3").val();
+                    ddiem_list[index_info_ddiem]['chiso1_3'] = $("#chiso1").val();
+                    ddiem_list[index_info_ddiem]['chiso2_3'] = $("#chiso2").val();
 
                     // Cập nhật độ lớn biểu đồ tròn tại địa điểm tương ứng.
-                    updateCircle([index_info_ddiem], $("#chiso1_3").val(), $("#chiso2_3").val());
+                    updateCircle([index_info_ddiem], $("#chiso1").val(), $("#chiso2").val());
                 }
             },
             error: function( xhr, err ) {
@@ -154,30 +155,33 @@ function saveFlag() {
 
 // Xóa cờ.
 function removeFlag() {
-    $.ajax({
-        url: '/remove_flag',
-        type: 'POST',
-        data: $("#f_update_ddiem").serialize(),
-        success: function( result ) {
-            $('#modal_place_info').modal('hide');
+    result = confirm("Xóa tất cả dữ liệu của " + $("#ten_diadiem").val());
+    if (result) {
+        $.ajax({
+            url: '/remove_flag',
+            type: 'POST',
+            data: $("#f_update_ddiem").serialize(),
+            success: function( result ) {
+                $('#modal_place_info').modal('hide');
 
-            thongBaoKetQua(result, "Đã xóa cờ");
+                thongBaoKetQua(result, "Đã xóa cờ");
 
-            if (result == "ok") {
-                arr_flag[index_info_ddiem].setOptions({map: null});
-                arr_circle_1_3[index_info_ddiem].setOptions({map: null});
-                arr_circle_2_3[index_info_ddiem].setOptions({map: null});
+                if (result == "ok") {
+                    arr_flag[index_info_ddiem].setOptions({map: null});
+                    arr_circle_1_3[index_info_ddiem].setOptions({map: null});
+                    arr_circle_2_3[index_info_ddiem].setOptions({map: null});
 
-                ddiem_list.splice(index_info_ddiem, 1);
-                arr_flag.splice(index_info_ddiem, 1);
-                arr_circle_1_3.splice(index_info_ddiem, 1);
-                arr_circle_2_3.splice(index_info_ddiem, 1);
+                    ddiem_list.splice(index_info_ddiem, 1);
+                    arr_flag.splice(index_info_ddiem, 1);
+                    arr_circle_1_3.splice(index_info_ddiem, 1);
+                    arr_circle_2_3.splice(index_info_ddiem, 1);
+                }
+            },
+            error: function( xhr, err ) {
+                alert('Error');
             }
-        },
-        error: function( xhr, err ) {
-            alert('Error');
-        }
-    });
+        });
+    }
 }
 
 // Hàm kiểm tra vị trí cần search đã có marker hay chưa.
@@ -473,19 +477,21 @@ function show_InfoDiaDiem(index_marker) {
     $("#lng").val(ddiem_list[index_marker]['lng']);
     $("#ten_diadiem").val(ddiem_list[index_marker]['ten_diadiem']);
     $("#diachi").val(ddiem_list[index_marker]['diachi']);
-    $("#_namhoc").val(ddiem_list[index_marker]['namhoc']);
     $("#ghichu").val(ddiem_list[index_marker]['ghichu']);
     $("#chiso1_2").val(ddiem_list[index_marker]['chiso1_2']);
     $("#chiso2_2").val(ddiem_list[index_marker]['chiso2_2']);
     $("#chiso1_1").val(ddiem_list[index_marker]['chiso1_1']);
     $("#chiso2_1").val(ddiem_list[index_marker]['chiso2_1']);
+    $("#btn_lsutuongtac").prop('href', '/lsutuongtac/' + ddiem_list[index_marker]['id'])
 
-    if (ddiem_list[index_marker]['chiso1_3'] == "-1") {        
-        $("#chiso1_3").val(0);
-        $("#chiso2_3").val(0);
+    if (ddiem_list[index_marker]['chiso1_3'] == null) {        
+        $("#chiso1").val(0);
+        $("#chiso2").val(0);
+        $("#no_data").text("(Chưa có dữ liệu)");
     } else {        
-        $("#chiso1_3").val(ddiem_list[index_marker]['chiso1_3']);
-        $("#chiso2_3").val(ddiem_list[index_marker]['chiso2_3']);
+        $("#chiso1").val(ddiem_list[index_marker]['chiso1_3']);
+        $("#chiso2").val(ddiem_list[index_marker]['chiso2_3']);
+        $("#no_data").text("");
     }
 
     index_info_ddiem = index_marker;
@@ -533,9 +539,8 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         $("#lng").val(place.geometry.location.lng());
                         $("#ten_diadiem").val(place.name);
                         $("#diachi").val(place.formatted_address);
-                        $("#_namhoc").val(selected_namhoc);
-                        $("#chiso1_3").val("0");
-                        $("#chiso2_3").val("0");
+                        $("#chiso1").val("0");
+                        $("#chiso2").val("0");
                         $("#ghichu").val("");
 
                         // Tạo đối tượng lưu địa điểm mới.
@@ -546,8 +551,8 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                             ten_diadiem: place.name,
                             diachi: place.formatted_address,
                             namhoc: selected_namhoc,
-                            chiso1_3: "-1",
-                            chiso2_3: "-1",
+                            chiso1_3: null,
+                            chiso2_3: null,
                             ghichu: "",
                         };
 
@@ -562,7 +567,7 @@ function createFlagMarker(map, flag_position, index_marker = null) {
                         createCircle(map, place.geometry.location.lat(), place.geometry.location.lng(), 0, null, '2');
 
                         // Ẩn hiện biểu đồ theo loại biểu đồ đang chọn.
-                        updateCircleTypeInfo()
+                        updateCircleTypeInfo();
                     });
                 } else {
                     window.alert('No results found');

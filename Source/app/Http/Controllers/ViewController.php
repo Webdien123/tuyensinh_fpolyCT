@@ -19,6 +19,8 @@ class ViewController extends Controller
         			return $this->viewMap();
                 case 'dstruong':
                     return $this->viewDsTruong();
+                case 'lsutuongtac':
+                    return $this->viewTuongTac($param);
         		case 'account':
                     if (\Session::get('ulevel') == "1") {
                         return $this->viewAccount();
@@ -29,7 +31,6 @@ class ViewController extends Controller
                     break;
                 case 'profile':
                     return $this->viewProFile($param);
-                    
                 case 'logout':
                     return LoginController::Logout();
                 default:
@@ -71,9 +72,17 @@ class ViewController extends Controller
         return View::make('dstruong')->with([
             'ddiem_list' => $ddiem_list
         ]);
-    }
+    }    
 
-    
+    // Lấy trang lịch sử tương tác.
+    public static function viewTuongTac($id_truong)
+    {
+        $ddiem = DiaDiem::getDDiemByID($id_truong);
+        // dd($ddiem);
+        return View::make('lsutuongtac')->with([
+            'ddiem' => $ddiem
+        ]);
+    } 
 
     // Lấy trang quản lý account.
     public static function viewAccount()

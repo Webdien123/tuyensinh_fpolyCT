@@ -7,22 +7,7 @@
     <!-- Chèn menu -->
     @include('menu')
 	
-    <style type="text/css">
-        .input-color {
-            position: relative;
-        }
-        .input-color input {
-            padding-left: 20px;
-        }
-        .input-color .color-box {
-            width: 15px;
-            height: 15px;
-            display: inline-block;
-            background-color: #ccc;
-            margin-top: 0px;
-            margin-left: 5px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../css/map.css">
 
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
@@ -116,8 +101,8 @@
                         </div>
 
                         <hr>
-                        <h4>{{ "Năm ".$year." :" }}</h4>
-                        <input type="hidden" name="_namhoc" id="_namhoc" class="form-control" value="">
+                        <h4>{{ "Năm ".$year.": " }}<span id="no_data"></span></h4>
+                        <input type="hidden" name="_namhoc" id="_namhoc" class="form-control" value="{{ $year }}">
                         <label>Chỉ số 1</label>
                         <div class="form-group">
                             <div class="col-xs-12">
@@ -186,6 +171,12 @@
                         </div> -->
                     </form>
                 </div>
+                <div class="modal-footer">
+                    <a href="" class="btn btn-primary btn-block" target="_blank" id="btn_lsutuongtac" title="Xem lịch sử tương tác">
+                        <span class="glyphicon glyphicon-list"></span>
+                        Xem nhật kí tương tác
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -205,7 +196,6 @@
 
             // Xử lý khi chọn năm.
             $("#chk_1").change(function() {
-                console.log("CHON NAM 1");
                 if(this.checked == true) {
                     showCircleByYear('1');
                 }

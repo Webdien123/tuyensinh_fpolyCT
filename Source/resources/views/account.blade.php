@@ -15,7 +15,7 @@
 	
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
-        $(".navbar-nav > li").eq(1).addClass("active");
+        $(".navbar-nav > li").eq(2).addClass("active");
 
         // Tạo biến lưu session tài khoản đang đăng nhập vào javascript.
         var session_uname = '{{ \Session::get("uname") }}';

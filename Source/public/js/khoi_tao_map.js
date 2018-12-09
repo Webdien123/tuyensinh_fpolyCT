@@ -368,7 +368,7 @@ function CurrentInfoControl(controlDiv, map) {
                     controlUI.innerHTML = '\
                         <div class="col-xs-12 col-md-9"><b>Vị trí hiện tại: </b><span id="name_info">' + place.name + '</span><br>\
                         <b>Vòng tròn thể hiện cho: </b><span id="circle_info">' + loai + '</span><br>\
-                        <b>Năm tuyển sinh: </b><span>' + selected_namhoc + '</span></div>\
+                        <b>Năm tuyển sinh hiện tại: </b><span>' + selected_namhoc + '</span></div>\
                         <div class="col-xs-12 col-md-3"><b>' + (selected_namhoc - 2) + ':</b>\
                         <span class="input-color">\
                             Chỉ số 1 <span class="color-box" style="background-color: ' + color_circle_1_1 + ';"></span>\

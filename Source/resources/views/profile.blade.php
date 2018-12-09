@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('title', 'hỗ trợ tuyển sinh')
+@section('title', 'Thông tin cá nhân')
 
 @section('content')
 
@@ -10,11 +10,11 @@
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
         @if(\Session::get("ulevel") == "1")
-            $(".navbar-nav > li").eq(2).addClass("active");
+            $(".navbar-nav > li").eq(3).addClass("active");
         @endif
 
         @if(\Session::get("ulevel") == "2")
-            $(".navbar-nav > li").eq(1).addClass("active");
+            $(".navbar-nav > li").eq(2).addClass("active");
         @endif
         // Tạo biến lưu session tài khoản đang đăng nhập vào javascript.
         var session_uname = '{{ \Session::get("uname") }}';

@@ -33,6 +33,8 @@ class LoginController extends Controller
                \Session::put('uhoten', $user_info[0]->hoten);
                \Session::put('ulevel', $user_info[0]->level);
 
+               WriteLogController::Write_InFo($user_info[0]->hoten." đăng nhập vào hệ thống");
+
    				return ViewController::viewMap();
    			} else {
    				return View::make('login')->with('login_status', 1); // Lỗi đăng nhập
