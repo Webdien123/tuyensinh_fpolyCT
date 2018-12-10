@@ -82,7 +82,7 @@
                             <button type="button" class="btn btn-warning btn_edit_truong" title="Cập nhật thông tin">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </button>
-                            <a href="/lsutuongtac/{{ $ddiem_list[$i]->id }}" class="btn btn-primary" title="Xem lịch sử tương tác">
+                            <a href="/lsutuongtac/{{ $ddiem_list[$i]->id }}" target="_blank" class="btn btn-primary" title="Xem lịch sử tương tác">
                                 <span class="glyphicon glyphicon-list"></span>
                             </a>
                             @if(\Session::get("ulevel") == "1")
