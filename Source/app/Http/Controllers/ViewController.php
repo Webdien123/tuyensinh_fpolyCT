@@ -29,7 +29,9 @@ class ViewController extends Controller
                         return $this->viewMap();
                     }
                 case 'nhatki':
-                    return $this->viewNhatKi();
+                    return $this->viewNhatKi($param);
+                case 'debug':
+                    return $this->viewDebug($param);
                 case 'profile':
                     return $this->viewProFile($param);
                 case 'logout':
@@ -88,13 +90,44 @@ class ViewController extends Controller
     }
 
     // Lấy trang nhật kí hệ thống.
-    public static function viewNhatKi()
+    public static function viewNhatKi($ngay_xem = "")
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = date("d-m-Y");
-        $date2 = date('d/m/Y H:i:s');
+        if ($ngay_xem == "") {
+            $date2 = date('d/m/Y H:i:s');
 
-        $filename = './logs/User_log'.'_'. $date .'.txt';
+            $filename = './logs/User_log'.'_'. $date .'.txt';
+        } else {
+            $date = $ngay_xem;
+            $filename = './logs/User_log'.'_'. $ngay_xem .'.txt';
+        }        
+
+        if ( !file_exists($filename) ) {
+            $lines = [];
+        }
+        else{
+            $lines = file($filename, FILE_IGNORE_NEW_LINES);
+        }   
+        return View::make('history')->with([
+                'date' => $date,
+                'lines' => $lines
+            ]);     
+    } 
+
+    // Xem debug log.
+    public static function viewDebug($ngay_xem = "")
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date("d-m-Y");
+        if ($ngay_xem == "") {
+            $date2 = date('d/m/Y H:i:s');
+
+            $filename = './logs/Debug_log'.'_'. $date .'.txt';
+        } else {
+            $date = $ngay_xem;
+            $filename = './logs/Debug_log'.'_'. $ngay_xem .'.txt';
+        }        
 
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
 

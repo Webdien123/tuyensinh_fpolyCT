@@ -1,0 +1,8 @@
+<td class='default'>[11/12/2018 19:42:52] : Quản Trị Viên thêm user c</td>
+<td class='warning'>[11/12/2018 19:42:52] : User c đã tồn tại.</td>
+<td class='default'>[11/12/2018 19:42:53] : Quản Trị Viên thêm user d</td>
+<td class='warning'>[11/12/2018 19:42:53] : User d sẳn sàng tạo mới.</td>
+<td class='default'>[11/12/2018 19:42:55] : Quản Trị Viên thêm user dsf</td>
+<td class='warning'>[11/12/2018 19:42:55] : User dsf sẳn sàng tạo mới.</td>
+<td class='success'>[11/12/2018 19:42:57] : Quản Trị Viên thêm user dsf thành công.</td>
+<td class='success'>[11/12/2018 20:43:18] : Quản Trị Viên xóa user dsf thành công.</td>

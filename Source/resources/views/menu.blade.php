@@ -37,6 +37,11 @@
     }
 </style>
 
+<?php
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+    $date = date("d-m-Y");
+?>
+
 <nav class="navbar navbar-default" style="margin-bottom: 10px;">
 <div class="container-fluid">
     <div class="navbar-header">
@@ -65,7 +70,7 @@
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                     Quản lý tài khoản
                 </a></li>
-                <li><a href="/nhatki">
+                <li><a href="/nhatki{{ "/".$date }}">
                     <i class="fa fa-history" aria-hidden="true"></i>
                     Nhật ký hệ thống
                 </a></li>

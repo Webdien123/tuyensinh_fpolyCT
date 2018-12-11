@@ -27,14 +27,3 @@
 <td class='default'>[11/12/2018 19:34:19] : Quản Trị Viên vào trang danh sách trường.</td>
 <td class='default'>[11/12/2018 19:34:24] : Quản Trị Viên vào trang danh sách trường.</td>
 <td class='default'>[11/12/2018 19:35:28] : Quản Trị Viên vào trang danh sách trường.</td>
-<td class='default'>[11/12/2018 19:42:46] : Quản Trị Viên vào trang danh sách trường.</td>
-<td class='default'>[11/12/2018 19:42:48] : Quản Trị Viên vào trang quản lý tài khoản.</td>
-<td class='success
-                '>[11/12/2018 19:42:57] : Quản Trị Viên tạo tài khoản dsf</td>
-<td class='default'>[11/12/2018 19:42:57] : Quản Trị Viên vào trang quản lý tài khoản.</td>
-<td class='default'>[11/12/2018 20:11:58] : Quản Trị Viên vào trang bản đồ.</td>
-<td class='default'>[11/12/2018 20:18:56] : Quản Trị Viên vào trang bản đồ.</td>
-<td class='default'>[11/12/2018 20:21:07] : Quản Trị Viên vào trang bản đồ.</td>
-<td class='default'>[11/12/2018 20:41:44] : Quản Trị Viên vào trang quản lý tài khoản.</td>
-<td class='default'>[11/12/2018 20:43:15] : Quản Trị Viên vào trang quản lý tài khoản.</td>
-<td class='success'>[11/12/2018 20:43:18] : Quản Trị Viên xóa tài khoản dsf</td>
