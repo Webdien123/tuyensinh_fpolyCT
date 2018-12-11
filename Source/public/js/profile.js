@@ -46,8 +46,7 @@ jQuery(document).ready(function($) {
 	// Xử lý sau khi nhận file avt mới.
 	$("#selectedFile").change(function(event) {
 		if ($("#selectedFile").val() != "") {
-			$("#f_upload_avt").submit();
-			
+			$("#f_upload_avt").submit();	
 		}
 	});
 

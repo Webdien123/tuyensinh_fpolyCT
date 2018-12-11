@@ -14,18 +14,22 @@ class AccountController extends Controller
     public function getAllAcc()
     {
     	$acc_list = \DB::select('SELECT * FROM nguoidung LEFT JOIN level on nguoidung.level = level.level', [1]);
+        WriteLogController::Write_InFo(\Session::get("uname")." vào trang quản lý tài khoản.");
     	return $acc_list;
     }
 
     // Kiểm tra username cần thêm đã tồn tại hay chưa.
     public function checkNewAccount(Request $R)
     {
+        WriteLogController::Write_Debug(\Session::get("uhoten")." thêm user ".$R->uname);
         $result = 1; // Kết quả kiểm tra: 1 - Tkhoản đã tồn tài, 0 - TKhoản chưa có.
         $user_info = NguoiDung::getUser($R->uname);
         if (count($user_info) > 0) {
             $result = 1;
+            WriteLogController::Write_Debug("User ".$R->uname." đã tồn tại.", "warning");
         } else {
             $result = 0;
+            WriteLogController::Write_Debug("User ".$R->uname." sẳn sàng tạo mới.", "warning");
         }
         return $result;
     }
@@ -41,15 +45,19 @@ class AccountController extends Controller
 	    		$R->level
 	    	]);
 
-            return redirect('/account');
+            WriteLogController::Write_Debug(\Session::get("uhoten")." thêm user ".$R->uname." thành công.", "success");
+            WriteLogController::Write_InFo(\Session::get("uhoten")." tạo tài khoản ".$R->uname, 'success
+                ');
+            return ViewController::viewAccount(true, "success", "Thêm tài khoản thành công");
     	} catch (Exception $e) {
-    		
+    		WriteLogController::Write_Debug(\Session::get("uhoten")." thêm user ".$R->uname." thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+            WriteLogController::Write_InFo(\Session::get("uhoten")." tạo tài khoản ".$R->uname. " thất bại", "danger");
     	}
     	
     }
 
     // Cập nhật tài khoản.
-    public function UpdateAccount(Request $R, $page = "account", $user = "")
+    public function UpdateAccount(Request $R)
     {
         $result = NguoiDung::UpdateUser($R);
 
@@ -58,9 +66,32 @@ class AccountController extends Controller
                 \Session::put('uhoten', $R->hoten);
                 \Session::put('ulevel', $R->level);
             }
-            return redirect($page."/".$user);            
-        } else {
+
+            WriteLogController::Write_Debug(\Session::get("uhoten")." update user ".$R->_uname." thành công.", "success");
+
+            $level = NguoiDung::LevelForValue($R->level);
+
+            WriteLogController::Write_InFo(\Session::get("uhoten")." update tài khoản ".$R->_uname." sang thông tin:<br>Họ tên: ".$R->hoten."<br>Mức quyền: ".$level, 'success');
+
+            if ($R->page == "account") {
+                return ViewController::viewAccount(true, "success", "Cập nhật tài khoản thành công");
+            }
+
+            if ($R->page == "profile") {
+                return ViewController::viewProFile($R->_uname, 1);
+            }
             
+        } else {
+            WriteLogController::Write_Debug(\Session::get("uhoten")." cập nhật user ".$R->_uname." thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+            WriteLogController::Write_InFo(\Session::get("uhoten")." cập nhật tài khoản ".$R->_uname. " thất bại", "danger");
+
+            if ($R->page == "account") {
+                return ViewController::viewAccount(true, "danger", "Cập nhật thất bại, vui lòng thử lại.");
+            }
+
+            if ($R->page == "profile") {
+                return ViewController::viewProFile($R->_uname, 2);
+            }
         }
     }
 
@@ -77,8 +108,16 @@ class AccountController extends Controller
     {
         try {
             \DB::delete('DELETE FROM `nguoidung` WHERE nguoidung.uname = ?', [$R->uname]);
+
+            WriteLogController::Write_Debug(\Session::get("uhoten")." xóa user ".$R->uname." thành công.", "success");
+            WriteLogController::Write_InFo(\Session::get("uhoten")." xóa tài khoản ".$R->uname, 'success');
+
             return "ok";
         } catch (Exception $e) {
+
+            WriteLogController::Write_Debug(\Session::get("uhoten")." xóa user ".$R->uname." thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+            WriteLogController::Write_InFo(\Session::get("uhoten")." xóa tài khoản ".$R->uname. " thất bại", "danger");
+
             return "fail";
         }
     }
@@ -101,14 +140,14 @@ class AccountController extends Controller
                 $destinationPath = public_path('/avt');
                 $image->move($destinationPath, $name);
 
-                return redirect('/profile');
+                WriteLogController::Write_Debug(\Session::get("uhoten")." cập nhật ảnh đại diện. ".$R->_uname." thành công.", "success");
+                WriteLogController::Write_InFo(\Session::get("uhoten")." cập nhật ảnh đại diện. ".$R->_uname, 'success');
             } catch (Exception $e) {
-                return $e->getMessage();
+                WriteLogController::Write_Debug(\Session::get("uhoten")." cập nhật ảnh đại diện. ".$R->_uname." thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+                WriteLogController::Write_InFo(\Session::get("uhoten")." cập nhật ảnh đại diện. ".$R->_uname. " thất bại", "danger");
             }
-            
         }
-
-        return "LỖI";
+        return redirect('/profile');
     }
 
     // Đổi mật khẩu người dùng.
@@ -118,22 +157,36 @@ class AccountController extends Controller
         if (Hash::check($R->old_pass, $user_info[0]->pass)) {
             $result = NguoiDung::UpdatePass($R->_uname_pass, $R->new_pass);
             if ($result) {
+
+                WriteLogController::Write_Debug(\Session::get("uhoten")." đổi pass user ".$R->_uname_pass." thành công.", "success");
+
+                WriteLogController::Write_InFo(\Session::get("uhoten")." đổi pass tài khoản ".$R->_uname_pass." thành: ".$R->new_pass, 'success');
+
                 return View::make('profile')->with([
                     'user_info' => $user_info,
-                    'change_pass_error' => 3
+                    'change_pass_error' => 3, // Cập nhật mật khẩu thành công.
+                    'update_info' => 0
                 ]);
             } else {
+
+                WriteLogController::Write_InFo(\Session::get("uhoten")." đổi pass tài khoản ".$R->_uname_pass." thành: ".$R->new_pass. " thất bại");
+ 
                 return View::make('profile')->with([
                     'user_info' => $user_info,
-                    'change_pass_error' => 2
+                    'change_pass_error' => 2, //Có lỗi trong quá trình xử lý.
+                    'update_info' => 0
                 ]);
             }
             
         }
         else{
+
+            WriteLogController::Write_InFo(\Session::get("uhoten")." đổi pass tài khoản ".$R->_uname_pass." thất bại vì nhập sai mật khẩu cũ", 'warning');
+
             return View::make('profile')->with([
                 'user_info' => $user_info,
-                'change_pass_error' => 1
+                'change_pass_error' => 1, // Sai mật khẩu cũ.
+                'update_info' => 0
             ]);
         }
     }
@@ -144,6 +197,11 @@ class AccountController extends Controller
         $result = NguoiDung::UpdatePass($R->_uname_reset, $R->pass_reset);
         $acc_list = NguoiDung::getAllUser();
         if ($result) {
+
+            WriteLogController::Write_Debug(\Session::get("uhoten")." reset pass ".$R->_uname_reset." về ".$R->pass_reset." thành công.", "success");
+
+            WriteLogController::Write_Info(\Session::get("uhoten")." reset pass ".$R->_uname_reset." về ".$R->pass_reset." thành công.", "success");
+
             return View::make('account')->with([
                 'acc_list' => $acc_list,
                 'show_alert' => true,
@@ -151,6 +209,9 @@ class AccountController extends Controller
                 'alert_message' => 'Reset mật khẩu tài khoản '.$R->_uname_reset.' thành công'
             ]);
         } else {
+
+            WriteLogController::Write_Info(\Session::get("uhoten")." reset pass ".$R->_uname_reset." về ".$R->pass_reset." thất bại.", "danger");
+
             return View::make('account')->with([
                 'acc_list' => $acc_list,
                 'show_alert' => false,

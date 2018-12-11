@@ -26,6 +26,11 @@
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ $alert_message }}
         </div>
+        <script>
+            $(".alert").fadeTo(1500, 500).slideUp(500, function(){
+                $(".alert").slideUp(500);
+            });
+        </script>
     @endif
 
     <!-- Form tìm kiếm tài khoản -->
@@ -86,10 +91,10 @@
                             </button>
 
                             <!-- Xem thông tin chi tiết -->
-                            <a class="btn btn-info btn_profile" title="Xem trang cá nhân"
+                            <!-- <a class="btn btn-info btn_profile" title="Xem trang cá nhân"
                             href="/profile/{{ $acc_list[$i]->uname }}">
                                 <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            </a>
+                            </a> -->
 
                             <!-- Xóa -->
                             <button type="button" class="btn btn-danger btn_delete_account" title="Xóa tài khoản">
@@ -128,6 +133,7 @@
         <div class="modal-body">
             <form action="" id="f_update_account" method="POST">
                 {!! csrf_field() !!}
+                <input type="hidden" name="page" id="page" value="account">
                 <div class="form-group">
                     <label for="uname">Tên tài khoản</label>
                     <input type="text" class="form-control" id="uname" name="uname" autofocus="" required="" 
@@ -142,7 +148,7 @@
                     oninput="setCustomValidity('')">
                 </div>
                 <div class="form-group" id="pass_default">
-                    <label for="pass">Mật khẩu</label>
+                    <label for="pass">Mật khẩu mặc định</label>
                     <input type="text" class="form-control" name="pass" id="pass" value="123" required="" 
                     oninvalid="this.setCustomValidity('Chưa nhập mật khẩu')"
                     oninput="setCustomValidity('')">

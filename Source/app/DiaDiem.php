@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use \App\Http\Controllers\WriteLogController;
 
 class DiaDiem extends Model
 {
@@ -60,8 +61,13 @@ class DiaDiem extends Model
                 $R->ghichu
             ]);
 
+            WriteLogController::Write_Debug(\Session::get("uhoten")." thêm cờ ".$R->ten_diadiem."' thành công.", "success");
+
             return true;
         } catch (Exception $e) {
+
+            WriteLogController::Write_Debug(\Session::get("uhoten")." thêm cờ ".$R->ten_diadiem."' thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+
             return false;
         }
     }
@@ -70,11 +76,15 @@ class DiaDiem extends Model
     public static function UpdateDiaDiem(Request $R)
     {
         try {
+            WriteLogController::Write_Debug(\Session::get("uhoten")." chọn update cờ '".$R->ten_diadiem."' theo thông tin:<b><br>id - ".$R->id_ddiem."<br>Tên địa điểm - ".$R->ten_diadiem."<br>Địa chỉ - ".$R->diachi."<br>Năm tuyển sinh - ".$R->_namhoc."<br>Chỉ số 1 - ".$R->chiso1."<br>Chỉ số 2 - ".$R->chiso2."<br>Ghi chú - ".$R->ghichu."</b>");
+
             $ddiem = \DB::select('SELECT diadiem.id, ten_diadiem, diachi, lat, lng, stt, chiso1, chiso2, namhoc, ghichu FROM `diadiem` LEFT JOIN `tuyensinh` ON diadiem.id = tuyensinh.id WHERE diadiem.id = ? AND namhoc = ? ORDER BY namhoc DESC',[
                 $R->id_ddiem,
                 $R->_namhoc
             ]);
             if ($ddiem == null) {
+                WriteLogController::Write_Debug("Thông tin năm học ".$R->_namhoc." tại '".$R->ten_diadiem."' chưa có.");
+
                 \DB::statement(
                 'INSERT INTO `tuyensinh`(`id`, `chiso1`, `chiso2`, `namhoc`, `ghichu`) VALUES (?, ?, ?, ?, ?)',
                 [
@@ -84,6 +94,8 @@ class DiaDiem extends Model
                     $R->_namhoc,
                     $R->ghichu
                 ]);
+
+                WriteLogController::Write_Debug("Thêm thông tin để update tại '".$R->ten_diadiem."' thành công",'success');
             }
 
             \DB::statement(
@@ -93,6 +105,8 @@ class DiaDiem extends Model
                 $R->diachi,
                 $R->id_ddiem
             ]);
+
+            WriteLogController::Write_Debug("Update địa điểm '".$R->ten_diadiem."' thành công",'success');
 
             \DB::statement(
             'UPDATE `tuyensinh` SET `chiso1`= ?, `chiso2`= ?, `ghichu`= ? 
@@ -105,8 +119,13 @@ class DiaDiem extends Model
                 $R->_namhoc
             ]);
 
+            WriteLogController::Write_Debug("Update thông tin tuyển sinh năm ".$R->_namhoc." cho '".$R->ten_diadiem."' thành công",'success');
+
             return true;
         } catch (Exception $e) {
+
+            WriteLogController::Write_Debug("Có lỗi khi cập nhật cờ '".$R->ten_diadiem."' thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+
             return false;
         }        
     }
@@ -128,8 +147,12 @@ class DiaDiem extends Model
                 $R->id_ddiem
             ]);
 
+            WriteLogController::Write_Debug("Xóa cờ '".$R->ten_diadiem."' thành công",'success');
+
             return true;
         } catch (Exception $e) {
+
+            WriteLogController::Write_Debug("Xóa cờ '".$R->ten_diadiem."' thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
             return false;
         }
     }

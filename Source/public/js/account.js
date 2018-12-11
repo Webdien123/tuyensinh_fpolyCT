@@ -1,7 +1,3 @@
-// Biến lưu trạng thái form update tài khoản: 
-// 0-các giá trị đã nhập đúng, 1-Có giá trị nhập không hợp lệ
-var form_status = 0;
-
 // Thời gian giữ chuột.
 var timeoutId = 0;
 
@@ -18,6 +14,10 @@ $("#btn_add_account").click(function(event) {
 	$("#hoten").val("");
 	$("#level").val("1");
 	$("input").removeAttr('disabled');
+	$("#uname").closest('div').removeClass('has-error');
+	$("#uname").closest('div').removeClass('has-success');
+	$("#hoten").closest('div').removeClass('has-error');
+	$("#hoten").closest('div').removeClass('has-success');
 
 	// Ẩn button xóa tài khoản, hiện phần nhập mật khẩu.
 	$("#btn_del_acc_model").hide();
@@ -55,6 +55,12 @@ function clickNutSua(element) {
 	$("#hoten").val(hoten);
 	$("#level").val(level);
 	$("#uname").prop("disabled", "disabled");
+	$("#uname").next("span").remove();
+	$("#hoten").next("span").remove();
+	$("#uname").closest('div').removeClass('has-error');
+	$("#uname").closest('div').removeClass('has-success');
+	$("#hoten").closest('div').removeClass('has-error');
+	$("#hoten").closest('div').removeClass('has-success');
 
 	// Hiện button xóa tài khoản, ẩn phần nhập mật khẩu.
 	$("#btn_del_acc_model").show();
@@ -267,11 +273,9 @@ function checkAccount(uname) {
             	$("#uname").closest('div').removeClass('has-success').addClass('has-error');
             	$("#uname").next("span").remove();
             	$("#uname").after('<span style="font-weight: bold; font-style: inherit; color: red">Tài khoản đã tồn tại</span>');
-            	form_status = 1;
             } else {
             	$("#uname").closest('div').removeClass('has-error').addClass('has-success');
             	$("#uname").next("span").remove();
-            	form_status = 0;
             }
         },
         error   : function( xhr, err ) {
@@ -281,35 +285,34 @@ function checkAccount(uname) {
 }
 
 // Kiểm tra sự tồn tại của tài khoản sau khi nhập tên tài khoản.
-$("#uname").focusout(function() {
+$("#uname").on('input',function(e){
 	if ($("#uname").val() != "") {
 		checkAccount( $("#uname").val() );
 	}
 });
 
 // Kiểm tra độ dài họ tên có vượt quá 100 kí tự không.
-$("#hoten").focusout(function() {
+$("#hoten").on('input',function(e){
 	if ($("#hoten").val().length > 100) {
     	$("#hoten").closest('div').removeClass('has-success').addClass('has-error');
     	$("#hoten").next("span").remove();
     	$("#hoten").after('<span style="font-weight: bold; font-style: inherit; color: red">Họ tên tối đa 100 kí tự</span>');
-    	form_status = 1;
     } else {
     	$("#hoten").closest('div').removeClass('has-error').addClass('has-success');
     	$("#hoten").next("span").remove();
-    	form_status = 0;
     }
 });
 
 // Kiểm tra thông tin form đã hợp lệ hay chưa trước khi submit.
 $(document).ready(function() {
-    $("#f_update_account").one('submit', function(event) {
-	    if ( form_status != 0 ) {
-    		$(".has-error").eq(0).children('input').focus();
-			event.preventDefault();
+    $("#f_update_account").on('submit', function(event) {
+	    if ( $("#f_update_account").valid() == true 
+    	&& $("#uname").next("span").length == 0
+    	&& $("#hoten").next("span").length == 0) {
+			$(this).unbind('submit').submit();
 		}
 		else{
-			$(this).submit();
+			event.preventDefault();
 		}
 	});
 });

@@ -85,7 +85,7 @@ function thongBaoKetQua(result, text_content = null) {
         $('#success-alert').modal('toggle');
         $("#alert-text").removeClass('text-danger').addClass('text-success');
         $("#alert-text").html('<i class="fa fa-check-circle-o fa-4x" aria-hidden="true"></i><br>' + text_content);
-        setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
+        setTimeout(function() {$('#success-alert').modal('hide');}, 1000);
     }
     if (result == "fail") {
         $('#success-alert').modal('toggle');
@@ -96,7 +96,7 @@ function thongBaoKetQua(result, text_content = null) {
             $("#alert-text").html('<i class="fa fa-frown-o fa-4x" aria-hidden="true"></i><br>' + text_content + '');
         }
         
-        setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
+        setTimeout(function() {$('#success-alert').modal('hide');}, 1000);
     }
 }
 
@@ -111,8 +111,6 @@ function addFlag() {
             thongBaoKetQua(result, "Đã thêm cờ");
         },
         error: function( xhr, err ) {
-            console.log(xhr);
-            console.log(err);
             thongBaoKetQua("fail");
         }
     }); 

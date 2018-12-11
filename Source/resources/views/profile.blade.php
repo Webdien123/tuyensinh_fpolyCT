@@ -10,7 +10,7 @@
     <!-- Tô đen tab đầu tiền đang hiển thị trên menu -->
     <script type="text/javascript">
         @if(\Session::get("ulevel") == "1")
-            $(".navbar-nav > li").eq(3).addClass("active");
+            $(".navbar-nav > li").eq(4).addClass("active");
         @endif
 
         @if(\Session::get("ulevel") == "2")
@@ -31,42 +31,90 @@
                         $('.tab-pane').eq(1).addClass('active');
 
                         var message = '\
-                            <div class="alert alert-danger alert-dismissible">\
+                            <div class="alert alert-danger alert-dismissible" id="danger-alert">\
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\
                             Mật khẩu cũ không đúng.\
                             </div>\
+                            <script>\
+                            $("#danger-alert").fadeTo(1000, 500).slideUp(500, function(){\
+                                $("#danger-alert").slideUp(500);\
+                            });\
+                            <\/script>\
                         ';
 
                         @if($change_pass_error == 2)
                         var message = '\
-                            <div class="alert alert-warning alert-dismissible">\
+                            <div class="alert alert-warning alert-dismissible" id="warning-alert">\
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\
                             Có lỗi ở máy chủ, vui lòng thử lại.\
                             </div>\
+                            <script>\
+                            $("#warning-alert").fadeTo(1000, 500).slideUp(500, function(){\
+                                $("#warning-alert").slideUp(500);\
+                            });\
+                            <\/script>\
                         ';
                         @endif
 
                         @if($change_pass_error == 3)
                         var message = '\
-                            <div class="alert alert-success alert-dismissible">\
+                            <div class="alert alert-success alert-dismissible" id="success-alert">\
                             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\
                             Cập nhật mật khẩu thành công.\
                             </div>\
+                            <script>\
+                            $("#success-alert").fadeTo(1000, 500).slideUp(500, function(){\
+                                $("#success-alert").slideUp(500);\
+                            });\
+                            <\/script>\
                         ';
                         @endif
 
                         $(message).insertBefore('#f_change_pass');
                     });
                 </script>
-            @else
+            @endif
+
+            @if($update_info != 0)
                 <script type="text/javascript">
                     jQuery(document).ready(function($) {
+
                         $("#link_tab_info").closest('li').addClass('active');
                         $("#link_tab_change_pass").closest('li').removeClass('active');
                         $('.tab-pane').eq(0).addClass('active');
+
+                        var message = '\
+                            <div class="alert alert-success alert-dismissible" id="success-alert">\
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\
+                            Cập nhật thông tin thành công.\
+                            </div>\
+                            <script>\
+                            $("#success-alert").fadeTo(1000, 500).slideUp(500, function(){\
+                                $("#success-alert").slideUp(500);\
+                            });\
+                            <\/script>\
+                        ';
+
+                        @if($update_info == 2)
+                        var message = '\
+                            <div class="alert alert-error alert-dismissible" id="error-alert">\
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>\
+                            Có lỗi ở máy chủ, vui lòng thử lại.\
+                            </div>\
+                            <script>\
+                            $("#error-alert").fadeTo(1000, 500).slideUp(500, function(){\
+                                $("#error-alert").slideUp(500);\
+                            });\
+                            <\/script>\
+                        ';
+                        @endif
+
+                        $(message).insertBefore('#f_update');
                     });
                 </script>
             @endif
+
+
             <!-- Phần tên và ảh -->
             <div class="col-xs-12 col-sm-3">
                 <h1>{{ $user_info[0]->hoten }}</h1>
@@ -105,7 +153,7 @@
                 <!-- Nav tabs -->
                 <div class="card">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation">
+                    <li role="presentation" class="active">
                         <a href="#tab_info" aria-controls="info" role="tab" data-toggle="tab" id="link_tab_info">
                             Thông tin cơ bản
                         </a>
@@ -119,8 +167,8 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane" id="tab_info">
-                    <form action="/update_account/profile/{{ $user_info[0]->uname }}" method="POST" class="col-xs-12 col-sm-5" id="f_update">
+                    <div role="tabpanel" class="tab-pane active" id="tab_info">
+                    <form action="/update_account" method="POST" class="col-xs-12 col-sm-5" id="f_update">
                         {!! csrf_field() !!}
                         <div class="form-group">
                             <label for="uname">Tên tài khoản</label>
@@ -132,6 +180,7 @@
                             autofocus=""
                             disabled="">
                             <input type="hidden" name="_uname" id="_uname" value="{{ $user_info[0]->uname }}">
+                            <input type="hidden" name="page" id="page" value="profile">
                         </div>
                         <div class="form-group" >
                             <label for="hoten">Họ tên</label>
@@ -226,22 +275,22 @@
     <script type="text/javascript">
         jQuery(document).ready(function($) {
         
-        var avt_profile = '{{ url("/") }}' + "/avt/" + '{{ $user_info[0]->uname }}' + ".png";
-        $("#img_profile").attr('src', avt_profile);
+            var avt_profile = '{{ url("/") }}' + "/avt/" + '{{ $user_info[0]->uname }}' + ".png";
+            $("#img_profile").attr('src', avt_profile);
 
-        $("#img_profile").error(function () {
-            if ( $(this).attr("src").indexOf("png") != -1 ) {
-                $(this).unbind("error").attr("src", $(this).attr("src").replace("png", "jpg"));
-            }
             $("#img_profile").error(function () {
-                if ( $(this).attr("src").indexOf("jpg") != -1 ) {
-                    $(this).unbind("error").attr("src", $(this).attr("src").replace("jpg", "gif"));
+                if ( $(this).attr("src").indexOf("png") != -1 ) {
+                    $(this).unbind("error").attr("src", $(this).attr("src").replace("png", "jpg"));
                 }
                 $("#img_profile").error(function () {
-                    $(this).unbind("error").attr("src", "../img/no_avt.png");
+                    if ( $(this).attr("src").indexOf("jpg") != -1 ) {
+                        $(this).unbind("error").attr("src", $(this).attr("src").replace("jpg", "gif"));
+                    }
+                    $("#img_profile").error(function () {
+                        $(this).unbind("error").attr("src", "../img/no_avt.png");
+                    });
                 });
             });
-        });
         });
     </script>
 

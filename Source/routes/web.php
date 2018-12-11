@@ -25,7 +25,7 @@ Route::post('/checkaccount', 'AccountController@checkNewAccount');
 
 Route::post('/add_account', 'AccountController@AddAcount');
 
-Route::post('/update_account/{page?}/{user?}', 'AccountController@UpdateAccount');
+Route::post('/update_account', 'AccountController@UpdateAccount');
 
 Route::post('/detail_account', 'AccountController@GetProfile');
 

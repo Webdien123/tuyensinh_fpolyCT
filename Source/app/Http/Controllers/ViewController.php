@@ -28,13 +28,14 @@ class ViewController extends Controller
                     else{
                         return $this->viewMap();
                     }
-                    break;
+                case 'nhatki':
+                    return $this->viewNhatKi();
                 case 'profile':
                     return $this->viewProFile($param);
                 case 'logout':
                     return LoginController::Logout();
                 default:
-                    return $this->viewMap();            
+                    return $this->viewNotFound();
             }
         }
         else {
@@ -51,6 +52,7 @@ class ViewController extends Controller
     // Lấy trang bản đồ gmap.
     public static function viewMap()
     {
+        WriteLogController::Write_Info(\Session::get("uhoten")." vào trang bản đồ.");
         date_default_timezone_set("Asia/Ho_Chi_Minh");            
         if(mktime(0, 0, 0, 12, 2, date("Y")) > strtotime('now')) {
             $namhoc = date("Y");
@@ -68,6 +70,7 @@ class ViewController extends Controller
     // Lấy trang danh sách trường.
     public static function viewDsTruong()
     {
+        WriteLogController::Write_Info(\Session::get("uhoten")." vào trang danh sách trường.");
         $ddiem_list = DiaDiem::getAllDiaDiem();
         return View::make('dstruong')->with([
             'ddiem_list' => $ddiem_list
@@ -77,26 +80,47 @@ class ViewController extends Controller
     // Lấy trang lịch sử tương tác.
     public static function viewTuongTac($id_truong)
     {
+        WriteLogController::Write_Info(\Session::get("uhoten")." xem nhật kí tương tác '".$ddiem[0]->ten_diadiem."'.");
         $ddiem = DiaDiem::getDDiemByID($id_truong);
-        // dd($ddiem);
         return View::make('lsutuongtac')->with([
             'ddiem' => $ddiem
+        ]);
+    }
+
+    // Lấy trang nhật kí hệ thống.
+    public static function viewNhatKi()
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date("d-m-Y");
+        $date2 = date('d/m/Y H:i:s');
+
+        $filename = './logs/User_log'.'_'. $date .'.txt';
+
+        $lines = file($filename, FILE_IGNORE_NEW_LINES);
+
+        return View::make('history')->with([
+            'date' => $date,
+            'lines' => $lines
         ]);
     } 
 
     // Lấy trang quản lý account.
-    public static function viewAccount()
+    public static function viewAccount($alert = false, $alert_type = "", $alert_content = "")
     {
+        WriteLogController::Write_Info(\Session::get("uhoten")." vào trang quản lý tài khoản.");
     	$acc_list = NguoiDung::getAllUser();
     	return View::make('account')->with([
             'acc_list' => $acc_list,
-            'show_alert' => false
+            'show_alert' => $alert,
+            'alert_type' => $alert_type,
+            'alert_message' => $alert_content
         ]);
     }
 
     // Lấy trang thông tin tài khoản.
-    public function viewProFile($username)
+    public static function viewProFile($username, $update_info = 0)
     {
+        WriteLogController::Write_Info(\Session::get("uhoten")." về trang thông tin cá nhân.");
         $user_info = "";
         if ($username == "") {
             $user_info = NguoiDung::getUser( \Session::get("uname") );
@@ -105,7 +129,14 @@ class ViewController extends Controller
         }
         return View::make('profile')->with([
             'user_info' => $user_info,
-            'change_pass_error' => 0
+            'change_pass_error' => 0,
+            'update_info' => $update_info
         ]);
+    }
+
+    // Trang 404.
+    public function viewNotFound()
+    {
+        return view("not_found");
     }
 }

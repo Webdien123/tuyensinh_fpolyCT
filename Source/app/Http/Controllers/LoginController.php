@@ -29,13 +29,13 @@ class LoginController extends Controller
    			// Nếu pass nhập vào khớp với pass của user.
    			if (Hash::check($R->pass, $user_info[0]->pass)) {
 
-               \Session::put('uname', $user_info[0]->uname);
-               \Session::put('uhoten', $user_info[0]->hoten);
-               \Session::put('ulevel', $user_info[0]->level);
+                \Session::put('uname', $user_info[0]->uname);
+                \Session::put('uhoten', $user_info[0]->hoten);
+                \Session::put('ulevel', $user_info[0]->level);
 
-               WriteLogController::Write_InFo($user_info[0]->hoten." đăng nhập vào hệ thống");
+                WriteLogController::Write_InFo($user_info[0]->hoten." đăng nhập vào hệ thống.");
 
-   				return ViewController::viewMap();
+   			    return ViewController::viewMap();
    			} else {
    				return View::make('login')->with('login_status', 1); // Lỗi đăng nhập
    			}
@@ -44,6 +44,7 @@ class LoginController extends Controller
 
     public static function Logout()
     {
+        WriteLogController::Write_InFo(\Session::get('uhoten')." đăng xuất khỏi hệ thống.");
         \Session::forget('uname');
         \Session::forget('uhoten');
         \Session::forget('ulevel');

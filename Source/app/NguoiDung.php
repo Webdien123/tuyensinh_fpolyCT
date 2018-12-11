@@ -17,6 +17,12 @@ class NguoiDung extends Model
     	return $user_info;
     }
 
+    public static function LevelForValue($value)
+    {
+        $value = ($value == "1") ? "quản trị viên" : "Nv tuyển sinh";
+        return $value;
+    }
+
     // Lấy tất cả tài khoản trong hệ thống.
     public static function getAllUser()
     {
@@ -42,14 +48,19 @@ class NguoiDung extends Model
     // Đổi mật khẩu.
     public static function UpdatePass($uname, $pass)
     {
-        $result = \DB::statement(
-        'UPDATE `nguoidung` SET  `pass`= ?
-        WHERE `uname` = ?',
-        [
-            bcrypt($pass),
-            $uname
-        ]);
+        try {
+            $result = \DB::statement(
+            'UPDATE `nguoidung` SET  `pass`= ?
+            WHERE `uname` = ?',
+            [
+                bcrypt($pass),
+                $uname
+            ]);
 
-        return $result;
+            return $result;
+        } catch (Exception $e) {
+            WriteLogController::Write_Debug(\Session::get("uhoten")." đổi pass cho".$uname." thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+        }
+        
     }
 }

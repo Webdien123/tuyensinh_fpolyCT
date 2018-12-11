@@ -2,7 +2,7 @@
 .form {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: #F3F3F3;
   width: 50%;
   margin: 0 auto 100px;
   padding: 30px;
@@ -30,7 +30,7 @@
 }
 .form input {
   outline: 0;
-  background: #f2f2f2;
+  background: #E1DFDF;
   width: 100%;
   border: 0;
   margin: 0 0 15px;
@@ -106,7 +106,7 @@
 /* END Form */
 /* Demo Purposes */
 body {
-  background: #ccc;
+  background: #686868;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -65,7 +65,7 @@
                     <i class="fa fa-address-book" aria-hidden="true"></i>
                     Quản lý tài khoản
                 </a></li>
-                <li><a href="#" onclick="alert('Chức năng đang phát triển')">
+                <li><a href="/nhatki">
                     <i class="fa fa-history" aria-hidden="true"></i>
                     Nhật ký hệ thống
                 </a></li>
