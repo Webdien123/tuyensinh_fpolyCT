@@ -13,9 +13,10 @@ class ViewController extends Controller
     // Lấy trang web theo page tương ứng.
     public function getView($page = null, $param = null)
     {
+        // return $this->viewBaoTri(); // Điều hướng về trang bảo trì. (bật lên khi bảo trì website)
         if (\Session::has('uname')) {        
         	switch ($page) {
-        		case 'map':
+        		case '':
         			return $this->viewMap();
                 case 'dstruong':
                     return $this->viewDsTruong();
@@ -82,8 +83,8 @@ class ViewController extends Controller
     // Lấy trang lịch sử tương tác.
     public static function viewTuongTac($id_truong)
     {
-        WriteLogController::Write_Info(\Session::get("uhoten")." xem nhật kí tương tác '".$ddiem[0]->ten_diadiem."'.");
         $ddiem = DiaDiem::getDDiemByID($id_truong);
+        WriteLogController::Write_Info(\Session::get("uhoten")." xem nhật kí tương tác '".$ddiem[0]->ten_diadiem."'.");
         return View::make('lsutuongtac')->with([
             'ddiem' => $ddiem
         ]);
@@ -171,5 +172,11 @@ class ViewController extends Controller
     public function viewNotFound()
     {
         return view("not_found");
+    }
+
+    // Trang bảo trì.
+    public function viewBaoTri()
+    {
+        return view("baotri");
     }
 }

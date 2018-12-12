@@ -460,6 +460,13 @@ function initMap() {
     };
     var map = new google.maps.Map(mapCanvas, mapOptions);
 
+    M = new google.maps.Marker({
+        position: marker_position,
+        map: map,
+        zIndex: 0
+    });
+
+
     // Thêm thanh search bar lên bản đồ.
     var input = document.getElementById('pac-input');
     var autocomplete = new google.maps.places.Autocomplete(input);

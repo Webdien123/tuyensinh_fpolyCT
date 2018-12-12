@@ -7,14 +7,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>Lỗi đường dẫn</title>
+	<title>BẢO TRÌ</title>
 	<link rel="shortcut icon" type="image/x-icon" href="../img/title_icon.png">
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,900" rel="stylesheet">
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="../css/404.css" />
+	<!-- <link type="text/css" rel="stylesheet" href="../css/404.css" /> -->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -25,18 +25,12 @@
 
 </head>
 
-<body>
+<body style="font-family: 'Maven Pro', sans-serif;">
 
-	<div id="notfound">
-		<div class="notfound">
-			<div class="notfound-404">
-				<h1>404</h1>
-			</div>
-			<h2>Xin lỗi bạn, đường dẫn này không tồn tại!</h2>
-			<p>Vui lòng kiểm tra lại đường dẫn hoặc quay về trang chủ bằng nút dưới đây.</p>
-			<a href="/">Về trang chủ</a>
-		</div>
-	</div>
+	<center>
+		<h1 style="font-size: 200%">WEBSITE HIỆN ĐANG BẢO TRÌ, VUI LÒNG TRUY CẬP LẠI SAU!!</h1>
+		<img src="http://travelit.id/wp-content/uploads/2018/11/webPageConstruction.jpg" style="width: 500px" class="img-responsive" alt="Image">
+	</center>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 

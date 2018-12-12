@@ -23,6 +23,11 @@ class AccountController extends Controller
     {
         WriteLogController::Write_Debug(\Session::get("uhoten")." thêm user ".$R->uname);
         $result = 1; // Kết quả kiểm tra: 1 - Tkhoản đã tồn tài, 0 - TKhoản chưa có.
+
+        if ($R->uname == "fpolyct") {
+            return 1;
+        }
+
         $user_info = NguoiDung::getUser($R->uname);
         if (count($user_info) > 0) {
             $result = 1;

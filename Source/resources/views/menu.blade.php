@@ -56,7 +56,7 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            <li><a href="/map">
+            <li><a href="/">
                 <i class="fa fa-globe" aria-hidden="true"></i>
                 Google Map
             </a></li>
@@ -77,11 +77,19 @@
             @endif
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/profile">
-                <img id="img_avt" class="avatar" style="width: 30px; top: -20px; display:inline;">
+            @if(\Session::get("uname") == "fpolyct")
+                <li><a href="#">
+                    <img class="avatar" src="../img/title_icon.png" style="width: 30px; top: -20px; display:inline;">
 
-                {{ " ".Session::get("uhoten") }}
-            </a></li>
+                    {{ " ".Session::get("uhoten") }}
+                </a></li>
+            @else
+                <li><a href="/profile">
+                    <img id="img_avt" class="avatar" style="width: 30px; top: -20px; display:inline;">
+
+                    {{ " ".Session::get("uhoten") }}
+                </a></li>
+            @endif
             <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
     </div>

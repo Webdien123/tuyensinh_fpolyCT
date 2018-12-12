@@ -38,3 +38,19 @@
 <td class='default'>[11/12/2018 20:41:44] : Quản Trị Viên vào trang quản lý tài khoản.</td>
 <td class='default'>[11/12/2018 20:43:15] : Quản Trị Viên vào trang quản lý tài khoản.</td>
 <td class='success'>[11/12/2018 20:43:18] : Quản Trị Viên xóa tài khoản dsf</td>
+<td class='default'>[11/12/2018 20:49:03] : Quản Trị Viên về trang thông tin cá nhân.</td>
+<td class='default'>[11/12/2018 20:49:17] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='default'>[11/12/2018 20:49:53] : Quản Trị Viên vào trang quản lý tài khoản.</td>
+<td class='success
+                '>[11/12/2018 20:49:58] : Quản Trị Viên tạo tài khoản abc</td>
+<td class='default'>[11/12/2018 20:49:58] : Quản Trị Viên vào trang quản lý tài khoản.</td>
+<td class='default'>[11/12/2018 20:50:05] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='success'>[11/12/2018 20:50:16] : Quản Trị Viên thêm cờ 'Khu tap The 16B Mậu Thân'</td>
+<td class='success'>[11/12/2018 20:50:25] : Quản Trị Viên cập nhật thông tin 'Khu tap The 16B Mậu Thân' theo thông tin:<b><br>Tên địa điểm - Khu tap The 16B Mậu Thân<br>Địa chỉ - Khu tap The 16B Mậu Thân, An Nghiệp, Ninh Kiều, Cần Thơ, Vietnam<br>Năm tuyển sinh - 2019<br>Chỉ số 1 - 120<br>Chỉ số 2 - 0<br>Ghi chú - </b></td>
+<td class='success'>[11/12/2018 20:50:42] : Quản Trị Viên xóa cờ 'Khu tap The 16B Mậu Thân'</td>
+<td class='default'>[11/12/2018 20:53:06] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='default'>[11/12/2018 20:53:32] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='default'>[11/12/2018 20:55:59] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='default'>[11/12/2018 20:56:24] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='default'>[11/12/2018 20:56:27] : Quản Trị Viên vào trang bản đồ.</td>
+<td class='default'>[11/12/2018 20:56:29] : Quản Trị Viên vào trang bản đồ.</td>

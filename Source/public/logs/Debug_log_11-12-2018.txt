@@ -6,3 +6,11 @@
 <td class='warning'>[11/12/2018 19:42:55] : User dsf sẳn sàng tạo mới.</td>
 <td class='success'>[11/12/2018 19:42:57] : Quản Trị Viên thêm user dsf thành công.</td>
 <td class='success'>[11/12/2018 20:43:18] : Quản Trị Viên xóa user dsf thành công.</td>
+<td class='default'>[11/12/2018 20:49:56] : Quản Trị Viên thêm user abc</td>
+<td class='warning'>[11/12/2018 20:49:56] : User abc sẳn sàng tạo mới.</td>
+<td class='success'>[11/12/2018 20:49:58] : Quản Trị Viên thêm user abc thành công.</td>
+<td class='success'>[11/12/2018 20:50:16] : Quản Trị Viên thêm cờ Khu tap The 16B Mậu Thân' thành công.</td>
+<td class='default'>[11/12/2018 20:50:25] : Quản Trị Viên chọn update cờ 'Khu tap The 16B Mậu Thân' theo thông tin:<b><br>id - ChIJFxnflhCIoDERYJHexQx5pe4<br>Tên địa điểm - Khu tap The 16B Mậu Thân<br>Địa chỉ - Khu tap The 16B Mậu Thân, An Nghiệp, Ninh Kiều, Cần Thơ, Vietnam<br>Năm tuyển sinh - 2019<br>Chỉ số 1 - 120<br>Chỉ số 2 - 0<br>Ghi chú - </b></td>
+<td class='success'>[11/12/2018 20:50:25] : Update địa điểm 'Khu tap The 16B Mậu Thân' thành công</td>
+<td class='success'>[11/12/2018 20:50:25] : Update thông tin tuyển sinh năm 2019 cho 'Khu tap The 16B Mậu Thân' thành công</td>
+<td class='success'>[11/12/2018 20:50:42] : Xóa cờ 'Khu tap The 16B Mậu Thân' thành công</td>
