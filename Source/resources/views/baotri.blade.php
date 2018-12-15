@@ -29,7 +29,7 @@
 
 	<center>
 		<h1 style="font-size: 200%">WEBSITE HIỆN ĐANG BẢO TRÌ, VUI LÒNG TRUY CẬP LẠI SAU!!</h1>
-		<img src="http://travelit.id/wp-content/uploads/2018/11/webPageConstruction.jpg" style="width: 500px" class="img-responsive" alt="Image">
+		<img src="../img/baotri.jpg" style="width: 500px" class="img-responsive" alt="Image">
 	</center>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->

@@ -8,9 +8,6 @@ use \App\Http\Controllers\WriteLogController;
 
 class DiaDiem extends Model
 {
-    protected $table = 'diadiem';
-    public $timestamps = false;
-
     // Lấy tất cả địa điểm trong hệ thống.
     public static function getAllDiaDiem($namhoc = null)
     {
@@ -24,8 +21,23 @@ class DiaDiem extends Model
         } else {
             $ddiem_list = \DB::select('SELECT * FROM `diadiem` LEFT JOIN `tuyensinh` ON diadiem.id = tuyensinh.id ORDER BY diadiem.id, tuyensinh.namhoc DESC');
         }
-
     	return $ddiem_list;
+    }
+
+    // Chỉ lấy ds địa điểm không lấy dữ liệu tuyển sinh.
+    public static function getOnlyDiaDiem()
+    {
+        $ddiem_list = \DB::select('SELECT * FROM `diadiem` ORDER BY diadiem.id DESC');
+
+        return $ddiem_list;
+    }
+
+    // Chỉ lấy dữ liệu tuyển sinh.
+    public static function getOnlyTSinh()
+    {
+        $ddiem_list = \DB::select('SELECT * FROM `tuyensinh` ORDER BY tuyensinh.id DESC');
+
+        return $ddiem_list;
     }
 
     // Lấy toàn bộ thông tin của một địa điểm.
@@ -67,6 +79,43 @@ class DiaDiem extends Model
         } catch (Exception $e) {
 
             WriteLogController::Write_Debug(\Session::get("uhoten")." thêm cờ ".$R->ten_diadiem."' thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
+
+            return false;
+        }
+    }
+
+    // Backup thông tin địa điểm theo thông số.
+    public static function AddDiaDiemByParam($id_ddiem, $ten_diadiem, $diachi, $lat, $lng, $chiso1, $chiso2, $namhoc, $ghichu)
+    {
+        try {
+
+            $ddiem = self::getDDiemByID($id_ddiem);
+            if ($ddiem == null) {
+                \DB::statement(
+                'INSERT INTO `diadiem`(`id`, `ten_diadiem`, `diachi`, `lat`, `lng`) VALUES (?, ?, ?, ?, ?)',
+                [
+                    $id_ddiem,
+                    $ten_diadiem,
+                    $diachi,
+                    $lat,
+                    $lng          
+                ]);
+            }
+
+            \DB::statement(
+            'INSERT INTO `tuyensinh`(`id`, `chiso1`, `chiso2`, `namhoc`, `ghichu`) VALUES (?, ?, ?, ?, ?)',
+            [
+                $id_ddiem,
+                $chiso1,
+                $chiso2,
+                $namhoc,
+                $ghichu
+            ]);
+
+            return true;
+        } catch (Exception $e) {
+
+            WriteLogController::Write_Debug("Backup địa điểm ".$ten_diadiem."' thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
 
             return false;
         }
@@ -134,18 +183,27 @@ class DiaDiem extends Model
     public static function RemoveDiaDiem(Request $R)
     {
         try {
+            if ($R->xoa_het == "true") {
+                \DB::statement(
+                'DELETE FROM `tuyensinh` WHERE tuyensinh.id = ?',
+                [
+                    $R->id_ddiem
+                ]);
 
-            \DB::statement(
-            'DELETE FROM `tuyensinh` WHERE tuyensinh.id = ?',
-            [
-                $R->id_ddiem
-            ]);
-
-            \DB::statement(
-            'DELETE FROM `diadiem` WHERE diadiem.id = ?',
-            [
-                $R->id_ddiem
-            ]);
+                \DB::statement(
+                'DELETE FROM `diadiem` WHERE diadiem.id = ?',
+                [
+                    $R->id_ddiem
+                ]);
+            }
+            else{
+                \DB::statement(
+                'DELETE FROM `tuyensinh` WHERE tuyensinh.id = ? AND tuyensinh.namhoc = ?',
+                [
+                    $R->id_ddiem,
+                    $R->_namhoc
+                ]);
+            }
 
             WriteLogController::Write_Debug("Xóa cờ '".$R->ten_diadiem."' thành công",'success');
 
@@ -154,6 +212,22 @@ class DiaDiem extends Model
 
             WriteLogController::Write_Debug("Xóa cờ '".$R->ten_diadiem."' thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
             return false;
+        }
+    }
+
+    // Xóa tất cả thông tin địa điểm.
+    public static function RemoveAllDiaDiem()
+    {
+        try {
+
+            \DB::statement('DELETE FROM `tuyensinh`');
+
+            \DB::statement('DELETE FROM `diadiem`');
+
+            WriteLogController::Write_Debug("Xóa cờ trước backup thành công",'success');
+        } catch (Exception $e) {
+
+            WriteLogController::Write_Debug("Xóa cờ trước backup thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
         }
     }
 }

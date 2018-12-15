@@ -58,7 +58,6 @@ class AccountController extends Controller
     		WriteLogController::Write_Debug(\Session::get("uhoten")." thêm user ".$R->uname." thất bại.<br>Mã lỗi: <br>".$e->getMessage(), "danger");
             WriteLogController::Write_InFo(\Session::get("uhoten")." tạo tài khoản ".$R->uname. " thất bại", "danger");
     	}
-    	
     }
 
     // Cập nhật tài khoản.

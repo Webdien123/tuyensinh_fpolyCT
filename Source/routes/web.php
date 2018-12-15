@@ -36,3 +36,5 @@ Route::post('/upload_avt', 'AccountController@Upload_Avt');
 Route::post('/change_pass', 'AccountController@ChangePass');
 
 Route::post('/reset_pass', 'AccountController@ResetPass');
+
+Route::post('/restore', 'ExcelController@Import_DSTruong');

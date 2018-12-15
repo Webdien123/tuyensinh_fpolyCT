@@ -45,7 +45,7 @@ function MarkerControl(controlDiv, map) {
     controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
     controlUI.style.cursor = 'pointer';
     controlUI.style.marginRight = '10px';
-    controlUI.style.marginTop = '10px';
+    // controlUI.style.marginTop = '10px';
     controlUI.style.textAlign = 'center';
     controlUI.title = 'Click để đánh dấu vị trí';
     controlDiv.appendChild(controlUI);
@@ -345,12 +345,6 @@ function CurrentInfoControl(controlDiv, map) {
     $(controlUI).addClass('row');
     controlDiv.appendChild(controlUI);
 
-    // Set CSS for the control interior.
-    // var controlText = document.createElement('div');
-    // controlText.style.color = 'rgb(25,25,25)';
-    // controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    // controlText.style.fontSize = '14px';
-    // controlText.style.lineHeight = '25px';
     loai = (circle_type == '1') ? "Chỉ số 1" : "Chỉ số 2";
 
     var geocoder = new google.maps.Geocoder;
@@ -447,11 +441,12 @@ function initMap() {
         panControl: false,
         fullscreenControl: false,
         zoomControl: true,
-        mapTypeControl: false,
-        // mapTypeControlOptions: {
-        //     style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-        //     position: google.maps.ControlPosition.LEFT_TOP
-        // },
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+            position: google.maps.ControlPosition.TOP_RIGHT,
+            index: 2
+        },
         scaleControl: false,
         streetViewControl: false,
         overviewMapControl: false,
@@ -547,8 +542,6 @@ function initMap() {
         createCircle(map, ddiem_list[i]['lat'], ddiem_list[i]['lng'], ddiem_list[i]['chiso2_2'], i, '2', '2');
     }
 
-    // hideCircleByYear('1');
-    // hideCircleByYear('2');
     hideCircle('2');
 
     // Thêm button đánh dấu cờ.
@@ -584,7 +577,6 @@ function initMap() {
     // Thêm ông tin về vị trí hiện tại.
     var CurrentInfoControlDiv = document.createElement('div');
     CurrentInfoControlDiv.style.width = '80%';
-    $(CurrentInfoControlDiv).css('z-index', '0');
     var currentInfoControl = new CurrentInfoControl(CurrentInfoControlDiv, map);
     CurrentInfoControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(CurrentInfoControlDiv);   

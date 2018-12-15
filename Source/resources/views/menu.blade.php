@@ -42,7 +42,7 @@
     $date = date("d-m-Y");
 ?>
 
-<nav class="navbar navbar-default" style="margin-bottom: 10px;">
+<nav class="navbar navbar-default" style="margin-bottom: 0px;">
 <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">

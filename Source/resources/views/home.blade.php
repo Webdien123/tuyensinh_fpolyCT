@@ -85,6 +85,7 @@
                         <input type="hidden" name="id_ddiem" id="id_ddiem" class="form-control" value="">
                         <input type="hidden" name="lat" id="lat" class="form-control" value="">
                         <input type="hidden" name="lng" id="lng" class="form-control" value="">
+                        <input type="hidden" name="xoa_het" id="xoa_het" class="form-control" value="true">
 
                         <label>Tên địa điểm</label>
                         <div class="form-group">
@@ -188,7 +189,7 @@
     <!-- Script xử lý các xử kiện và chức năng trên map cho trang tuyển sinh -->
     <script type="text/javascript" src="../js/tuyensinh.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR7YAAG83jkhURYhrUkKbOfGDqA2BTqw&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnR7YAAG83jkhURYhrUkKbOfGDqA2BTqw&libraries=places&language=vi&region=VI"></script>
 
     <script type="text/javascript">
         jQuery(document).ready(function($) {

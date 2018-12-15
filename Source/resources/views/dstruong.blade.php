@@ -42,14 +42,33 @@
     </div>
 
     <center>
-        <h3 style="padding-top: 2%">Danh sách trường</h3>
+        <h3 style="padding-top: 2%;">Danh sách trường</h3>
+        <div style="color: #30D723; display: none;" id="loading">
+            <h3><strong>Đang phục hồi dữ liệu, vui lòng đừng thao tác.</strong></h3>
+            <i class="fa fa-refresh fa-spin fa-4x fa-fw margin-bottom"></i>
+        </div>
     </center>
 
     <?php
         $count = count($ddiem_list);
     ?>
-    {!! csrf_field() !!}
-    <div class="table-responsive">
+    
+    @if ($count != 0)
+    <a href="/xuat_dstruong" class="btn btn-success btn-md">
+        <img src="../img/backup.png" class="img-responsive" style="display: inline;" alt="Image">
+        Backup dữ liệu
+    </a>
+    @endif
+    <form id="f_restore" method="POST" style="display: inline;" action="/restore" enctype="multipart/form-data">
+        {!! csrf_field() !!}
+        <input type="file" id="selectedFile" name="file_restore" style="display: none;" accept="application/vnd.ms-excel">
+        <a class="btn btn-info btn-md" id="btn_restore">
+            <img src="../img/restore.png" class="img-responsive" style="display: inline;" alt="Image">
+            Phục hồi dữ liệu
+        </a>
+    </form>    
+
+    <div class="table-responsive" style="margin-top: 5px">
         <table class="table table-bordered table-hover table-condensed" style="background-color: #FFFFFF">
             <thead>
                 <tr>
@@ -180,5 +199,13 @@
     <!-- Script xử lý js trên trang account -->
     <script type="text/javascript" src="./js/highlight.js"></script>
     <script type="text/javascript" src="./js/dstruong.js"></script>
+
+    @if($show_bk_alert != null)
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            thongBaoKetQua("{{$bk_alert_type}}", "{{$bk_alert_content}}")
+        });
+    </script>
+    @endif
 
 @endsection

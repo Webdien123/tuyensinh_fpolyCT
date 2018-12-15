@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2018 at 01:19 PM
+-- Generation Time: Dec 14, 2018 at 01:25 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -43,8 +43,8 @@ CREATE TABLE `diadiem` (
 INSERT INTO `diadiem` (`id`, `ten_diadiem`, `diachi`, `lat`, `lng`) VALUES
 ('ChIJ3_-va0eIoDERLTMF62B5pk0', 'Trường Cao Đẳng Thực Hành FPT Polytechnic Cần Thơ', '288 Đường Nguyễn Văn Linh, Hưng Lợi, Ninh Kiều, Cần Thơ, Vietnam', 10.0268264, 105.75735280000004),
 ('ChIJjaeJWSOIoDERTXvCzVOjwF4', 'Language Center New Windows', '126A, Ba Tháng Hai, Xuân Khánh, Ninh Kiều, Cần Thơ, Vietnam', 10.0284491, 105.77110540000001),
-('ChIJJXL3RTuIoDERsnnoMCjAYLU', 'Trường Cao Đẳng Thực Hành FPT Polytechnic Cần Thơ', '288 Đường Nguyễn Văn Linh, Hưng Lợi, Ninh Kiều, Cần Thơ, Vietnam', 10.0269704, 105.76979310000002),
-('ChIJR4W2UBiIoDERROWFphE4qx8', 'B1 Mậu Thân', 'B1 Mậu Thân, An Phú, Ninh Kiều, Cần Thơ, Vietnam', 10.0351649, 105.77287100000001),
+('ChIJJXL3RTuIoDERsnnoMCjAYLU', 'Trường Chính Trị TP Cần Thơ', '288 Đường Nguyễn Văn Linh, Hưng Lợi, Ninh Kiều, Cần Thơ, Vietnam', 10.0269704, 105.76979310000002),
+('ChIJSz4aDG2IoDERMuVDLktPBOM', '37 Tô Hiến Thành', '37 Tô Hiến Thành, Phường An Khánh, Ninh Kiều, Cần Thơ, Vietnam', 10.0430571, 105.75608690000001),
 ('ChIJx1hrn55ioDERDwOTEGf_zts', 'A105 Hai Bà Trưng', 'A105 Hai Bà Trưng, Tân An, Ninh Kiều, Cần Thơ, Vietnam', 10.02722, 105.786382);
 
 -- --------------------------------------------------------
@@ -85,7 +85,8 @@ CREATE TABLE `nguoidung` (
 --
 
 INSERT INTO `nguoidung` (`uname`, `hoten`, `pass`, `level`) VALUES
-('a', 'Quản Trị 1', '$2y$10$KgyQOTBydKkXzqsJ7DaMy.IT5mP.FaGjfBEYxaT/fSF8iCUR11dMe', '1'),
+('a', 'Quản Trị Viên', '$2y$10$zgPcj45qtD8JG6qHAg0Vy.BhylJJWARUXrQ311qsj6Evnoy9HAS4y', '1'),
+('abc', 'Lê Thị Ce', '$2y$10$ZgG.IVpVesIJGxP16UTJ.OrA.WoejzwyQTRMpA4L1NtCtpoP6dzJO', '1'),
 ('b', 'Nhân viên 1', '$2y$10$d.9./Yar6e12cLi1uVORqevfEVJqMGuSDeBRwUmO/vgo4PJ6yg89K', '2'),
 ('c', 'Quản Trị 2', '$2y$10$RU01KMe9NMJTuWchHY2Fd.4QJXXaAUFw83CWyY9aMuzuujXOeCLuK', '1');
 
@@ -121,7 +122,8 @@ INSERT INTO `tuyensinh` (`stt`, `id`, `chiso1`, `chiso2`, `namhoc`, `ghichu`) VA
 (15, 'ChIJjaeJWSOIoDERTXvCzVOjwF4', 135, 50, '2016', NULL),
 (16, 'ChIJJXL3RTuIoDERsnnoMCjAYLU', 125, 160, '2016', 'ABC'),
 (17, 'ChIJx1hrn55ioDERDwOTEGf_zts', 43, 53, '2016', NULL),
-(19, 'ChIJR4W2UBiIoDERROWFphE4qx8', 0, 0, '2019', NULL);
+(23, 'ChIJ3_-va0eIoDERLTMF62B5pk0', 120, 100, '2019', NULL),
+(24, 'ChIJSz4aDG2IoDERMuVDLktPBOM', 120, 100, '2019', NULL);
 
 --
 -- Indexes for dumped tables
@@ -161,7 +163,7 @@ ALTER TABLE `tuyensinh`
 -- AUTO_INCREMENT for table `tuyensinh`
 --
 ALTER TABLE `tuyensinh`
-  MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables

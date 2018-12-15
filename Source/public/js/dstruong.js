@@ -37,13 +37,13 @@ function thongBaoKetQua(result, text_content) {
         $('#success-alert').modal('toggle');
         $("#alert-text").removeClass('text-danger').addClass('text-success');
         $("#alert-text").html('<i class="fa fa-check-circle-o fa-4x" aria-hidden="true"></i><br>' + text_content);
-        setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
+        setTimeout(function() {$('#success-alert').modal('hide');}, 950);
     }
     if (result == "fail") {
         $('#success-alert').modal('toggle');
         $("#alert-text").removeClass('text-success').addClass('text-danger');
         $("#alert-text").html('<i class="fa fa-frown-o fa-4x" aria-hidden="true"></i><br>Có lỗi! vui lòng thử lại sau.');
-        setTimeout(function() {$('#success-alert').modal('hide');}, 1500);
+        setTimeout(function() {$('#success-alert').modal('hide');}, 950);
     }
 }
 
@@ -64,7 +64,8 @@ function huyTimKiem() {
 
 // Xóa địa điểm.
 function removeDiaDiem(id, ten_diadiem, namhoc, btn_remove) {
-    result = confirm("Xóa địa điểm " + ten_diadiem);
+    console.log(id + " " + ten_diadiem + " " + namhoc);
+    result = confirm("Xóa dữ liệu năm " + namhoc + " tại " + ten_diadiem);
     if (result) {
         $.ajax({
             url: '/remove_flag',
@@ -72,16 +73,23 @@ function removeDiaDiem(id, ten_diadiem, namhoc, btn_remove) {
             data: {
                 _token: $('input[name="_token"]').val(),
                 id_ddiem: id,
-                _namhoc: namhoc
+                _namhoc: namhoc,
+                xoa_het: "false"
             },
             success: function( result ) {
                 thongBaoKetQua(result, "Đã xóa cờ");
 
                 if (result == "ok") {
-                    $(btn_remove).closest('tr').remove();
 
                     // Xóa dòng dữ liệu vừa chứa data cần xóa trên màn hình.
-                    tr_dbclick.remove();
+                    $(btn_remove).closest('tr').remove();
+
+                    if ( $("tr.data_row").length == 0) {
+                        $("tbody").append('<tr> \
+                            <td colspan="6" style="font-style: inherit; font-weight: bold; text-align: center;">Danh sách rỗng</td>\
+                            </tr>'
+                        );
+                    }
                 }
             },
             error: function( xhr, err ) {
@@ -213,7 +221,7 @@ $(document).ready(function(){
 
     $(".btn_remove_truong").click(function(event) {
         id = $(this).closest('tr').children('input').eq(0).val();
-        ten_diadiem = $(this).closest('tr').children('td').eq(1).text();
+        ten_diadiem = $(this).closest('tr').children('td').eq(0).text();
         namhoc = $(this).closest('tr').children('td').eq(2).text();
         removeDiaDiem(id, ten_diadiem, namhoc, $(this));
     });
@@ -236,5 +244,19 @@ $(document).ready(function(){
     // Đúp chuột lên dòng dữ liệu.
     $('.data_account').dblclick(function() {
         holdMouseData($(this));
+    });
+
+    // Click nút phục hồi dữ liệu.
+    $("#btn_restore").click(function(event) {
+
+        $("#selectedFile").click();
+    });
+
+    // Xử lý sau khi nhận file avt mới.
+    $("#selectedFile").change(function(event) {
+        if ($("#selectedFile").val() != "") {
+            $("#loading").show();
+            $("#f_restore").submit();
+        }
     });
 });

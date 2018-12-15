@@ -20,6 +20,8 @@ class ViewController extends Controller
         			return $this->viewMap();
                 case 'dstruong':
                     return $this->viewDsTruong();
+                case 'xuat_dstruong':
+                    return ExcelController::Export_DSTrương();
                 case 'lsutuongtac':
                     return $this->viewTuongTac($param);
         		case 'account':
@@ -71,12 +73,15 @@ class ViewController extends Controller
     }
 
     // Lấy trang danh sách trường.
-    public static function viewDsTruong()
+    public static function viewDsTruong($show_bk_alert = false, $bk_alert_type = "", $bk_alert_content = "")
     {
         WriteLogController::Write_Info(\Session::get("uhoten")." vào trang danh sách trường.");
         $ddiem_list = DiaDiem::getAllDiaDiem();
         return View::make('dstruong')->with([
-            'ddiem_list' => $ddiem_list
+            'ddiem_list' => $ddiem_list,
+            'show_bk_alert' => $show_bk_alert,
+            'bk_alert_type' => $bk_alert_type,
+            'bk_alert_content' => $bk_alert_content
         ]);
     }    
 
