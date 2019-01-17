@@ -34,5 +34,25 @@
     
     <body>
         @yield('content')
+
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(document).on("contextmenu", function(e) {
+                    return false;
+                });
+                $(document).keydown(function(event) {
+                    if (
+                        event.keyCode == 123 || 
+                        ((event.ctrlKey || event.metaKey) && event.keyCode == 85) || 
+                        ((event.ctrlKey || event.metaKey) && event.shiftKey && event.keyCode == 73 || event.keyCode == 116) || 
+                        ((event.ctrlKey || event.metaKey) && event.which == 83)) {
+                        return false;
+                    } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                        return false; //Prevent from ctrl+shift+i
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
